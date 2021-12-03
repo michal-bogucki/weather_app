@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">WeatherApplication</string>
+    <string name="now">Now</string>
+    <string name="next_n24_hours">Next \n24 hours</string>
+    <string name="next_ndays">Next \ndays</string>
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -43,12 +44,25 @@
     <ImageView
         android:layout_width="113dp"
         android:layout_height="160dp"
+        android:layout_marginTop="72dp"
         android:alpha="0.4"
-
         android:src="@drawable/back"
         android:tint="#D4756C"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:layout_width="113dp"
+        android:layout_height="160dp"
+        android:layout_marginBottom="90dp"
+        android:alpha="0.2"
+        android:rotation="90"
+        android:src="@drawable/back"
+        android:tint="#D4756C"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -56,15 +70,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
-        android:drawableLeft="@drawable/ic_round_location_on_24"
+        android:drawableStart="@drawable/ic_round_location_on_24"
         android:drawablePadding="4dp"
         android:fontFamily="@font/actor"
-        android:text="Los Angeles"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
         android:textColor="#fff"
-        android:textSize="32sp"
+        android:textSize="26sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tool:text="Los Angeles" />
 
     <TextView
         android:id="@+id/countryName"
@@ -72,32 +88,158 @@
         android:layout_height="wrap_content"
         android:drawablePadding="4dp"
         android:fontFamily="@font/actor"
-        android:text="USA"
         android:textColor="#fff"
         android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="@id/cityName"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityName" />
+        app:layout_constraintTop_toBottomOf="@+id/cityName"
+        tool:text="USA" />
 
     <ImageView
+        android:id="@+id/iconWeatherBack"
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:layout_marginLeft="3dp"
         android:layout_marginTop="19dp"
-        android:src="@drawable/clear_day"
         android:tint="#FFFFFF"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/countryName" />
+        app:layout_constraintTop_toBottomOf="@+id/countryName"
+        tool:src="@drawable/clear_day" />
 
     <ImageView
+        android:id="@+id/iconWeather"
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/clear_day"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/countryName" />
+        app:layout_constraintTop_toBottomOf="@+id/countryName"
+        tool:src="@drawable/clear_day" />
+
+    <TextView
+        android:id="@+id/weatherCondition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:drawablePadding="4dp"
+        android:fontFamily="@font/questrial"
+        android:letterSpacing="0.2"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:textColor="#fff"
+        android:textSize="28sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iconWeather"
+        tool:text="Cloudy day   20" />
+
+    <TextView
+        android:id="@+id/dateWeather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:alpha="0.7"
+        android:fontFamily="@font/questrial"
+        android:letterSpacing="0.1"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weatherCondition"
+        tool:text="Friday jun 17" />
+
+    <TextView
+        android:id="@+id/titleTimeWeather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:alpha="0.7"
+        android:drawableLeft="@drawable/ic_round_access_time_24"
+        android:drawablePadding="4dp"
+        android:fontFamily="@font/questrial"
+        android:gravity="center"
+        android:letterSpacing="0.1"
+        android:paddingStart="18dp"
+
+        android:textColor="#fff"
+        android:textSize="14sp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/timeWeather"
+        app:layout_constraintTop_toBottomOf="@+id/dateWeather"
+        tool:text="Last update:" />
+
+    <TextView
+        android:id="@+id/timeWeather"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:alpha="0.7"
+        android:fontFamily="@font/questrial"
+        android:gravity="center"
+        android:letterSpacing="0.1"
+        android:paddingStart="4dp"
+        android:paddingEnd="18dp"
+        android:textColor="#fff"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/titleTimeWeather"
+        app:layout_constraintLeft_toRightOf="@+id/titleTimeWeather"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/titleTimeWeather"
+        tool:text="13:15" />
+
+    <include
+        android:id="@+id/humidityDetails"
+        layout="@layout/weather_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toTopOf="@+id/cloudDetails"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/guidelineDetails"
+        app:layout_constraintTop_toBottomOf="@+id/timeWeather" />
+
+    <include
+        android:id="@+id/windDetails"
+        layout="@layout/weather_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toTopOf="@+id/cloudDetails"
+        app:layout_constraintLeft_toLeftOf="@+id/guidelineDetails"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeWeather" />
+
+    <include
+        android:id="@+id/pressureDetails"
+        layout="@layout/weather_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/guidelineDetails"
+        app:layout_constraintTop_toBottomOf="@+id/humidityDetails" />
+
+    <include
+        android:id="@+id/cloudDetails"
+        layout="@layout/weather_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/guidelineDetails"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/humidityDetails" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
