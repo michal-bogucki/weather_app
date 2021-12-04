@@ -16,7 +16,7 @@
         android:layout_height="160dp"
         android:alpha="0.4"
         android:src="@drawable/back"
-        android:tint="#B9597A"
+        android:tint="#854D60"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,7 +27,7 @@
         android:alpha="0.9"
         android:rotation="90"
         android:src="@drawable/back"
-        android:tint="#B9597A"
+        android:tint="#BA5477"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -38,7 +38,7 @@
         android:layout_marginTop="72dp"
         android:alpha="0.4"
         android:src="@drawable/back"
-        android:tint="#B9597A"
+        android:tint="#A14A68"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -51,7 +51,7 @@
         android:alpha="0.2"
         android:rotation="90"
         android:src="@drawable/back"
-        android:tint="#B9597A"
+        android:tint="#8E405B"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -164,6 +164,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        tool:itemCount="5"
+        tool:listitem="@layout/item_hours_weather"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

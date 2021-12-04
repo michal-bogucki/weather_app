@@ -23,9 +23,9 @@
     <ImageView
         android:layout_width="113dp"
         android:layout_height="160dp"
-        android:alpha="0.4"
+
         android:src="@drawable/back"
-        android:tint="#E8A564"
+        android:tint="#625EDF"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,10 +33,9 @@
     <ImageView
         android:layout_width="160dp"
         android:layout_height="113dp"
-        android:alpha="0.9"
         android:rotation="90"
         android:src="@drawable/back"
-        android:tint="#E3708C"
+        android:tint="#C18C9C"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -45,9 +44,9 @@
         android:layout_width="113dp"
         android:layout_height="160dp"
         android:layout_marginTop="72dp"
-        android:alpha="0.4"
+
         android:src="@drawable/back"
-        android:tint="#D4756C"
+        android:tint="#AF7474"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -57,10 +56,10 @@
         android:layout_width="113dp"
         android:layout_height="160dp"
         android:layout_marginBottom="90dp"
-        android:alpha="0.2"
+
         android:rotation="90"
         android:src="@drawable/back"
-        android:tint="#D4756C"
+        android:tint="#6763F1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -132,7 +131,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iconWeather"
-        tool:text="Cloudy day   20" />
+        tool:text="Cloudy day   20°" />
 
     <TextView
         android:id="@+id/dateWeather"
