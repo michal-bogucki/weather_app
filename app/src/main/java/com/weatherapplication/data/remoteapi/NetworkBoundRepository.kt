@@ -13,10 +13,10 @@ abstract class NetworkBoundRepository<RESULT, REQUEST> {
 
 
         val data = fetchFromLocal().firstOrNull()
-        if (data != null)
+        if (data != null && shouldFetchLocal(data))
             emit(Resource.Success(data))
 
-        if (shouldFetch(data)) {
+        if (shouldFetchRemote(data)) {
 
             val apiResponse = fetchFromRemote()
             val remotePosts = apiResponse.body()
@@ -49,6 +49,9 @@ abstract class NetworkBoundRepository<RESULT, REQUEST> {
     protected abstract suspend fun fetchFromRemote(): Response<REQUEST>
 
     @MainThread
-    protected abstract fun shouldFetch(data: RESULT?): Boolean
+    protected abstract fun shouldFetchRemote(data: RESULT?): Boolean
+
+    @MainThread
+    protected abstract fun shouldFetchLocal(data: RESULT?): Boolean
 }
 

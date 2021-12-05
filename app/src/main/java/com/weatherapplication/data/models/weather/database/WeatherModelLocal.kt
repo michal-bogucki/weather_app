@@ -29,8 +29,37 @@ data class WeatherModelLocal(
     val temperatureList: List<HourTemp>,
     val nextDayWeather: List<NextDay>
 ) : Item {
+    fun getConditionIconUrl(): String {
+        return "https:" + conditionIcon.replace("64x64", "128x128")
+    }
+
+    fun getWindWithUnit(): String {
+        return wind.toString() + WIND_UNIT
+    }
+
+    fun getHumidityWithUnit(): String {
+        return humidity.toString() + HUMIDITY_UNIT
+    }
+
+    fun getPressureWithUnit(): String {
+        return pressure.toString() + PRESSURE_UNIT
+    }
+
+    fun getCloudWithUnit(): String {
+        return wind.toString() + CLOUD_UNIT
+    }
+
+    fun getTempWithUnit(): String {
+        return temp.toString() + TEMP_UNIT
+    }
+
     companion object {
         const val TABLE_NAME = "weather"
+        const val WIND_UNIT = " km/h"
+        const val HUMIDITY_UNIT = " %"
+        const val PRESSURE_UNIT = " hPa"
+        const val CLOUD_UNIT = " %"
+        const val TEMP_UNIT = " °"
     }
 }
 
@@ -38,8 +67,21 @@ data class HourTemp(
     val time: String,
     val temp: Double,
     val conditionText: String,
-    val conditionIcon: String
-)
+    val conditionIcon: String,
+    override val id: Int
+) : Item {
+    fun getConditionIconUrl(): String {
+        return "https:" + conditionIcon.replace("64x64", "128x128")
+    }
+
+    fun getTempWithUnit(): String {
+        return temp.toString() + WeatherModelLocal.TEMP_UNIT
+    }
+
+    companion object {
+        const val TEMP_UNIT = " °"
+    }
+}
 
 data class NextDay(
     val date: String,
@@ -47,5 +89,6 @@ data class NextDay(
     val minTemp: Double,
     val conditionText: String,
     val conditionIcon: String,
-    val temperatureList: List<HourTemp>
-)
+    val temperatureList: List<HourTemp>,
+    override val id: Int
+) : Item

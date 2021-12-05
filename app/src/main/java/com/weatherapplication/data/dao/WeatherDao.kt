@@ -1,9 +1,9 @@
 package com.weatherapplication.data.dao
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
+import com.weatherapplication.data.models.weather.database.HourTemp
 import com.weatherapplication.data.models.weather.database.WeatherModelLocal
 import kotlinx.coroutines.flow.Flow
 
@@ -11,14 +11,19 @@ import kotlinx.coroutines.flow.Flow
 interface WeatherDao:BaseDao<WeatherModelLocal> {
 
     @Query("SELECT * FROM ${WeatherModelLocal.TABLE_NAME}")
-    fun getAllCharacter(): Flow<List<WeatherModelLocal>>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertListCharacter(list: List<WeatherModelLocal>)
+    fun getAllWeather(): Flow<List<WeatherModelLocal>>
 
     @Query("SELECT * FROM ${WeatherModelLocal.TABLE_NAME} WHERE id = :id")
-    fun getCharacterById(id:Int): Flow<WeatherModelLocal>
+    fun getWeatherById(id: Int): Flow<WeatherModelLocal>
 
+    @Query("SELECT * FROM weather ORDER BY id DESC LIMIT 1")
+    fun getLastWeather(): Flow<WeatherModelLocal>
+
+    @Transaction
+    suspend fun insertOrUpdate(obj: WeatherModelLocal) {
+        val id = insert(obj)
+        if (id == -1L) update(obj)
+    }
 
 
 }

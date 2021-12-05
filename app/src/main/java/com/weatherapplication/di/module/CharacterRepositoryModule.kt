@@ -12,8 +12,8 @@ import dagger.hilt.android.scopes.ActivityRetainedScoped
 
 @InstallIn(ActivityRetainedComponent::class)
 @Module
-abstract class CharacterRepositoryModule {
+abstract class WeatherRepositoryModule {
     @ActivityRetainedScoped
     @Binds
-    abstract fun bindCharacterRepositoryInterface(repository: WeatherRepository):WeatherRepositoryInterface
+    abstract fun bindWeatherRepositoryInterface(repository: WeatherRepository):WeatherRepositoryInterface
 }

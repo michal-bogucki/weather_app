@@ -7,15 +7,20 @@ import com.weatherapplication.data.models.weather.database.HourTemp
 import com.weatherapplication.data.models.weather.database.NextDay
 import com.weatherapplication.data.models.weather.database.WeatherModelLocal
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 object WeatherTransformer {
 
 
-    fun transform(weatherModelRemote: WeatherModelRemote): WeatherModelLocal =
+    fun transform(
+        weatherModelRemote: WeatherModelRemote,
+        weatherId: Int,
+        name: String
+    ): WeatherModelLocal =
         with(weatherModelRemote) {
             WeatherModelLocal(
-                id = 0,
-                city = weatherModelRemote.location?.name ?: "",
+                id = weatherId,
+                city = name,
                 country = weatherModelRemote.location?.country ?: "",
                 lat = weatherModelRemote.location?.lat ?: Double.MIN_VALUE,
                 lon = weatherModelRemote.location?.lon ?: Double.MIN_VALUE,
@@ -36,38 +41,60 @@ object WeatherTransformer {
 
     private fun getNextDayWeatherFromApi(forecast: Forecast?): List<NextDay> {
         var list = mutableListOf<NextDay>()
+        var id = 0
         forecast?.let {
             it.forecastday.map { forecastday ->
                 NextDay(
-                    forecastday.date,
-                    forecastday.day.maxtemp_c,
-                    forecastday.day.mintemp_c,
-                    forecastday.day.condition.text,
-                    forecastday.day.condition.icon,
-                    getTempListFromApi(forecastday)
+                    forecastday.date ?: "",
+                    forecastday.day?.maxtemp_c ?: Double.MIN_VALUE,
+                    forecastday.day?.mintemp_c ?: Double.MIN_VALUE,
+                    forecastday.day?.condition?.text ?: "",
+                    forecastday.day?.condition?.icon ?: "",
+                    getTempListFromApi(forecastday),
+                    id++
                 )
-            }
+            }.let { mapList -> list.addAll(mapList) }
         }
         return list
     }
 
     private fun getTempListFromApi(forecast: Forecast?): List<HourTemp> {
         var list = mutableListOf<HourTemp>()
+        var id = 0
         forecast?.let {
             val forecastDay = it.forecastday[0]
-            list.addAll(forecastDay.hour.map { hour ->
-                HourTemp(hour.time, hour.temp_c, hour.condition.text, hour.condition.icon)
-            })
+            forecastDay.hour?.map { hour ->
+                val firstApiFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                val localDateTime = LocalDateTime.parse(hour.time,firstApiFormat)
+                val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+                HourTemp(
+                    formatter.format(localDateTime),
+                    hour.temp_c ?: Double.MIN_VALUE,
+                    hour.condition?.text ?: "",
+                    hour.condition?.icon ?: "",
+                    id++
+                )
+            }?.let { mapList -> list.addAll(mapList) }
         }
         return list
     }
 
     private fun getTempListFromApi(forecast: Forecastday?): List<HourTemp> {
         var list = mutableListOf<HourTemp>()
+        var id = 0
         forecast?.let { forecastDay ->
-            list.addAll(forecastDay.hour.map { hour ->
-                HourTemp(hour.time, hour.temp_c, hour.condition.text, hour.condition.icon)
-            })
+            forecastDay.hour?.map { hour ->
+                val firstApiFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                val localDateTime = LocalDateTime.parse(hour.time,firstApiFormat)
+                val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+                HourTemp(
+                    formatter.format(localDateTime),
+                    hour.temp_c ?: Double.MIN_VALUE,
+                    hour.condition?.text ?: "",
+                    hour.condition?.icon ?: "",
+                    id++
+                )
+            }?.let { mapList -> list.addAll(mapList) }
         }
         return list
     }

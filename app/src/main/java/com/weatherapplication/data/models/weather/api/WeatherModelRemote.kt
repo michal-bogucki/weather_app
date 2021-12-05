@@ -9,14 +9,14 @@ class WeatherModelRemote(
 )
 
 data class Location(
-    @SerializedName("name") val name: String,
-    @SerializedName("region") val region: String,
-    @SerializedName("country") val country: String,
-    @SerializedName("lat") val lat: Double,
-    @SerializedName("lon") val lon: Double,
-    @SerializedName("tz_id") val tz_id: String,
-    @SerializedName("localtime_epoch") val localtime_epoch: Int,
-    @SerializedName("localtime") val localtime: String
+    @SerializedName("name") val name: String?,
+    @SerializedName("region") val region: String?,
+    @SerializedName("country") val country: String?,
+    @SerializedName("lat") val lat: Double?,
+    @SerializedName("lon") val lon: Double?,
+    @SerializedName("tz_id") val tz_id: String?,
+    @SerializedName("localtime_epoch") val localtime_epoch: Int?,
+    @SerializedName("localtime") val localtime: String?
 )
 
 data class Current(
@@ -36,26 +36,26 @@ data class Forecast(
 )
 
 data class Forecastday(
-    @SerializedName("date") val date: String,
-    @SerializedName("date_epoch") val date_epoch: Int,
-    @SerializedName("day") val day: Day,
-    @SerializedName("hour") val hour: List<Hour>
+    @SerializedName("date") val date: String?,
+    @SerializedName("date_epoch") val date_epoch: Int?,
+    @SerializedName("day") val day: Day?,
+    @SerializedName("hour") val hour: List<Hour>?
 )
 data class Condition(
-    @SerializedName("text") val text: String,
-    @SerializedName("icon") val icon: String,
-    @SerializedName("code") val code: Int
+    @SerializedName("text") val text: String?,
+    @SerializedName("icon") val icon: String?,
+    @SerializedName("code") val code: Int?
 )
 
 data class Day(
-    @SerializedName("maxtemp_c") val maxtemp_c: Double,
-    @SerializedName("mintemp_c") val mintemp_c: Double,
-    @SerializedName("condition") val condition: Condition
+    @SerializedName("maxtemp_c") val maxtemp_c: Double?,
+    @SerializedName("mintemp_c") val mintemp_c: Double?,
+    @SerializedName("condition") val condition: Condition?
 )
 
 data class Hour(
-    @SerializedName("time") val time: String,
-    @SerializedName("temp_c") var temp_c: Double,
-    @SerializedName("condition") val condition: Condition
+    @SerializedName("time") val time: String?,
+    @SerializedName("temp_c") var temp_c: Double?,
+    @SerializedName("condition") val condition: Condition?
 )
 

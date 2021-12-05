@@ -3,4 +3,11 @@
     <string name="now">Now</string>
     <string name="next_n24_hours">Next \n24 hours</string>
     <string name="next_ndays">Next \ndays</string>
+    <string name="last_update">Last update:</string>
+    <string name="huminidity">huminidity</string>
+    <string name="wind">wind</string>
+    <string name="pressure">pressure</string>
+    <string name="cloud">cloud</string>
+    <string name="next_24_hours">Next 24 hours:</string>
+
 </resources>
