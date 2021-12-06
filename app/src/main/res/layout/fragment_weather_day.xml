@@ -57,13 +57,13 @@
         android:layout_width="113dp"
         android:layout_height="160dp"
         android:layout_marginBottom="90dp"
-
         android:rotation="90"
         android:src="@drawable/back"
         android:tint="#6763F1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/cityName"
@@ -77,6 +77,7 @@
         android:paddingEnd="18dp"
         android:textColor="#fff"
         android:textSize="26sp"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -176,6 +177,7 @@
         android:drawableLeft="@drawable/ic_round_access_time_24"
         android:drawablePadding="4dp"
         android:fontFamily="@font/questrial"
+        android:visibility="gone"
         android:gravity="center"
         android:letterSpacing="0.1"
         android:paddingStart="18dp"
@@ -210,6 +212,7 @@
         layout="@layout/weather_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         app:layout_constraintBottom_toTopOf="@+id/cloudDetails"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="@+id/guidelineDetails"
@@ -220,6 +223,7 @@
         layout="@layout/weather_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         app:layout_constraintBottom_toTopOf="@+id/cloudDetails"
         app:layout_constraintLeft_toLeftOf="@+id/guidelineDetails"
         app:layout_constraintRight_toRightOf="parent"
@@ -230,6 +234,7 @@
         layout="@layout/weather_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="@+id/guidelineDetails"
@@ -240,6 +245,7 @@
         layout="@layout/weather_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/guidelineDetails"
         app:layout_constraintRight_toRightOf="parent"
@@ -262,5 +268,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

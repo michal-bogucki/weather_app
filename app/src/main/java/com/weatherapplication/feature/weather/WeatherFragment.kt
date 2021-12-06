@@ -4,6 +4,7 @@ package com.weatherapplication.feature.weather
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
@@ -16,9 +17,13 @@ import com.weatherapplication.base.BaseFragment
 import com.weatherapplication.data.models.weather.database.WeatherModelLocal
 import com.weatherapplication.data.remoteapi.State
 import com.weatherapplication.databinding.FragmentWeatherDayBinding
+import com.weatherapplication.feature.DateFormat.formatterDate
+import com.weatherapplication.feature.DateFormat.formatterTime
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.format.DateTimeFormatter
+import java.util.*
 
+
+//todo: empty and error state, no internet,landscape view
 
 @AndroidEntryPoint
 class WeatherFragment : BaseFragment<FragmentWeatherDayBinding, WeatherViewModel>() {
@@ -34,8 +39,8 @@ class WeatherFragment : BaseFragment<FragmentWeatherDayBinding, WeatherViewModel
         super.onViewCreated(view, savedInstanceState)
         observe()
         //viewModelApp.getWeather(args.weatherId,args.cityName,args.lat,args.lon)
-        viewModelApp.getWeather(0, "Warszawa", 52.237049, 19.944544)
-        //viewModelApp.getWeather(0, "Kraków", 50.049683, 19.944544)
+        //viewModelApp.getWeather(0, "Warszawa", 52.237049, 19.944544)
+        viewModelApp.getWeather(0, "Kraków", 50.049683, 19.944544)
     }
 
     private fun observe() {
@@ -53,7 +58,6 @@ class WeatherFragment : BaseFragment<FragmentWeatherDayBinding, WeatherViewModel
                     showLoading(false)
                 }
             }
-
         }
     }
 
@@ -70,6 +74,8 @@ class WeatherFragment : BaseFragment<FragmentWeatherDayBinding, WeatherViewModel
             menu.setOnClickListener {
                 findNavController().navigate(R.id.action_weatherFragment_to_menuFragment, setId())
             }
+            titleTimeWeather.visibility = VISIBLE
+            cityName.visibility = VISIBLE
             cityName.text = weather.city
             countryName.text = weather.country
             Glide.with(this@WeatherFragment).load(weather.getConditionIconUrl())
@@ -79,8 +85,7 @@ class WeatherFragment : BaseFragment<FragmentWeatherDayBinding, WeatherViewModel
             weatherCondition.text = weather.conditionText
             weatherTemp.text = weather.getTempWithUnit()
             weatherTemp.setTempColor(weather.temp)
-            val formatterDate: DateTimeFormatter = DateTimeFormatter.ofPattern("EEEE, MMM dd")
-            val formatterTime: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+
             dateWeather.text = formatterDate.format(weather.date)
             timeWeather.text = formatterTime.format(weather.date)
 

@@ -23,7 +23,13 @@
     <fragment
         android:id="@+id/nextDayFragment"
         android:name="com.weatherapplication.feature.nextday.NextDayFragment"
-        android:label="NextDayFragment" />
+        android:label="NextDayFragment">
+        <argument
+            android:name="weatherId"
+            android:defaultValue="0"
+            app:argType="integer"
+            app:nullable="false" />
+    </fragment>
     <fragment
         android:id="@+id/nextHourFragment"
         android:name="com.weatherapplication.feature.nexthour.NextHourFragment"

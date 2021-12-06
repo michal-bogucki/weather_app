@@ -9,5 +9,6 @@
     <string name="pressure">pressure</string>
     <string name="cloud">cloud</string>
     <string name="next_24_hours">Next 24 hours:</string>
+    <string name="next_days">Next days:</string>
 
 </resources>

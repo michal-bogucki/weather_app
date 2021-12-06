@@ -50,7 +50,6 @@ object WeatherTransformer {
                     forecastday.day?.mintemp_c ?: Double.MIN_VALUE,
                     forecastday.day?.condition?.text ?: "",
                     forecastday.day?.condition?.icon ?: "",
-                    getTempListFromApi(forecastday),
                     id++
                 )
             }.let { mapList -> list.addAll(mapList) }
@@ -63,26 +62,6 @@ object WeatherTransformer {
         var id = 0
         forecast?.let {
             val forecastDay = it.forecastday[0]
-            forecastDay.hour?.map { hour ->
-                val firstApiFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-                val localDateTime = LocalDateTime.parse(hour.time,firstApiFormat)
-                val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
-                HourTemp(
-                    formatter.format(localDateTime),
-                    hour.temp_c ?: Double.MIN_VALUE,
-                    hour.condition?.text ?: "",
-                    hour.condition?.icon ?: "",
-                    id++
-                )
-            }?.let { mapList -> list.addAll(mapList) }
-        }
-        return list
-    }
-
-    private fun getTempListFromApi(forecast: Forecastday?): List<HourTemp> {
-        var list = mutableListOf<HourTemp>()
-        var id = 0
-        forecast?.let { forecastDay ->
             forecastDay.hour?.map { hour ->
                 val firstApiFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
                 val localDateTime = LocalDateTime.parse(hour.time,firstApiFormat)
