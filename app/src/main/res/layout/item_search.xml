@@ -7,18 +7,17 @@
     xmlns:tool="http://schemas.android.com/tools">
 
     <ImageView
-        android:id="@+id/historyIcon"
+        android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center"
         android:padding="14dp"
-
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_round_location_on_24" />
+        />
 
     <TextView
-        android:id="@+id/historyText"
+        android:id="@+id/cityName"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -29,7 +28,7 @@
         android:paddingBottom="16dp"
         android:textColor="#fff"
         android:textSize="14sp"
-        app:layout_constraintLeft_toRightOf="@+id/historyIcon"
+        app:layout_constraintLeft_toRightOf="@+id/icon"
         app:layout_constraintTop_toTopOf="parent"
         tool:text="Kraków" />
 

@@ -38,9 +38,8 @@ class WeatherFragment : BaseFragment<FragmentWeatherDayBinding, WeatherViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observe()
-        //viewModelApp.getWeather(args.weatherId,args.cityName,args.lat,args.lon)
-        //viewModelApp.getWeather(0, "Warszawa", 52.237049, 19.944544)
-        viewModelApp.getWeather(0, "Kraków", 50.049683, 19.944544)
+        viewModelApp.getWeather(args.weatherId,args.cityName,args.lat.toDouble(),args.lon.toDouble())
+
     }
 
     private fun observe() {

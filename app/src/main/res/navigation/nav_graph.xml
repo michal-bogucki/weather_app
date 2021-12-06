@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/weatherFragment">
+    app:startDestination="@id/searchCityFragment">
 
     <fragment
         android:id="@+id/menuFragment"
@@ -15,10 +15,12 @@
             app:nullable="false" />
         <action
             android:id="@+id/action_menuFragment_to_nextDayFragment"
-            app:destination="@id/nextDayFragment" />
+            app:destination="@id/nextDayFragment"
+            />
         <action
             android:id="@+id/action_menuFragment_to_nextHourFragment"
-            app:destination="@id/nextHourFragment" />
+            app:destination="@id/nextHourFragment"
+             />
     </fragment>
     <fragment
         android:id="@+id/nextDayFragment"

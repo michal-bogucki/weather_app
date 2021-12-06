@@ -8,4 +8,6 @@ object DateFormat {
         Locale("en")
     )
     val formatterTime: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+
+    val firstApiFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 }

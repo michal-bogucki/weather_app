@@ -25,6 +25,7 @@ interface WeatherRepositoryInterface {
 
     suspend fun getWeatherById(id: Int): Flow<WeatherModelLocal>
 
+    suspend fun getAllWeather(): Flow<List<WeatherModelLocal>>
 }
 
 @ExperimentalCoroutinesApi
@@ -62,7 +63,11 @@ class WeatherRepository @Inject constructor(val weatherApiService: WeatherApiSer
         }.asFlow()
 
     }
-    override suspend fun getWeatherById(id: Int): Flow<WeatherModelLocal> =weatherDao.getWeatherById(id)
+
+    override suspend fun getWeatherById(id: Int): Flow<WeatherModelLocal> =
+        weatherDao.getWeatherById(id)
+
+    override suspend fun getAllWeather(): Flow<List<WeatherModelLocal>> = weatherDao.getAllWeather()
 
     private fun changeLocation(
         latLast: Double,

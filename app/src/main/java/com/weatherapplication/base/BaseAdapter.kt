@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.weatherapplication.data.models.weather.database.Item
+import com.weatherapplication.data.models.Item
 
 
 abstract class BaseAdapter<T : Item, VB : ViewBinding>(

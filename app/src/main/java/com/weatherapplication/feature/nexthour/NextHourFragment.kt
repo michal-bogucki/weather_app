@@ -9,13 +9,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.weatherapplication.R
 import com.weatherapplication.base.BaseFragment
 import com.weatherapplication.databinding.FragmentNextHoursBinding
 import com.weatherapplication.feature.DateFormat.formatterDate
 import com.weatherapplication.feature.DateFormat.formatterTime
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -52,7 +51,7 @@ class NextHourFragment : BaseFragment<FragmentNextHoursBinding, NextHourViewMode
     private fun initView() {
         binding?.run {
             backButton.setOnClickListener {
-                findNavController().popBackStack()
+                findNavController().popBackStack(R.id.weatherFragment, true)
             }
             nextHourRecycler.adapter = adapter
             nextHourRecycler.layoutManager = LinearLayoutManager(requireContext())

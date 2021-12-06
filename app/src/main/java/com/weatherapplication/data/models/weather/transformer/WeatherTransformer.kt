@@ -6,6 +6,8 @@ import com.weatherapplication.data.models.weather.api.WeatherModelRemote
 import com.weatherapplication.data.models.weather.database.HourTemp
 import com.weatherapplication.data.models.weather.database.NextDay
 import com.weatherapplication.data.models.weather.database.WeatherModelLocal
+import com.weatherapplication.feature.DateFormat.firstApiFormat
+import com.weatherapplication.feature.DateFormat.formatterTime
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -63,11 +65,9 @@ object WeatherTransformer {
         forecast?.let {
             val forecastDay = it.forecastday[0]
             forecastDay.hour?.map { hour ->
-                val firstApiFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
                 val localDateTime = LocalDateTime.parse(hour.time,firstApiFormat)
-                val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
                 HourTemp(
-                    formatter.format(localDateTime),
+                    formatterTime.format(localDateTime),
                     hour.temp_c ?: Double.MIN_VALUE,
                     hour.condition?.text ?: "",
                     hour.condition?.icon ?: "",
