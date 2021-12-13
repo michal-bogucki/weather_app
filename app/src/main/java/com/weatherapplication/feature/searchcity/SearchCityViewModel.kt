@@ -3,7 +3,8 @@ package com.weatherapplication.feature.searchcity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.weatherapplication.data.models.search.SearchItem
+import com.learnig.android.mydata.data.models.search.SearchItem
+
 import com.weatherapplication.data.repository.WeatherRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -15,9 +16,9 @@ class SearchCityViewModel @Inject constructor(private val repositoryModule: Weat
     ViewModel() {
 
 
-    var listCity: List<SearchItem> = mutableListOf()
-    private val _city: MutableLiveData<Pair<List<SearchItem>, Boolean>> = MutableLiveData()
-    val city: MutableLiveData<Pair<List<SearchItem>, Boolean>>
+    var listCity: List<com.learnig.android.mydata.data.models.search.SearchItem> = mutableListOf()
+    private val _city: MutableLiveData<Pair<List<com.learnig.android.mydata.data.models.search.SearchItem>, Boolean>> = MutableLiveData()
+    val city: MutableLiveData<Pair<List<com.learnig.android.mydata.data.models.search.SearchItem>, Boolean>>
         get() = _city
 
 
@@ -35,8 +36,13 @@ class SearchCityViewModel @Inject constructor(private val repositoryModule: Weat
     fun showHistorySearch() {
         viewModelScope.launch {
             repositoryModule.getAllWeather().collect {
-                val list: List<SearchItem> = it.map { model ->
-                    SearchItem(model.id, model.city, model.lat, model.lon)
+                val list: List<com.learnig.android.mydata.data.models.search.SearchItem> = it.map { model ->
+                    com.learnig.android.mydata.data.models.search.SearchItem(
+                        model.id,
+                        model.city,
+                        model.lat,
+                        model.lon
+                    )
                 }.toMutableList().distinctBy { search -> search.name }
                 city.value = Pair(list, true)
             }

@@ -1,8 +1,9 @@
 package com.weatherapplication.di.room
 
 import android.app.Application
-import com.weatherapplication.data.dao.WeatherDao
-import com.weatherapplication.data.database.AppDatabase
+import com.learnig.android.mydata.data.dao.WeatherDao
+import com.learnig.android.mydata.data.database.AppDatabase
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

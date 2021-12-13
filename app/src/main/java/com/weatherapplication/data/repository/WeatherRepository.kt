@@ -1,16 +1,18 @@
 package com.weatherapplication.data.repository
 
 import android.location.Location
-import com.weatherapplication.data.dao.WeatherDao
-import com.weatherapplication.data.models.weather.api.WeatherModelRemote
-import com.weatherapplication.data.models.weather.database.WeatherModelLocal
-import com.weatherapplication.data.models.weather.transformer.WeatherTransformer
-import com.weatherapplication.data.remoteapi.NetworkBoundRepository
-import com.weatherapplication.data.remoteapi.Resource
-import com.weatherapplication.data.remoteapi.WeatherApiService
-import com.weatherapplication.data.remoteapi.WeatherApiService.Companion.KEY
+import com.learnig.android.mydata.data.dao.WeatherDao
+import com.learnig.android.mydata.data.models.weather.api.WeatherModelRemote
+import com.learnig.android.mydata.data.models.weather.database.WeatherModelLocal
+import com.learnig.android.mydata.data.models.weather.transformer.WeatherTransformer
+import com.learnig.android.mydata.data.remoteapi.NetworkBoundRepository
+import com.learnig.android.mydata.data.remoteapi.Resource
+import com.learnig.android.mydata.data.remoteapi.WeatherApiService
+import com.learnig.android.mydata.data.remoteapi.WeatherApiService.Companion.KEY
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -29,7 +31,8 @@ interface WeatherRepositoryInterface {
 }
 
 @ExperimentalCoroutinesApi
-class WeatherRepository @Inject constructor(val weatherApiService: WeatherApiService, val weatherDao: WeatherDao):WeatherRepositoryInterface {
+class WeatherRepository @Inject constructor(val weatherApiService: WeatherApiService, val weatherDao: WeatherDao):
+    WeatherRepositoryInterface {
     override fun getWeather(
         weatherId: Int,
         name: String,
@@ -38,7 +41,15 @@ class WeatherRepository @Inject constructor(val weatherApiService: WeatherApiSer
     ): Flow<Resource<WeatherModelLocal>> {
         return object : NetworkBoundRepository<WeatherModelLocal, WeatherModelRemote>() {
             override suspend fun saveRemoteData(response: WeatherModelRemote) {
-                weatherDao.insertOrUpdate(WeatherTransformer.transform(response, weatherId, name))
+
+                    weatherDao.insertOrUpdate(
+                        WeatherTransformer.transform(
+                            response,
+                            weatherId,
+                            name
+                        )
+                    )
+
             }
 
             override fun fetchFromLocal(): Flow<WeatherModelLocal> =

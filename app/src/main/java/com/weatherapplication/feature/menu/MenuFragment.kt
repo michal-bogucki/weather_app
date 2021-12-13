@@ -31,7 +31,8 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuViewModel>() {
     }
 
     private fun initView() {
-        binding?.run {
+
+         binding?.run {
 
             backButton.setOnClickListener {
                 findNavController().popBackStack()

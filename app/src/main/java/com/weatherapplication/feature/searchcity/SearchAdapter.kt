@@ -6,23 +6,23 @@ import com.bumptech.glide.Glide
 import com.weatherapplication.R
 import com.weatherapplication.base.BaseAdapter
 import com.weatherapplication.base.GenericItemDiffUtil
-import com.weatherapplication.data.models.Item
-import com.weatherapplication.data.models.search.SearchItem
-import com.weatherapplication.data.remoteapi.State
+import com.learnig.android.mydata.data.models.Item
+import com.learnig.android.mydata.data.models.search.SearchItem
+import com.learnig.android.mydata.data.remoteapi.State
 import com.weatherapplication.databinding.ItemSearchBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class SearchAdapter(
-    private val onItemClicked: (SearchItem) -> Unit
+    private val onItemClicked: (com.learnig.android.mydata.data.models.search.SearchItem) -> Unit
 ) :
-    BaseAdapter<Item, ItemSearchBinding>(GenericItemDiffUtil) {
+    BaseAdapter<com.learnig.android.mydata.data.models.Item, ItemSearchBinding>(GenericItemDiffUtil) {
     var isHistoryList = true
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ViewBindingViewHolder<Item, ItemSearchBinding> {
+    ): ViewBindingViewHolder<com.learnig.android.mydata.data.models.Item, ItemSearchBinding> {
         val inflater = parent.layoutInflater
         val binding = ItemSearchBinding.inflate(inflater, parent, false)
         return SearchViewHolder(binding)
@@ -38,19 +38,19 @@ class SearchAdapter(
     inner class SearchViewHolder(
         binding: ItemSearchBinding,
     ) :
-        ViewBindingViewHolder<Item, ItemSearchBinding>(binding) {
+        ViewBindingViewHolder<com.learnig.android.mydata.data.models.Item, ItemSearchBinding>(binding) {
 
         init {
             itemView.setOnClickListener {
                 onItemClicked(
-                    getItem(adapterPosition) as SearchItem
+                    getItem(adapterPosition) as com.learnig.android.mydata.data.models.search.SearchItem
                 )
             }
 
         }
 
-        override fun bind(item: Item) {
-            item as SearchItem
+        override fun bind(item: com.learnig.android.mydata.data.models.Item) {
+            item as com.learnig.android.mydata.data.models.search.SearchItem
             if (isHistoryList)
                 Glide.with(itemView).load(R.drawable.ic_round_history_24).into(binding.icon)
             else

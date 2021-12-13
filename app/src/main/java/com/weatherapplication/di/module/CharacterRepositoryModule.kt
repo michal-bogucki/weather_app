@@ -1,6 +1,7 @@
 package com.weatherapplication.di.module
 
 
+
 import com.weatherapplication.data.repository.WeatherRepository
 import com.weatherapplication.data.repository.WeatherRepositoryInterface
 import dagger.Binds
@@ -15,5 +16,5 @@ import dagger.hilt.android.scopes.ActivityRetainedScoped
 abstract class WeatherRepositoryModule {
     @ActivityRetainedScoped
     @Binds
-    abstract fun bindWeatherRepositoryInterface(repository: WeatherRepository):WeatherRepositoryInterface
+    abstract fun bindWeatherRepositoryInterface(repository: WeatherRepository): WeatherRepositoryInterface
 }

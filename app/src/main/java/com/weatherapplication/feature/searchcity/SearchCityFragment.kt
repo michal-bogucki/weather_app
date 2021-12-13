@@ -13,15 +13,19 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.weatherapplication.R
 import com.weatherapplication.base.BaseFragment
-import com.weatherapplication.data.models.search.SearchItem
+import com.learnig.android.mydata.data.models.search.SearchItem
 import com.weatherapplication.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 
 
@@ -47,11 +51,16 @@ class SearchCityFragment : BaseFragment<FragmentMainBinding, SearchCityViewModel
     }
 
     private fun mockListCity() {
-        val jsonDataFromAsset = getJsonDataFromAsset(requireContext(), "pol_city.json")
-        val list: List<SearchItem> = Gson().fromJson(
-            jsonDataFromAsset, object : TypeToken<List<SearchItem?>?>() {}.type
-        )
-        viewModelApp.listCity = list.sortedBy { it.name }
+        lifecycleScope.launch(Dispatchers.Default) {
+            val jsonDataFromAsset = getJsonDataFromAsset(requireContext(), "pol_city.json")
+            val list: List<com.learnig.android.mydata.data.models.search.SearchItem> = Gson().fromJson(
+                jsonDataFromAsset, object : TypeToken<List<com.learnig.android.mydata.data.models.search.SearchItem?>?>() {}.type
+            )
+            withContext(Dispatchers.Main) {
+                viewModelApp.listCity = list.sortedBy { it.name }
+            }
+        }
+
     }
 
     private fun getJsonDataFromAsset(context: Context, fileName: String): String? {
@@ -104,7 +113,7 @@ class SearchCityFragment : BaseFragment<FragmentMainBinding, SearchCityViewModel
 
     }
 
-    private fun openWeatherFragment(item: SearchItem) {
+    private fun openWeatherFragment(item: com.learnig.android.mydata.data.models.search.SearchItem) {
         val bundle = Bundle().apply {
             putSerializable("weatherId", item.id)
             putSerializable("cityName", item.name)

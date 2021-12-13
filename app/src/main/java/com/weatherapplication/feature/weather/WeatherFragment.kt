@@ -14,8 +14,8 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.weatherapplication.R
 import com.weatherapplication.base.BaseFragment
-import com.weatherapplication.data.models.weather.database.WeatherModelLocal
-import com.weatherapplication.data.remoteapi.State
+import com.learnig.android.mydata.data.models.weather.database.WeatherModelLocal
+import com.learnig.android.mydata.data.remoteapi.State
 import com.weatherapplication.databinding.FragmentWeatherDayBinding
 import com.weatherapplication.feature.DateFormat.formatterDate
 import com.weatherapplication.feature.DateFormat.formatterTime
@@ -45,14 +45,14 @@ class WeatherFragment : BaseFragment<FragmentWeatherDayBinding, WeatherViewModel
     private fun observe() {
         viewModelApp.weather.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is State.Loading -> showLoading(true)
-                is State.Success -> {
+                is com.learnig.android.mydata.data.remoteapi.State.Loading -> showLoading(true)
+                is com.learnig.android.mydata.data.remoteapi.State.Success -> {
                     if (state.data != null) {
                         setViewElements(state.data)
                         showLoading(false)
                     }
                 }
-                is State.Error -> {
+                is com.learnig.android.mydata.data.remoteapi.State.Error -> {
                     showToast(state.message)
                     showLoading(false)
                 }
@@ -62,12 +62,12 @@ class WeatherFragment : BaseFragment<FragmentWeatherDayBinding, WeatherViewModel
 
     private fun showLoading(isLoading: Boolean) {
         when (isLoading) {
-            true -> binding?.progressBar?.visibility = View.VISIBLE
+            true -> binding?.progressBar?.visibility = VISIBLE
             false -> binding?.progressBar?.visibility = View.GONE
         }
     }
 
-    private fun setViewElements(weather: WeatherModelLocal) {
+    private fun setViewElements(weather: com.learnig.android.mydata.data.models.weather.database.WeatherModelLocal) {
         viewModelApp.weatherId = weather.id
         binding?.run {
             menu.setOnClickListener {

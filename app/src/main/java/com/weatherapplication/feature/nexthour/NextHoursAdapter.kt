@@ -5,18 +5,18 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.weatherapplication.base.BaseAdapter
 import com.weatherapplication.base.GenericItemDiffUtil
-import com.weatherapplication.data.models.weather.database.HourTemp
-import com.weatherapplication.data.models.Item
+import com.learnig.android.mydata.data.models.weather.database.HourTemp
+import com.learnig.android.mydata.data.models.Item
 import com.weatherapplication.databinding.ItemHoursWeatherBinding
 
 
 
 class NextHoursAdapter() :
-    BaseAdapter<Item, ItemHoursWeatherBinding>(GenericItemDiffUtil) {
+    BaseAdapter<com.learnig.android.mydata.data.models.Item, ItemHoursWeatherBinding>(GenericItemDiffUtil) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ViewBindingViewHolder<Item, ItemHoursWeatherBinding> {
+    ): ViewBindingViewHolder<com.learnig.android.mydata.data.models.Item, ItemHoursWeatherBinding> {
         val inflater = parent.layoutInflater
         val binding = ItemHoursWeatherBinding.inflate(inflater, parent, false)
         return NextHoursViewHolder(binding)
@@ -26,10 +26,10 @@ class NextHoursAdapter() :
     inner class NextHoursViewHolder(
         binding: ItemHoursWeatherBinding
     ) :
-        ViewBindingViewHolder<Item, ItemHoursWeatherBinding>(binding) {
+        ViewBindingViewHolder<com.learnig.android.mydata.data.models.Item, ItemHoursWeatherBinding>(binding) {
 
-        override fun bind(item: Item) {
-            item as HourTemp
+        override fun bind(item: com.learnig.android.mydata.data.models.Item) {
+            item as com.learnig.android.mydata.data.models.weather.database.HourTemp
 
             binding.nextHourDate.text = item.time
             binding.nextHourTemperature.text = item.getTempWithUnit()

@@ -2,7 +2,7 @@ package com.weatherapplication.di.module
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.weatherapplication.data.remoteapi.WeatherApiService
+import com.learnig.android.mydata.data.remoteapi.WeatherApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

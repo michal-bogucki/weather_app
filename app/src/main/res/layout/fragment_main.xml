@@ -19,7 +19,7 @@
         android:drawableStart="@drawable/ic_round_search_24"
         android:drawablePadding="8dp"
         android:fontFamily="@font/questrial"
-        android:hint="Search city"
+        android:hint="@string/search_city"
         android:textColorHint="@color/white_60"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -43,7 +43,7 @@
         android:padding="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
 
-        android:text="History"
+        android:text="@string/history"
         android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/lineBottomSearch" />
 

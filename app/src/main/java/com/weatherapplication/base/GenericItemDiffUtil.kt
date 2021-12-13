@@ -1,9 +1,9 @@
 package com.weatherapplication.base
 
-import com.weatherapplication.data.models.Item
+import com.learnig.android.mydata.data.models.Item
 
-object GenericItemDiffUtil : ViewBindingDiffUtilCallback<Item>() {
-    override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean = oldItem.id == newItem.id
+object GenericItemDiffUtil : ViewBindingDiffUtilCallback<com.learnig.android.mydata.data.models.Item>() {
+    override fun areItemsTheSame(oldItem: com.learnig.android.mydata.data.models.Item, newItem: com.learnig.android.mydata.data.models.Item): Boolean = oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean = oldItem.equals(newItem)
+    override fun areContentsTheSame(oldItem: com.learnig.android.mydata.data.models.Item, newItem: com.learnig.android.mydata.data.models.Item): Boolean = oldItem.equals(newItem)
 }

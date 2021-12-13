@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.weatherapplication.data.models.weather.database.WeatherModelLocal
+
 import com.weatherapplication.data.repository.WeatherRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -16,8 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class NextDayViewModel @Inject constructor (private val repositoryModule: WeatherRepositoryInterface) :
 ViewModel() {
-    private val _weather: MutableLiveData<WeatherModelLocal> = MutableLiveData()
-    val weather: MutableLiveData<WeatherModelLocal>
+    private val _weather: MutableLiveData<com.learnig.android.mydata.data.models.weather.database.WeatherModelLocal> = MutableLiveData()
+    val weather: MutableLiveData<com.learnig.android.mydata.data.models.weather.database.WeatherModelLocal>
     get() = _weather
 
     fun getWeather(id: Int) {

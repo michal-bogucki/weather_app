@@ -1,2 +1,3 @@
 rootProject.name = "WeatherApplication"
 include ':app'
+include ':mydata'
