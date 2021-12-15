@@ -45,14 +45,14 @@ class WeatherFragment : BaseFragment<FragmentWeatherDayBinding, WeatherViewModel
     private fun observe() {
         viewModelApp.weather.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is com.learnig.android.mydata.data.remoteapi.State.Loading -> showLoading(true)
-                is com.learnig.android.mydata.data.remoteapi.State.Success -> {
+                is State.Loading -> showLoading(true)
+                is State.Success -> {
                     if (state.data != null) {
                         setViewElements(state.data)
                         showLoading(false)
                     }
                 }
-                is com.learnig.android.mydata.data.remoteapi.State.Error -> {
+                is State.Error -> {
                     showToast(state.message)
                     showLoading(false)
                 }

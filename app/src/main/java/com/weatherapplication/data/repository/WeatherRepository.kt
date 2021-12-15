@@ -9,10 +9,8 @@ import com.learnig.android.mydata.data.remoteapi.NetworkBoundRepository
 import com.learnig.android.mydata.data.remoteapi.Resource
 import com.learnig.android.mydata.data.remoteapi.WeatherApiService
 import com.learnig.android.mydata.data.remoteapi.WeatherApiService.Companion.KEY
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -41,15 +39,13 @@ class WeatherRepository @Inject constructor(val weatherApiService: WeatherApiSer
     ): Flow<Resource<WeatherModelLocal>> {
         return object : NetworkBoundRepository<WeatherModelLocal, WeatherModelRemote>() {
             override suspend fun saveRemoteData(response: WeatherModelRemote) {
-
-                    weatherDao.insertOrUpdate(
+                weatherDao.insertOrUpdate(
                         WeatherTransformer.transform(
                             response,
                             weatherId,
                             name
                         )
                     )
-
             }
 
             override fun fetchFromLocal(): Flow<WeatherModelLocal> =

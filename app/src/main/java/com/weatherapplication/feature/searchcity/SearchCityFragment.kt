@@ -13,18 +13,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.weatherapplication.R
 import com.weatherapplication.base.BaseFragment
-import com.learnig.android.mydata.data.models.search.SearchItem
 import com.weatherapplication.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
@@ -44,24 +39,16 @@ class SearchCityFragment : BaseFragment<FragmentMainBinding, SearchCityViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mockListCity()
         initView()
         observe()
+        mockCity()
         viewModelApp.showHistorySearch()
     }
 
-    private fun mockListCity() {
-        lifecycleScope.launch(Dispatchers.Default) {
-            val jsonDataFromAsset = getJsonDataFromAsset(requireContext(), "pol_city.json")
-            val list: List<com.learnig.android.mydata.data.models.search.SearchItem> = Gson().fromJson(
-                jsonDataFromAsset, object : TypeToken<List<com.learnig.android.mydata.data.models.search.SearchItem?>?>() {}.type
-            )
-            withContext(Dispatchers.Main) {
-                viewModelApp.listCity = list.sortedBy { it.name }
-            }
-        }
-
+    private fun mockCity() {
+        viewModelApp.mockListCity(getJsonDataFromAsset(requireContext(), "pol_city.json"))
     }
+
 
     private fun getJsonDataFromAsset(context: Context, fileName: String): String? {
         val jsonString: String
@@ -73,6 +60,7 @@ class SearchCityFragment : BaseFragment<FragmentMainBinding, SearchCityViewModel
         }
         return jsonString
     }
+
 
     private fun observe() {
         viewModelApp.city.observe(viewLifecycleOwner) {
