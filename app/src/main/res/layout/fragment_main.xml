@@ -1,99 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_menu" />
-
-    <EditText
-        android:id="@+id/searchCity"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:layout_margin="16dp"
-        android:background="@android:color/transparent"
-        android:drawableStart="@drawable/ic_round_search_24"
-        android:drawablePadding="8dp"
-        android:fontFamily="@font/questrial"
-        android:hint="@string/search_city"
-        android:textColorHint="@color/white_60"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="#292a32">
 
     <ImageView
-        android:id="@+id/lineBottomSearch"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/gradient_next_hours_lines"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchCity"
-        app:layout_constraintWidth_percent="0.8" />
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:layout_margin="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_baseline_arrow_back_24" />
 
     <TextView
-        android:id="@+id/historyText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:alpha="0.7"
-        android:padding="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-
-        android:text="@string/history"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/lineBottomSearch" />
-
-    <ImageView
-        android:id="@+id/lineBottomHistoryText"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/gradient_next_hours_lines"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/historyText"
-        app:layout_constraintWidth_percent="0.85" />
-
-    <ImageView
-        android:layout_width="160dp"
-        android:layout_height="113dp"
-        android:alpha="0.9"
-        android:rotation="90"
-        android:src="@drawable/back"
-        android:tint="#D0A6B7"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search city"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/backButton"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/backButton" />
 
 
-    <ImageView
-        android:layout_width="113dp"
-        android:layout_height="160dp"
-        android:layout_marginBottom="90dp"
-        android:alpha="0.2"
-        android:rotation="90"
-        android:src="@drawable/back"
-        android:tint="#D0A6B7"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+            android:id="@+id/searchCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/search_background"
+            android:drawableStart="@drawable/ic_round_search_24"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/questrial"
+            android:hint="@string/search_city"
+            android:padding="8dp"
+            android:textColorHint="@color/white_60"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/backButton" />
+
+
+    <TextView
+            android:id="@+id/titleSearchCityList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.7"
+            android:padding="16dp"
+            android:text="@string/history"
+            android:textColor="@color/white"
+            app:layout_constraintLeft_toLeftOf="@id/searchCity"
+            app:layout_constraintTop_toBottomOf="@+id/searchCity" />
+
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchRecycler"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:itemCount="34"
-        app:layout_constraintTop_toBottomOf="@+id/lineBottomHistoryText"
-        tools:listitem="@layout/item_search" />
-
-
-
-
+            android:id="@+id/searchRecycler"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleSearchCityList"
+            tools:itemCount="34"
+            tools:listitem="@layout/item_search" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

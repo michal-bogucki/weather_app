@@ -44,7 +44,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchCityFragment"
-        android:name="com.weatherapplication.feature.searchcity.SearchCityFragment"
+        android:name="com.weatherapplication.feature.searchcity.presentation.SearchCityFragment"
         android:label="SearchCityFragment">
         <action
             android:id="@+id/action_searchCityFragment_to_weatherFragment"
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/weatherFragment"
-        android:name="com.weatherapplication.feature.weather.WeatherFragment"
+        android:name="com.weatherapplication.feature.weather.presentation.WeatherFragment"
         android:label="WeatherFragment">
         <argument
             android:name="weatherId"

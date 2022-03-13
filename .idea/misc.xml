@@ -6,10 +6,32 @@
         <entry key="..\:/Users/michal/AndroidStudioProjects/WeatherApplication/app/src/main/res/layout/fragment_main.xml" value="0.30092592592592593" />
         <entry key="..\:/Users/michal/AndroidStudioProjects/WeatherApplication/app/src/main/res/layout/fragment_weather_day.xml" value="0.30092592592592593" />
         <entry key="..\:/Users/michal/AndroidStudioProjects/WeatherApplication/app/src/main/res/layout/item_search.xml" value="0.30092592592592593" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/clear_day.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/gradient_day.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/gradient_menu.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/gradient_next_day.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/gradient_next_day_lines.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/ic_launcher_background.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/ic_round_access_time_24.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/ic_round_search_24.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/round_button_orange.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/round_button_pink.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/round_button_red.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/search_background.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/undraw_city.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/undraw_location_search.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/undraw_no_data.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/undraw_not_found.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/drawable/undraw_weather.xml" value="0.284" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/layout/fragment_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/layout/item_hours_weather.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/michal/StudioProjects/weather_app/app/src/main/res/layout/item_search.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
