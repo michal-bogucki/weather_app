@@ -2,6 +2,7 @@ package com.weatherapplication.feature.searchcity.presentation.model
 
 import com.weatherapplication.core.data.ViewEvent
 import com.weatherapplication.core.data.ViewState
+import kotlinx.coroutines.flow.Flow
 
 
 class SearchCityContract {
@@ -14,6 +15,6 @@ class SearchCityContract {
 
     sealed class SearchCityEvent : ViewEvent {
         data class ChooseCity(val searchCity: SearchCityDisplayable) : SearchCityEvent()
-        data class OnTextChange(val cityName: String) : SearchCityEvent()
+        data class OnTextChange(val cityName: Flow<String>) : SearchCityEvent()
     }
 }

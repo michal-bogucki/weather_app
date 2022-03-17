@@ -47,26 +47,15 @@
             app:layout_constraintTop_toBottomOf="@+id/backButton" />
 
 
-    <TextView
-            android:id="@+id/titleSearchCityList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0.7"
-            android:padding="16dp"
-            android:text="@string/history"
-            android:textColor="@color/white"
-            app:layout_constraintLeft_toLeftOf="@id/searchCity"
-            app:layout_constraintTop_toBottomOf="@+id/searchCity" />
-
-
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchRecycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleSearchCityList"
+            app:layout_constraintTop_toBottomOf="@+id/searchCity"
             tools:itemCount="34"
             tools:listitem="@layout/item_search" />
 

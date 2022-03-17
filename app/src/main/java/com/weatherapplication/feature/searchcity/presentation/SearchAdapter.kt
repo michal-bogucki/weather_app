@@ -33,7 +33,7 @@ class SearchAdapter(private val onItemClicked: (SearchCityDisplayable) -> Unit) 
                 val image = if (item.isHistory) R.drawable.ic_round_history_24 else R.drawable.ic_round_location_on_24
                 Glide.with(itemView).load(image).into(icon)
                 cityName.text = item.cityName
-                countryNamePostalCode.text = "${item.postalCode},${item.countryName}"
+                countryNamePostalCode.text = "${item.cityName},${item.countryName}"
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.weatherapplication.feature.searchcity.di
 
+
 import com.weatherapplication.feature.searchcity.data.repository.SearchCityRepositoryImpl
 import com.weatherapplication.feature.searchcity.domain.repository.SearchCityRepository
 import dagger.Binds

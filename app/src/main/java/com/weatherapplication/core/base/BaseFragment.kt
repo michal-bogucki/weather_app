@@ -36,7 +36,7 @@ abstract class BaseFragment<VB : ViewBinding, STATE : ViewState, EVENT : ViewEve
 
     abstract fun initView()
     abstract fun render(state: STATE)
-    abstract fun onEventSent(event: EVENT)
+    fun onEventSent(event: EVENT) = viewModel.setEvent(event)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

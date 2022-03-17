@@ -2,23 +2,21 @@ package com.weatherapplication.feature.searchcity.data.local.dao
 
 import androidx.room.*
 import com.weatherapplication.feature.searchcity.data.local.model.SearchCityCached
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SearchCityDao {
     @Query("SELECT * FROM SearchCityCached")
-    fun getAllCity(): Flow<List<SearchCityCached>>
-
-    @Query("SELECT * FROM SearchCityCached WHERE isHistory = 1")
-    fun getHistorySearchCity(): Flow<List<SearchCityCached>>
+    fun getAllCity(): List<SearchCityCached>
 
     @Update
     suspend fun updateSearchCityCached(music: SearchCityCached)
 
-    @Query("SELECT * FROM SearchCityCached WHERE id = :id")
-    suspend fun getMusicById(id: Int): SearchCityCached
-
+    @Query("SELECT * FROM SearchCityCached WHERE cityName = :cityName")
+    suspend fun getSearchCityById(cityName: String): SearchCityCached
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun saveMusic(vararg musicCached: SearchCityCached)
+    fun saveSearchCity(vararg musicCached: SearchCityCached)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun saveSearchCity(musicCached: SearchCityCached): Long
 }

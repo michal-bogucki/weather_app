@@ -1,8 +1,8 @@
 package com.weatherapplication.core.di.room
 
 import android.app.Application
-import com.weatherapplication.feature.weather.data.local.dao.WeatherDao
 import com.weatherapplication.core.database.AppDatabase
+import com.weatherapplication.feature.searchcity.data.local.dao.SearchCityDao
 
 import dagger.Module
 import dagger.Provides
@@ -21,8 +21,8 @@ internal class DatabaseProvider {
 
     @Singleton
     @Provides
-    fun weatherDao(db: AppDatabase): WeatherDao {
-        return db.weatherDao()
+    fun weatherDao(db: AppDatabase): SearchCityDao {
+        return db.searchCityDao()
     }
 
 
