@@ -1,52 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tool="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/titleDetails"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/questrial"
-        android:letterSpacing="0.1"
-        android:paddingStart="18dp"
-        android:paddingEnd="18dp"
-        android:textColor="#fff"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tool:text="Humidity" />
+            android:id="@+id/titleDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="#80FFC85B"
-        android:layout_marginTop="2dp"
-        app:layout_constraintLeft_toLeftOf="@id/titleDetails"
-        app:layout_constraintRight_toRightOf="@id/titleDetails"
-        app:layout_constraintTop_toBottomOf="@+id/titleDetails" />
+            android:fontFamily="@font/questrial"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:text="Sunrise"
+            android:textColor="#787983"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/valueDetails"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/questrial"
-        android:letterSpacing="0.1"
-        android:paddingStart="18dp"
-        android:paddingEnd="18dp"
-        android:textColor="#fff"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleDetails"
-        tool:text="19%" />
+            android:id="@+id/valueDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/questrial"
+            android:letterSpacing="0.1"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:text="4:49"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleDetails" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

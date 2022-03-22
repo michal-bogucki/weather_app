@@ -1,62 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#292a32">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#292a32">
 
     <ImageView
-            android:id="@+id/backButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:padding="12dp"
-            android:layout_margin="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ic_baseline_arrow_back_24" />
+        android:id="@+id/menuButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:padding="12dp"
+        android:src="@drawable/ic_round_menu_24"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-            android:id="@+id/titleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search city"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/backButton"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/backButton" />
+        android:id="@+id/cityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New York"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/menuButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/menuButton" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="28, June 2021"
+        android:textColor="#787983"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@id/cityName"
+        app:layout_constraintRight_toRightOf="@id/cityName"
+        app:layout_constraintTop_toBottomOf="@+id/cityName" />
+
+    <ImageView
+        android:id="@+id/addButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:padding="12dp"
+        android:src="@drawable/ic_baseline_add_24"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Storm"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date" />
+
+    <ImageView
+        android:id="@+id/weatherIcon"
+        android:layout_width="140dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="48dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/weather"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weather" />
 
 
-    <EditText
-            android:id="@+id/searchCity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@drawable/search_background"
-            android:drawableStart="@drawable/ic_round_search_24"
-            android:drawablePadding="8dp"
-            android:fontFamily="@font/questrial"
-            android:hint="@string/search_city"
-            android:padding="8dp"
-            android:textColorHint="@color/white_60"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/backButton" />
+    <include
+        android:id="@+id/sunrise"
+        layout="@layout/weather_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/weatherIcon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/weatherIcon"
+        app:layout_constraintTop_toTopOf="@id/weatherIcon" />
 
+    <include
+        android:id="@+id/sunset"
+        layout="@layout/weather_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/weatherIcon"
+        app:layout_constraintLeft_toRightOf="@+id/weatherIcon"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/weatherIcon" />
+
+    <TextView
+        android:id="@+id/weatherTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:text="20"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weatherIcon" />
+
+    <TextView
+        android:id="@+id/minTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_baseline_keyboard_arrow_up_24"
+        android:drawableTint="#787983"
+        android:text="20°"
+        android:textColor="#787983"
+        android:textSize="12sp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/maxTemperature"
+        app:layout_constraintTop_toBottomOf="@+id/weatherTemperature" />
+
+    <TextView
+        android:id="@+id/maxTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:drawableLeft="@drawable/ic_baseline_keyboard_arrow_up_24"
+        android:drawableTint="#787983"
+        android:text="20°"
+        android:textColor="#787983"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@+id/minTemperature"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weatherTemperature" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/topOtherInformation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.52" />
+
+    <include
+        android:id="@+id/wind"
+        layout="@layout/weather_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/uvIndex"
+        app:layout_constraintRight_toLeftOf="@+id/humidity"
+        app:layout_constraintTop_toBottomOf="@+id/topOtherInformation" />
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="#31323a"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toTopOf="@+id/wind"
+        app:layout_constraintBottom_toBottomOf="@id/uvIndex"
+        app:layout_constraintLeft_toRightOf="@+id/wind"
+        app:layout_constraintRight_toLeftOf="@+id/humidity"/>
+    <include
+        android:id="@+id/humidity"
+        layout="@layout/weather_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/wind"
+        app:layout_constraintRight_toLeftOf="@+id/precipitation"
+        app:layout_constraintBottom_toTopOf="@+id/uvIndex"
+        app:layout_constraintTop_toBottomOf="@+id/topOtherInformation" />
+    <View
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="#31323a"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toTopOf="@+id/wind"
+        app:layout_constraintBottom_toBottomOf="@id/uvIndex"
+        app:layout_constraintLeft_toRightOf="@+id/humidity"
+        app:layout_constraintRight_toLeftOf="@+id/precipitation"/>
+    <include
+        android:id="@+id/precipitation"
+        layout="@layout/weather_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/humidity"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/uvIndex"
+        app:layout_constraintTop_toBottomOf="@+id/topOtherInformation" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="#31323a"
+
+        app:layout_constraintTop_toTopOf="@+id/precipitation"
+        app:layout_constraintBottom_toBottomOf="@id/uvIndex"
+        app:layout_constraintLeft_toLeftOf="@id/uvIndex"
+        app:layout_constraintRight_toRightOf="@id/precipitation"/>
+    <include
+        android:id="@+id/uvIndex"
+        layout="@layout/weather_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomListHour"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/humidity"
+        app:layout_constraintTop_toBottomOf="@+id/wind" />
+
+    <include
+        android:id="@+id/feelLike"
+        layout="@layout/weather_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/wind"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomListHour"
+        app:layout_constraintRight_toLeftOf="@+id/precipitation"
+        app:layout_constraintTop_toBottomOf="@+id/wind" />
+
+    <include
+        android:id="@+id/visibility"
+        layout="@layout/weather_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/humidity"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomListHour"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wind" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottomListHour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="132dp" />
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/searchRecycler"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchCity"
-            tools:itemCount="34"
-            tools:listitem="@layout/item_search" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:listitem="@layout/item_hour"
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bottomListHour"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

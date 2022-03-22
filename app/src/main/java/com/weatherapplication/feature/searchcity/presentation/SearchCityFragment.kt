@@ -10,12 +10,13 @@ import com.weatherapplication.core.base.BaseFragment
 import com.weatherapplication.core.extension.autoCleaned
 import com.weatherapplication.core.extension.onTextChange
 import com.weatherapplication.databinding.FragmentMainBinding
+import com.weatherapplication.databinding.FragmentSearchBinding
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchCityFragment : BaseFragment<FragmentMainBinding,SearchCityContract.SearchCityState,SearchCityContract.SearchCityEvent, SearchCityViewModel>() {
+class SearchCityFragment : BaseFragment<FragmentSearchBinding,SearchCityContract.SearchCityState,SearchCityContract.SearchCityEvent, SearchCityViewModel>() {
 
     override val viewModel: SearchCityViewModel by viewModels()
     private val searchAdapter by autoCleaned(initializer = { SearchAdapter(::onCityClicked) })
@@ -27,7 +28,7 @@ class SearchCityFragment : BaseFragment<FragmentMainBinding,SearchCityContract.S
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ) = FragmentMainBinding.inflate(inflater, container, false)
+    ) = FragmentSearchBinding.inflate(inflater, container, false)
 
     override fun initView() {
         binding.run {

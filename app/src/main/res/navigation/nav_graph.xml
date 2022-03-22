@@ -2,80 +2,16 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/searchCityFragment">
+        app:startDestination="@id/mainFragment">
+
 
     <fragment
-        android:id="@+id/menuFragment"
-        android:name="com.weatherapplication.feature.menu.MenuFragment"
-        android:label="MenuFragment">
-        <argument
-            android:name="weatherId"
-            android:defaultValue="0"
-            app:argType="integer"
-            app:nullable="false" />
-        <action
-            android:id="@+id/action_menuFragment_to_nextDayFragment"
-            app:destination="@id/nextDayFragment"
-            />
-        <action
-            android:id="@+id/action_menuFragment_to_nextHourFragment"
-            app:destination="@id/nextHourFragment"
-             />
-    </fragment>
+            android:id="@+id/searchCityFragment"
+            android:name="com.weatherapplication.feature.searchcity.presentation.SearchCityFragment"
+            android:label="SearchCityFragment"/>
     <fragment
-        android:id="@+id/nextDayFragment"
-        android:name="com.weatherapplication.feature.nextday.NextDayFragment"
-        android:label="NextDayFragment">
-        <argument
-            android:name="weatherId"
-            android:defaultValue="0"
-            app:argType="integer"
-            app:nullable="false" />
-    </fragment>
-    <fragment
-        android:id="@+id/nextHourFragment"
-        android:name="com.weatherapplication.feature.nexthour.NextHourFragment"
-        android:label="NextHourFragment">
-        <argument
-            android:name="weatherId"
-            android:defaultValue="0"
-            app:argType="integer"
-            app:nullable="false" />
-    </fragment>
-    <fragment
-        android:id="@+id/searchCityFragment"
-        android:name="com.weatherapplication.feature.searchcity.presentation.SearchCityFragment"
-        android:label="SearchCityFragment">
-        <action
-            android:id="@+id/action_searchCityFragment_to_weatherFragment"
-            app:destination="@id/weatherFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/weatherFragment"
-        android:name="com.weatherapplication.feature.weather.presentation.WeatherFragment"
-        android:label="WeatherFragment">
-        <argument
-            android:name="weatherId"
-            android:defaultValue="0"
-            app:argType="integer"
-            app:nullable="false" />
-        <argument
-            android:name="lat"
-            android:defaultValue="333"
-            app:argType="float"
-            app:nullable="false" />
-        <argument
-            android:name="lon"
-            android:defaultValue="333"
-            app:argType="float"
-            app:nullable="false" />
-        <argument
-            android:name="cityName"
-            android:defaultValue="empty"
-            app:argType="string"
-            app:nullable="false" />
-        <action
-            android:id="@+id/action_weatherFragment_to_menuFragment"
-            app:destination="@id/menuFragment" />
-    </fragment>
+            android:id="@+id/mainFragment"
+            android:name="com.weatherapplication.feature.main.presentation.WeatherFragment"
+            android:label="MainFragment" />
+
 </navigation>
