@@ -23,7 +23,11 @@ abstract class BaseViewModel<STATE : ViewState, Event : ViewEvent> : ViewModel()
 
     abstract fun handleEvents(event: Event)
 
-    fun subscribeToEvents() {
+    init {
+        subscribeToEvents()
+    }
+
+    private fun subscribeToEvents() {
         viewModelScope.launch {
             try {
                 _event.collect {

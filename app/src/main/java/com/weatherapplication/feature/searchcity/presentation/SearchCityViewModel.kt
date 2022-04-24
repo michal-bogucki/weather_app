@@ -25,14 +25,17 @@ class SearchCityViewModel @Inject constructor(
     override fun setInitialState() = SearchCityContract.SearchCityState()
 
     init {
-        subscribeToEvents()
         showHistorySearch()
     }
 
     private fun showHistorySearch() {
         showHistorySearchCityUseCase(Unit, viewModelScope) { result ->
             result.onSuccess {
-                setState { state -> state.copy(isLoading = false, historySearchCityList = it.map { SearchCityDisplayable(it) }) }
+                setState { state ->
+                    state.copy(
+                        isLoading = false,
+                        historySearchCityList = it.map { SearchCityDisplayable(it) })
+                }
             }
 
             result.onFailure {
@@ -46,14 +49,8 @@ class SearchCityViewModel @Inject constructor(
         when (event) {
             is SearchCityContract.SearchCityEvent.ChooseCity -> {
                 val searchCity = event.searchCity.toSearchCity()
-                chooseCityUseCase(searchCity, viewModelScope) { result ->
-                    result.onSuccess {
-                        Log.d("majkel", it.toString())
-                    }
-
-                    result.onFailure {
-                        setState { state -> state.copy(error = it.message ?: "") }
-                    }
+                viewModelScope.launch(Dispatchers.IO) {
+                    chooseCityUseCase.action(searchCity)
                 }
             }
             is SearchCityContract.SearchCityEvent.OnTextChange -> {
@@ -63,7 +60,12 @@ class SearchCityViewModel @Inject constructor(
                             it.flowOn(Dispatchers.IO).map { list ->
                                 list.map { SearchCityDisplayable(it) }
                             }.collect {
-                                setState { state -> state.copy(isLoading = false, actualSearchCityList = it) }
+                                setState { state ->
+                                    state.copy(
+                                        isLoading = false,
+                                        actualSearchCityList = it
+                                    )
+                                }
                             }
                         }
                     }

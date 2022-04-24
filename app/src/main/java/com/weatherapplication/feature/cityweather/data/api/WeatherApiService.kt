@@ -1,4 +1,4 @@
-package com.weatherapplication.core.api
+package com.weatherapplication.feature.cityweather.data.api
 
 
 import retrofit2.Response
@@ -9,7 +9,7 @@ interface WeatherApiService {
 
     @GET("forecast.json")
     suspend fun getWeather(
-        @Query("key") key: String, @Query("q") query: String, @Query("days") days: Int
+        @Query("key") key: String = KEY, @Query("q") query: String, @Query("days") days: Int = 5
     ): Response<WeatherModelRemote>
 
 

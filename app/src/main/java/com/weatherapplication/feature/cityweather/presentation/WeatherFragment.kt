@@ -1,4 +1,4 @@
-package com.weatherapplication.feature.main.presentation
+package com.weatherapplication.feature.cityweather.presentation
 
 
 import android.view.LayoutInflater
@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class WeatherFragment : BaseFragment<FragmentMainBinding,SearchCityContract.SearchCityState,SearchCityContract.SearchCityEvent, WeatherViewModel>() {
 
     override val viewModel: WeatherViewModel by viewModels()
+    lateinit var args: WeatherFragmentArgs
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -20,6 +21,7 @@ class WeatherFragment : BaseFragment<FragmentMainBinding,SearchCityContract.Sear
     ) = FragmentMainBinding.inflate(inflater, container, false)
 
     override fun initView() {
+        viewModel.getWeather(args.cityId)
 
     }
 

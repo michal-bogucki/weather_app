@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.weatherapplication.feature.cityweather.data.local.dao.WeatherDao
 import com.weatherapplication.feature.searchcity.data.local.dao.SearchCityDao
 import com.weatherapplication.feature.searchcity.data.local.model.SearchCityCached
 import kotlinx.coroutines.GlobalScope
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 @Database(entities = [SearchCityCached::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun searchCityDao(): SearchCityDao
+    abstract fun weatherDao(): WeatherDao
 
 
     companion object {
@@ -29,7 +31,11 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         private fun init(context: Context): AppDatabase {
-            return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "Database")
+            return Room.databaseBuilder(
+                context.applicationContext,
+                AppDatabase::class.java,
+                "Database"
+            )
                 .addCallback(object : Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)

@@ -1,4 +1,4 @@
-package com.weatherapplication.core.api
+package com.weatherapplication.feature.cityweather.data.api
 
 import com.google.gson.annotations.SerializedName
 

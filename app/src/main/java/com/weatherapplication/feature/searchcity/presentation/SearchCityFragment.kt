@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.weatherapplication.core.base.BaseFragment
 import com.weatherapplication.core.extension.autoCleaned
@@ -23,6 +24,7 @@ class SearchCityFragment : BaseFragment<FragmentSearchBinding,SearchCityContract
 
     private fun onCityClicked(searchCityDisplayable: SearchCityDisplayable) {
         onEventSent(event = SearchCityContract.SearchCityEvent.ChooseCity(searchCityDisplayable))
+        findNavController().navigate(SearchCityFragmentDirections.actionSearchCityFragmentToWeatherFragment(searchCityDisplayable.id))
     }
 
     override fun getViewBinding(
