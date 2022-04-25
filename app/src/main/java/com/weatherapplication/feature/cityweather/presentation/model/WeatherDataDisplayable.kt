@@ -3,8 +3,9 @@ package com.weatherapplication.feature.cityweather.presentation.model
 import com.weatherapplication.core.data.Item
 import java.time.LocalDateTime
 
-data class WeatherDataDisplayable(
+data class WeatherDisplayable(
     val id: Int,
+    val date: LocalDateTime,
     val weatherIcon: String,
     val temperature: String,
     val minTemperature: String,
@@ -24,15 +25,9 @@ data class WeatherDataDisplayable(
     val listHourTemperature: List<HourTemperatureDisplayable>,
 )
 
-
 data class HourTemperatureDisplayable(
     val hour: String,
     val temperature: String,
-    val weatherIcon: String, override val id: Int,
-) : Item
-
-data class DayWeatherDisplayable(
-    val weatherDataDisplayable: WeatherDataDisplayable,
-    val date : LocalDateTime,
+    val weatherIcon: String,
     override val id: Int,
 ) : Item
