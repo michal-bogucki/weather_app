@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
+import kotlin.math.abs
 
 class WeatherCityRepositoryImpl @Inject constructor(
     private val searchCityDao: SearchCityDao,
@@ -35,7 +36,7 @@ class WeatherCityRepositoryImpl @Inject constructor(
                 getWeatherFromLocal(city)
             },
             shouldFetchFromRemote = {
-                true
+                refreshData(it)
             },
             fetchFromRemote = {
                 getWeatherFromApi(city)
@@ -45,6 +46,20 @@ class WeatherCityRepositoryImpl @Inject constructor(
             },
         )
         return networkBoundFlow.flowOn(Dispatchers.IO)
+    }
+
+    private fun refreshData(list: List<WeatherData>?): Boolean {
+
+        if (list.isNullOrEmpty())
+            return true
+
+        val find = list.find { it.date == LocalDate.now() } ?: return true
+
+        if (abs(find.lastUpdate.hour - LocalDateTime.now().hour) > 2)
+            return true
+
+        return false
+
     }
 
     private suspend fun getWeatherFromApi(city: SearchCity) =

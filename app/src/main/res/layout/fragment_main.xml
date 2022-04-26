@@ -20,7 +20,7 @@
         android:id="@+id/cityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New York"
+
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/menuButton"
@@ -32,29 +32,21 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="28, June 2021"
+
         android:textColor="#787983"
         android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="@id/cityName"
         app:layout_constraintRight_toRightOf="@id/cityName"
         app:layout_constraintTop_toBottomOf="@+id/cityName" />
 
-    <ImageView
-        android:id="@+id/addButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_margin="16dp"
-        android:padding="12dp"
-        android:src="@drawable/ic_baseline_add_24"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/weather"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_marginTop="32dp"
-        android:text="Storm"
+
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -67,7 +59,7 @@
         android:layout_width="140dp"
         android:layout_height="120dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/weather"
+
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -100,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:gravity="bottom"
-        android:text="20"
+
         android:textColor="@color/white"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/minTemperature"
@@ -112,9 +104,9 @@
         android:id="@+id/minTemperature"
         android:layout_width="wrap_content"
         android:layout_height="16dp"
-        android:drawableLeft="@drawable/ic_baseline_keyboard_arrow_up_24"
+        android:drawableLeft="@drawable/ic_baseline_keyboard_arrow_down_24"
         android:drawableTint="#787983"
-        android:text="20°"
+
         android:textColor="#787983"
         android:textSize="12sp"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -130,7 +122,7 @@
 
         android:drawableLeft="@drawable/ic_baseline_keyboard_arrow_up_24"
         android:drawableTint="#787983"
-        android:text="20°"
+
         android:textColor="#787983"
         android:textSize="12sp"
         app:layout_constraintLeft_toRightOf="@+id/minTemperature"
@@ -147,7 +139,7 @@
     <include
         android:id="@+id/wind"
         layout="@layout/weather_details"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/centerOtherInformation"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -168,7 +160,7 @@
     <include
         android:id="@+id/humidity"
         layout="@layout/weather_details"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/centerOtherInformation"
         app:layout_constraintLeft_toRightOf="@+id/wind"
@@ -189,7 +181,7 @@
     <include
         android:id="@+id/precipitation"
         layout="@layout/weather_details"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/centerOtherInformation"
         app:layout_constraintLeft_toRightOf="@+id/humidity"
@@ -200,6 +192,8 @@
         android:id="@+id/centerOtherInformation"
         android:layout_width="0dp"
         android:layout_height="2dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:background="#31323a"
         app:layout_constraintBottom_toTopOf="@+id/bottomListHour"
         app:layout_constraintLeft_toLeftOf="@id/uvIndex"
@@ -209,7 +203,7 @@
     <include
         android:id="@+id/uvIndex"
         layout="@layout/weather_details"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/bottomListHour"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -219,7 +213,7 @@
     <include
         android:id="@+id/feelLike"
         layout="@layout/weather_details"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/bottomListHour"
         app:layout_constraintLeft_toRightOf="@+id/uvIndex"
@@ -229,7 +223,7 @@
     <include
         android:id="@+id/visibility"
         layout="@layout/weather_details"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/bottomListHour"
         app:layout_constraintLeft_toRightOf="@+id/feelLike"

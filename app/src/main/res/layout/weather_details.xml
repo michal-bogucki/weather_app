@@ -8,13 +8,11 @@
             android:id="@+id/titleDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:fontFamily="@font/questrial"
             android:paddingStart="18dp"
             android:paddingEnd="18dp"
-            android:text="Sunrise"
             android:textColor="#787983"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +26,6 @@
             android:letterSpacing="0.1"
             android:paddingStart="18dp"
             android:paddingEnd="18dp"
-            android:text="4:49"
             android:textColor="#fff"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"

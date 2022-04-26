@@ -11,6 +11,7 @@ import com.weatherapplication.core.extension.autoCleaned
 import com.weatherapplication.core.extension.gone
 import com.weatherapplication.core.extension.visible
 import com.weatherapplication.databinding.FragmentMainBinding
+import com.weatherapplication.feature.cityweather.presentation.model.DataDisplayable
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherContract
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +23,11 @@ class WeatherFragment :
     override val viewModel: WeatherViewModel by viewModels()
     private val args: WeatherFragmentArgs by navArgs()
     private val hourTemperatureAdapter by autoCleaned(initializer = { HourTemperatureAdapter() })
+    private val dayAdapter by autoCleaned(initializer = { DayAdapter(::clickDate) })
+
+    private fun clickDate(dataDisplayable: DataDisplayable) {
+        viewModel.clickData(dataDisplayable)
+    }
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -34,6 +40,10 @@ class WeatherFragment :
             hourRecyclerView.adapter = hourTemperatureAdapter
             hourRecyclerView.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            dateRecyclerView.adapter = dayAdapter
+            dateRecyclerView.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
         }
     }
 
@@ -44,23 +54,60 @@ class WeatherFragment :
         }
         if (state.isLoading) binding.progressBar.visible() else binding.progressBar.gone()
 
-        val weather = state.listWeatherData
-        if (weather.isNotEmpty()) {
-            initWeather(weather)
+
+        val weatherDisplayable = state.weatherDisplayable
+        if (weatherDisplayable != null) {
+            initWeather(weatherDisplayable)
         }
+
+        val listDate = state.listDate
+        if (listDate.isNotEmpty())
+            dayAdapter.submitList(listDate)
     }
 
-    private fun initWeather(weatherList: List<WeatherDisplayable>) {
-        val weatherDisplayable = weatherList[0]
+    private fun initWeather(weatherDisplayable: WeatherDisplayable) {
         binding.run {
             cityName.text = weatherDisplayable.cityName
             date.text = weatherDisplayable.date.toString()
             weather.text = weatherDisplayable.conditionWeatherName
-            Glide.with(requireContext()).load(weatherDisplayable.weatherIcon).into(weatherIcon)
+            val s = "https:" + weatherDisplayable.weatherIcon
+            Glide.with(requireContext()).load(s).into(weatherIcon)
             sunrise.titleDetails.text = "Sunrise"
             sunrise.valueDetails.text = weatherDisplayable.sunrise
             sunset.titleDetails.text = "Sunset"
             sunset.valueDetails.text = weatherDisplayable.sunset
+            if (weatherDisplayable.temperature != Double.MAX_VALUE) {
+                weatherTemperature.text = weatherDisplayable.temperature.toString()
+                weatherTemperature.visible()
+            } else
+                weatherTemperature.gone()
+            minTemperature.text = weatherDisplayable.minTemperature.toString()
+            maxTemperature.text = weatherDisplayable.maxTemperature.toString()
+            wind.titleDetails.text = "Wind now"
+            wind.valueDetails.text = weatherDisplayable.windSpeed.toString()
+
+            humidity.titleDetails.text = "Humidity"
+            humidity.valueDetails.text = weatherDisplayable.humidity.toString()
+
+            precipitation.titleDetails.text = "Precipitation"
+            precipitation.valueDetails.text = weatherDisplayable.precipitation.toString()
+
+            uvIndex.titleDetails.text = "UV Index"
+            uvIndex.valueDetails.text = weatherDisplayable.uvIndex.toString()
+
+
+            feelLike.titleDetails.text = "Feels like"
+            if (weatherDisplayable.feelLike != Double.MAX_VALUE)
+                feelLike.valueDetails.text = weatherDisplayable.feelLike.toString()
+            else
+                feelLike.valueDetails.text = "-"
+            visibility.titleDetails.text = "Visibility"
+            if (weatherDisplayable.visibility != Double.MAX_VALUE)
+                visibility.valueDetails.text = weatherDisplayable.visibility.toString()
+            else
+                visibility.valueDetails.text = "-"
         }
+        hourTemperatureAdapter.submitList(weatherDisplayable.listHourTemperature)
+
     }
 }

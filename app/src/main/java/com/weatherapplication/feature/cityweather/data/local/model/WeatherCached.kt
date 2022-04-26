@@ -56,7 +56,7 @@ data class WeatherCached(
     )
 
     fun toWeatherData() = WeatherData(
-        cityName.to,
+        cityName.toCharArray().sumOf { it.code },
         cityName,
         date,
         lastUpdate,
@@ -91,6 +91,6 @@ data class HourTemperatureCached(
     )
 
     fun toHourTemperature() = HourTemperature(
-        hour, temperature, weatherIcon, (hour + temperature).toInt()
+        hour, temperature, weatherIcon, hour.toCharArray().sumOf { it.code },
     )
 }

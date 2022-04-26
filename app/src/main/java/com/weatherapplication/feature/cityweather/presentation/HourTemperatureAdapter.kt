@@ -28,7 +28,7 @@ class HourTemperatureAdapter() :
             binding.run {
                 hour.text = item.hour
                 valueDetails.text = item.temperature.toString()
-                Glide.with(itemView).load(item.weatherIcon).into(weatherIcon)
+                Glide.with(itemView).load("https:"+item.weatherIcon).into(weatherIcon)
             }
         }
     }

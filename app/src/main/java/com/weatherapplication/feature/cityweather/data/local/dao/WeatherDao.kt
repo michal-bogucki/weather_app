@@ -12,6 +12,6 @@ interface WeatherDao {
     @Query("SELECT * FROM WeatherCached WHERE cityName = :cityName")
     fun getWeatherById(cityName: String): Flow<List<WeatherCached>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveWeather(vararg weatherCached: WeatherCached)
 }
