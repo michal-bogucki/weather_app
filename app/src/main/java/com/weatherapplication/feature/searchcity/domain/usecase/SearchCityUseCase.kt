@@ -6,7 +6,6 @@ import com.weatherapplication.feature.searchcity.domain.repository.SearchCityRep
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-
 class SearchCityUseCase @Inject constructor(private val repository: SearchCityRepository) : UseCase<Flow<List<SearchCity>>, Flow<String>>() {
     override suspend fun action(params: Flow<String>) = repository.searchCity(params)
 }

@@ -1,21 +1,24 @@
 package com.weatherapplication.feature.cityweather.data.local.model
 
 import androidx.room.Entity
+import androidx.room.TypeConverters
+import com.weatherapplication.core.database.Converters
 import com.weatherapplication.feature.cityweather.domain.model.HourTemperature
 import com.weatherapplication.feature.cityweather.domain.model.WeatherData
 import java.time.LocalDate
-import java.time.LocalTime
+import java.time.LocalDateTime
 
 @Entity(primaryKeys = ["cityName", "date"])
+@TypeConverters(Converters::class)
 data class WeatherCached(
     val cityName: String,
-    val date: LocalDate,
-    val time: LocalTime,
+    val date: LocalDate = LocalDate.now(),
+    val lastUpdate: LocalDateTime = LocalDateTime.now(),
     val countryName: String,
     val lat: Double,
     val lon: Double,
     val weatherIcon: String,
-    val temperature: Int,
+    val temperature: Double,
     val minTemperature: Double,
     val maxTemperature: Double,
     val conditionWeatherName: String,
@@ -24,15 +27,15 @@ data class WeatherCached(
     val windSpeed: Double,
     val humidity: Int,
     val precipitation: Double,
-    val uvIndex: Int,
+    val uvIndex: Double,
     val feelLike: Double,
-    val visibility: Int,
+    val visibility: Double,
     val listHourTemperature: List<HourTemperatureCached>,
 ) {
     constructor(weather: WeatherData) : this(
         weather.cityName,
         weather.date,
-        weather.time,
+        weather.lastUpdate,
         weather.countryName,
         weather.lat,
         weather.lon,
@@ -53,10 +56,10 @@ data class WeatherCached(
     )
 
     fun toWeatherData() = WeatherData(
-        date.toString().toInt(),
+        cityName.to,
         cityName,
         date,
-        time,
+        lastUpdate,
         countryName,
         lat,
         lon,

@@ -1,6 +1,5 @@
 package com.weatherapplication.feature.searchcity.presentation
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.weatherapplication.core.base.BaseViewModel
 import com.weatherapplication.feature.searchcity.domain.usecase.ChooseCityUseCase
@@ -34,7 +33,8 @@ class SearchCityViewModel @Inject constructor(
                 setState { state ->
                     state.copy(
                         isLoading = false,
-                        historySearchCityList = it.map { SearchCityDisplayable(it) })
+                        historySearchCityList = it.map { SearchCityDisplayable(it) }
+                    )
                 }
             }
 
@@ -42,7 +42,6 @@ class SearchCityViewModel @Inject constructor(
                 setState { state -> state.copy(isLoading = false, error = it.message ?: "") }
             }
         }
-
     }
 
     override fun handleEvents(event: SearchCityContract.SearchCityEvent) {
@@ -72,12 +71,8 @@ class SearchCityViewModel @Inject constructor(
                     result.onFailure {
                         setState { state -> state.copy(error = it.message ?: "") }
                     }
-
                 }
             }
         }
     }
 }
-
-
-

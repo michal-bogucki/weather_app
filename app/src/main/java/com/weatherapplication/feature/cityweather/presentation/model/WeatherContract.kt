@@ -8,12 +8,10 @@ class WeatherContract {
     data class WeatherState(
         val isLoading: Boolean = false,
         val error: String = "",
-        val listWeatherData: List<WeatherDisplayable>
+        val listWeatherData: List<WeatherDisplayable> = emptyList()
     ) : ViewState
 
-    sealed class WeatherEvent : ViewEvent {
-        data class ShowOtherDate(val id: Int) : WeatherEvent()
-    }
+    sealed class WeatherEvent : ViewEvent
 
     sealed class NavigationWeatherEvent : NavigationEvent {
         object ShowOtherCity : NavigationWeatherEvent()

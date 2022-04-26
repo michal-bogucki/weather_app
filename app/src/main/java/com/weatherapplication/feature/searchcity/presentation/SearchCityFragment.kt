@@ -1,6 +1,5 @@
 package com.weatherapplication.feature.searchcity.presentation
 
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -10,14 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.weatherapplication.core.base.BaseFragment
 import com.weatherapplication.core.extension.autoCleaned
 import com.weatherapplication.core.extension.onTextChange
-import com.weatherapplication.databinding.FragmentMainBinding
 import com.weatherapplication.databinding.FragmentSearchBinding
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchCityFragment : BaseFragment<FragmentSearchBinding,SearchCityContract.SearchCityState,SearchCityContract.SearchCityEvent, SearchCityViewModel>() {
+class SearchCityFragment : BaseFragment<FragmentSearchBinding, SearchCityContract.SearchCityState, SearchCityContract.SearchCityEvent, SearchCityViewModel>() {
 
     override val viewModel: SearchCityViewModel by viewModels()
     private val searchAdapter by autoCleaned(initializer = { SearchAdapter(::onCityClicked) })
@@ -37,8 +35,6 @@ class SearchCityFragment : BaseFragment<FragmentSearchBinding,SearchCityContract
             searchRecycler.adapter = searchAdapter
             searchRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             onEventSent(event = SearchCityContract.SearchCityEvent.OnTextChange(searchCity.onTextChange()))
-
-
         }
     }
 
@@ -54,13 +50,5 @@ class SearchCityFragment : BaseFragment<FragmentSearchBinding,SearchCityContract
         if (error.isNotEmpty()) {
             Toast.makeText(context, error, Toast.LENGTH_LONG).show()
         }
-
     }
-
-
-
-
 }
-
-
-

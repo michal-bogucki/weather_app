@@ -2,18 +2,18 @@ package com.weatherapplication.feature.cityweather.domain.model
 
 import com.weatherapplication.core.data.Item
 import java.time.LocalDate
-import java.time.LocalTime
+import java.time.LocalDateTime
 
 data class WeatherData(
     val id: Int,
     val cityName: String,
     val date: LocalDate,
-    val time: LocalTime,
+    val lastUpdate: LocalDateTime,
     val countryName: String,
     val lat: Double,
     val lon: Double,
     val weatherIcon: String,
-    val temperature: Int,
+    val temperature: Double,
     val minTemperature: Double,
     val maxTemperature: Double,
     val conditionWeatherName: String,
@@ -22,9 +22,9 @@ data class WeatherData(
     val windSpeed: Double,
     val humidity: Int,
     val precipitation: Double,
-    val uvIndex: Int,
+    val uvIndex: Double,
     val feelLike: Double,
-    val visibility: Int,
+    val visibility: Double,
     val listHourTemperature: List<HourTemperature>,
 )
 

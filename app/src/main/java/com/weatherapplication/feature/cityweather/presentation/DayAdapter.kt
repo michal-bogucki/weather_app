@@ -1,6 +1,5 @@
 package com.weatherapplication.feature.cityweather.presentation
 
-
 import android.view.ViewGroup
 import com.weatherapplication.core.base.BaseAdapter
 import com.weatherapplication.core.base.GenericItemDiffUtil
@@ -26,10 +25,7 @@ class DayAdapter(private val onItemClicked: (SearchCityDisplayable) -> Unit) :
         override fun bind(item: Item) {
             item as HourTemperatureDisplayable
             binding.run {
-
             }
         }
-
     }
-
 }

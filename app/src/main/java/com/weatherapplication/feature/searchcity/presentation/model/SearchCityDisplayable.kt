@@ -21,5 +21,4 @@ data class SearchCityDisplayable(
     )
 
     fun toSearchCity() = SearchCity(cityName, countryName, lat, lon, true)
-
 }

@@ -52,25 +52,26 @@
     <TextView
         android:id="@+id/weather"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="24dp"
         android:layout_marginTop="32dp"
         android:text="Storm"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/weatherIcon"
         app:layout_constraintTop_toBottomOf="@+id/date" />
 
     <ImageView
         android:id="@+id/weatherIcon"
         android:layout_width="140dp"
         android:layout_height="120dp"
-        android:layout_marginTop="48dp"
         android:adjustViewBounds="true"
         android:src="@drawable/weather"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/weatherTemperature"
         app:layout_constraintTop_toBottomOf="@+id/weather" />
 
 
@@ -97,11 +98,12 @@
     <TextView
         android:id="@+id/weatherTemperature"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="44dp"
         android:gravity="bottom"
         android:text="20"
         android:textColor="@color/white"
         android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/minTemperature"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/weatherIcon" />
@@ -109,13 +111,14 @@
     <TextView
         android:id="@+id/minTemperature"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="16dp"
         android:drawableLeft="@drawable/ic_baseline_keyboard_arrow_up_24"
         android:drawableTint="#787983"
         android:text="20°"
         android:textColor="#787983"
         android:textSize="12sp"
         app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintBottom_toTopOf="@+id/topOtherInformation"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/maxTemperature"
         app:layout_constraintTop_toBottomOf="@+id/weatherTemperature" />
@@ -123,8 +126,8 @@
     <TextView
         android:id="@+id/maxTemperature"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_height="16dp"
+
         android:drawableLeft="@drawable/ic_baseline_keyboard_arrow_up_24"
         android:drawableTint="#787983"
         android:text="20°"
@@ -132,7 +135,7 @@
         android:textSize="12sp"
         app:layout_constraintLeft_toRightOf="@+id/minTemperature"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weatherTemperature" />
+        app:layout_constraintTop_toTopOf="@+id/minTemperature" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/topOtherInformation"
@@ -146,7 +149,7 @@
         layout="@layout/weather_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/uvIndex"
+        app:layout_constraintBottom_toTopOf="@+id/centerOtherInformation"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/humidity"
         app:layout_constraintTop_toBottomOf="@+id/topOtherInformation" />
@@ -167,7 +170,7 @@
         layout="@layout/weather_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/uvIndex"
+        app:layout_constraintBottom_toTopOf="@+id/centerOtherInformation"
         app:layout_constraintLeft_toRightOf="@+id/wind"
         app:layout_constraintRight_toLeftOf="@+id/precipitation"
         app:layout_constraintTop_toBottomOf="@+id/topOtherInformation" />
@@ -188,20 +191,20 @@
         layout="@layout/weather_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/uvIndex"
+        app:layout_constraintBottom_toTopOf="@+id/centerOtherInformation"
         app:layout_constraintLeft_toRightOf="@+id/humidity"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topOtherInformation" />
 
     <View
+        android:id="@+id/centerOtherInformation"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:background="#31323a"
-
-        app:layout_constraintBottom_toBottomOf="@id/uvIndex"
+        app:layout_constraintBottom_toTopOf="@+id/bottomListHour"
         app:layout_constraintLeft_toLeftOf="@id/uvIndex"
         app:layout_constraintRight_toRightOf="@id/precipitation"
-        app:layout_constraintTop_toTopOf="@+id/precipitation" />
+        app:layout_constraintTop_toTopOf="@+id/topOtherInformation" />
 
     <include
         android:id="@+id/uvIndex"
@@ -210,8 +213,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/bottomListHour"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/humidity"
-        app:layout_constraintTop_toBottomOf="@+id/wind" />
+        app:layout_constraintRight_toLeftOf="@+id/feelLike"
+        app:layout_constraintTop_toBottomOf="@+id/centerOtherInformation" />
 
     <include
         android:id="@+id/feelLike"
@@ -219,9 +222,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/bottomListHour"
-        app:layout_constraintLeft_toRightOf="@+id/wind"
-        app:layout_constraintRight_toLeftOf="@+id/precipitation"
-        app:layout_constraintTop_toBottomOf="@+id/wind" />
+        app:layout_constraintLeft_toRightOf="@+id/uvIndex"
+        app:layout_constraintRight_toLeftOf="@+id/visibility"
+        app:layout_constraintTop_toBottomOf="@+id/centerOtherInformation" />
 
     <include
         android:id="@+id/visibility"
@@ -229,9 +232,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/bottomListHour"
-        app:layout_constraintLeft_toRightOf="@+id/humidity"
+        app:layout_constraintLeft_toRightOf="@+id/feelLike"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wind" />
+        app:layout_constraintTop_toBottomOf="@+id/centerOtherInformation" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/bottomListHour"
@@ -247,7 +250,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bottomListHour"
-
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_hour"
         tools:orientation="horizontal" />
@@ -274,6 +276,18 @@
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_day"
         tools:orientation="horizontal" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

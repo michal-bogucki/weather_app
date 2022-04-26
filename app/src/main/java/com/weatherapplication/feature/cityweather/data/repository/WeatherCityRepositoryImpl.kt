@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
-import java.time.LocalTime
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class WeatherCityRepositoryImpl @Inject constructor(
@@ -50,7 +50,7 @@ class WeatherCityRepositoryImpl @Inject constructor(
     private suspend fun getWeatherFromApi(city: SearchCity) =
         weatherApiService.getWeather(query = "${city.lat},${city.lon}")
 
-    private suspend fun getWeatherFromLocal(city: SearchCity) =
+    private fun getWeatherFromLocal(city: SearchCity) =
         weatherDao.getWeatherById(city.cityName)
             .map { weather -> weather.map { it.toWeatherData() } }
 
@@ -59,12 +59,12 @@ class WeatherCityRepositoryImpl @Inject constructor(
         val todayWeather = WeatherCached(
             cityName = city.cityName,
             date = LocalDate.now(),
-            time = LocalTime.now(),
+            lastUpdate = LocalDateTime.now(),
             countryName = city.countryName,
             lat = city.lat,
             lon = city.lon,
             weatherIcon = weatherRemote.current?.condition?.icon ?: "",
-            temperature = weatherRemote.current?.tempC ?: Int.MAX_VALUE,
+            temperature = weatherRemote.current?.tempC ?: Double.MAX_VALUE,
             minTemperature = weatherRemote.forecast?.forecastday?.get(0)?.day?.mintempC
                 ?: Double.MAX_VALUE,
             maxTemperature = weatherRemote.forecast?.forecastday?.get(0)?.day?.maxtempC
@@ -75,9 +75,9 @@ class WeatherCityRepositoryImpl @Inject constructor(
             windSpeed = weatherRemote.current?.windKph ?: Double.MAX_VALUE,
             humidity = weatherRemote.current?.humidity ?: Int.MAX_VALUE,
             precipitation = weatherRemote.current?.precipMm ?: Double.MAX_VALUE,
-            uvIndex = weatherRemote.current?.uv ?: Int.MAX_VALUE,
+            uvIndex = weatherRemote.current?.uv ?: Double.MAX_VALUE,
             feelLike = weatherRemote.current?.feelslikeC ?: Double.MAX_VALUE,
-            visibility = weatherRemote.current?.visKm ?: Int.MAX_VALUE,
+            visibility = weatherRemote.current?.visKm ?: Double.MAX_VALUE,
             listHourTemperature = weatherRemote.forecast?.forecastday?.get(0)?.hour?.map { hour ->
                 HourTemperatureCached(
                     getHour(hour), hour.temp_c ?: Double.MAX_VALUE, hour.condition?.icon ?: ""
@@ -91,26 +91,26 @@ class WeatherCityRepositoryImpl @Inject constructor(
                 if (index != 0) {
                     val weather = WeatherCached(
                         cityName = city.cityName,
-                        date = LocalDate.now(),
-                        time = LocalTime.now(),
+                        date = LocalDate.parse(weatherRemote.forecast.forecastday[index].date),
+                        lastUpdate = LocalDateTime.now(),
                         countryName = city.countryName,
                         lat = city.lat,
                         lon = city.lon,
                         weatherIcon = weatherNext.day?.condition?.icon ?: "",
-                        temperature = Int.MAX_VALUE,
+                        temperature = Double.MAX_VALUE,
                         minTemperature = weatherRemote.forecast.forecastday[index].day?.mintempC
                             ?: Double.MAX_VALUE,
                         maxTemperature = weatherRemote.forecast.forecastday[index].day?.maxtempC
                             ?: Double.MAX_VALUE,
                         conditionWeatherName = weatherNext.day?.condition?.text ?: "",
-                        sunrise = weatherRemote.forecast.forecastday[index].astro.sunrise,
-                        sunset = weatherRemote.forecast.forecastday[index].astro.sunset,
+                        sunrise = weatherRemote.forecast.forecastday[index].astro.sunrise ?: "",
+                        sunset = weatherRemote.forecast.forecastday[index].astro.sunset ?: "",
                         windSpeed = weatherNext.day?.maxwindKph ?: Double.MAX_VALUE,
                         humidity = weatherNext.day?.avghumidity ?: Int.MAX_VALUE,
                         precipitation = weatherNext.day?.totalprecipMm ?: Double.MAX_VALUE,
-                        uvIndex = weatherNext.day?.uv ?: Int.MAX_VALUE,
+                        uvIndex = weatherNext.day?.uv ?: Double.MAX_VALUE,
                         feelLike = Double.MAX_VALUE,
-                        visibility = Int.MAX_VALUE,
+                        visibility = Double.MAX_VALUE,
                         listHourTemperature = weatherRemote.forecast.forecastday[index].hour?.map { hour ->
                             HourTemperatureCached(
                                 getHour(hour),
@@ -122,6 +122,9 @@ class WeatherCityRepositoryImpl @Inject constructor(
                     list.add(weather)
                 }
             }
+        list.toTypedArray().let {
+            weatherDao.saveWeather(*it)
+        }
     }
 
     private fun getHour(hour: Hour): String {

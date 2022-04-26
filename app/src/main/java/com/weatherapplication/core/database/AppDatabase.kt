@@ -7,12 +7,14 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.weatherapplication.feature.cityweather.data.local.dao.WeatherDao
+import com.weatherapplication.feature.cityweather.data.local.model.WeatherCached
 import com.weatherapplication.feature.searchcity.data.local.dao.SearchCityDao
 import com.weatherapplication.feature.searchcity.data.local.model.SearchCityCached
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [SearchCityCached::class], version = 1)
+@Database(entities = [SearchCityCached::class, WeatherCached::class], version = 1)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun searchCityDao(): SearchCityDao
     abstract fun weatherDao(): WeatherDao

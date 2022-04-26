@@ -1,6 +1,5 @@
 package com.weatherapplication.feature.cityweather.presentation
 
-
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.weatherapplication.core.base.BaseAdapter
@@ -10,7 +9,7 @@ import com.weatherapplication.databinding.ItemHourBinding
 import com.weatherapplication.feature.cityweather.presentation.model.HourTemperatureDisplayable
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
 
-class HourTemperatureAdapter(private val onItemClicked: (SearchCityDisplayable) -> Unit) :
+class HourTemperatureAdapter() :
     BaseAdapter<Item, ItemHourBinding>(GenericItemDiffUtil) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -28,11 +27,9 @@ class HourTemperatureAdapter(private val onItemClicked: (SearchCityDisplayable) 
             item as HourTemperatureDisplayable
             binding.run {
                 hour.text = item.hour
-                valueDetails.text = item.temperature
+                valueDetails.text = item.temperature.toString()
                 Glide.with(itemView).load(item.weatherIcon).into(weatherIcon)
             }
         }
-
     }
-
 }

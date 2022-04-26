@@ -32,7 +32,6 @@ inline fun <DB, REMOTE> networkLocalBoundResource(
                 msg
             }
             emit(Resource.error(errorMsg))
-
         }
 
     } else {

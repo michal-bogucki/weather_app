@@ -1,10 +1,7 @@
 package com.weatherapplication.feature.cityweather.di
 
-
 import com.weatherapplication.feature.cityweather.data.repository.WeatherCityRepositoryImpl
 import com.weatherapplication.feature.cityweather.domain.repository.WeatherCityRepository
-import com.weatherapplication.feature.searchcity.data.repository.SearchCityRepositoryImpl
-import com.weatherapplication.feature.searchcity.domain.repository.SearchCityRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
