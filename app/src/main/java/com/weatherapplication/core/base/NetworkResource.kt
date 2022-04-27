@@ -22,4 +22,3 @@ inline fun <REMOTE> networkResource(
         emit(Resource.error(errorMsg))
     }
 }
-

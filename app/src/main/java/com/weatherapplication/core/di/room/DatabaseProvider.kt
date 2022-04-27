@@ -4,7 +4,6 @@ import android.app.Application
 import com.weatherapplication.core.database.AppDatabase
 import com.weatherapplication.feature.cityweather.data.local.dao.WeatherDao
 import com.weatherapplication.feature.searchcity.data.local.dao.SearchCityDao
-
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,8 +30,4 @@ internal class DatabaseProvider {
     fun weatherDao(db: AppDatabase): WeatherDao {
         return db.weatherDao()
     }
-
-
-
-
 }

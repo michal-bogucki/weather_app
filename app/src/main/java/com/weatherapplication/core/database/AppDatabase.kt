@@ -19,7 +19,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun searchCityDao(): SearchCityDao
     abstract fun weatherDao(): WeatherDao
 
-
     companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null
@@ -50,7 +49,5 @@ abstract class AppDatabase : RoomDatabase() {
     }
 
     suspend fun initDatabase(context: Context) {
-
     }
-
 }

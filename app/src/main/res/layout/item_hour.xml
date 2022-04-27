@@ -24,11 +24,11 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
 
+        android:src="@drawable/weather"
+        app:layout_constraintBottom_toTopOf="@+id/valueDetails"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/valueDetails"
-        app:layout_constraintTop_toBottomOf="@+id/hour"
-        android:src="@drawable/weather"/>
+        app:layout_constraintTop_toBottomOf="@+id/hour" />
 
     <TextView
         android:id="@+id/valueDetails"
@@ -42,9 +42,9 @@
         android:text="18"
         android:textColor="#fff"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/weatherIcon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

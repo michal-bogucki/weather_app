@@ -59,7 +59,6 @@ class WeatherCityRepositoryImpl @Inject constructor(
             return true
 
         return false
-
     }
 
     private suspend fun getWeatherFromApi(city: SearchCity) =

@@ -40,7 +40,6 @@
         app:layout_constraintTop_toBottomOf="@+id/cityName" />
 
 
-
     <TextView
         android:id="@+id/weather"
         android:layout_width="wrap_content"
@@ -49,9 +48,9 @@
 
         android:textColor="@color/white"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/weatherIcon"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/weatherIcon"
         app:layout_constraintTop_toBottomOf="@+id/date" />
 
     <ImageView
@@ -61,9 +60,9 @@
         android:adjustViewBounds="true"
 
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/weatherTemperature"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/weatherTemperature"
         app:layout_constraintTop_toBottomOf="@+id/weather" />
 
 
@@ -109,8 +108,8 @@
 
         android:textColor="#787983"
         android:textSize="12sp"
-        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintBottom_toTopOf="@+id/topOtherInformation"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/maxTemperature"
         app:layout_constraintTop_toBottomOf="@+id/weatherTemperature" />
@@ -192,8 +191,8 @@
         android:id="@+id/centerOtherInformation"
         android:layout_width="0dp"
         android:layout_height="2dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:background="#31323a"
         app:layout_constraintBottom_toTopOf="@+id/bottomListHour"
         app:layout_constraintLeft_toLeftOf="@id/uvIndex"
@@ -281,7 +280,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

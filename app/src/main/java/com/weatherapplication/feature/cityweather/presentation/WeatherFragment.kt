@@ -43,7 +43,6 @@ class WeatherFragment :
             dateRecyclerView.adapter = dayAdapter
             dateRecyclerView.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
         }
     }
 
@@ -53,7 +52,6 @@ class WeatherFragment :
             showToast(error)
         }
         if (state.isLoading) binding.progressBar.visible() else binding.progressBar.gone()
-
 
         val weatherDisplayable = state.weatherDisplayable
         if (weatherDisplayable != null) {
@@ -95,7 +93,6 @@ class WeatherFragment :
             uvIndex.titleDetails.text = "UV Index"
             uvIndex.valueDetails.text = weatherDisplayable.uvIndex.toString()
 
-
             feelLike.titleDetails.text = "Feels like"
             if (weatherDisplayable.feelLike != Double.MAX_VALUE)
                 feelLike.valueDetails.text = weatherDisplayable.feelLike.toString()
@@ -108,6 +105,5 @@ class WeatherFragment :
                 visibility.valueDetails.text = "-"
         }
         hourTemperatureAdapter.submitList(weatherDisplayable.listHourTemperature)
-
     }
 }

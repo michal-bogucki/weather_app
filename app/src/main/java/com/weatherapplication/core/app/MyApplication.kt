@@ -8,7 +8,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 class MyApplication : Application() {
 
-
     override fun onCreate() {
         super.onCreate()
     }

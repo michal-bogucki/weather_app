@@ -7,7 +7,6 @@ import com.weatherapplication.core.base.GenericItemDiffUtil
 import com.weatherapplication.core.data.Item
 import com.weatherapplication.databinding.ItemHourBinding
 import com.weatherapplication.feature.cityweather.presentation.model.HourTemperatureDisplayable
-import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
 
 class HourTemperatureAdapter() :
     BaseAdapter<Item, ItemHourBinding>(GenericItemDiffUtil) {
@@ -28,7 +27,7 @@ class HourTemperatureAdapter() :
             binding.run {
                 hour.text = item.hour
                 valueDetails.text = item.temperature.toString()
-                Glide.with(itemView).load("https:"+item.weatherIcon).into(weatherIcon)
+                Glide.with(itemView).load("https:" + item.weatherIcon).into(weatherIcon)
             }
         }
     }

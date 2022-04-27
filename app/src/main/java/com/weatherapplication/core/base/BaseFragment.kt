@@ -17,7 +17,6 @@ import com.weatherapplication.core.extension.autoCleaned
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-
 abstract class BaseFragment<VB : ViewBinding, STATE : ViewState, EVENT : ViewEvent, VM : BaseViewModel<STATE, EVENT>> : Fragment() {
 
     private var _binding: VB by autoCleaned()
@@ -37,7 +36,6 @@ abstract class BaseFragment<VB : ViewBinding, STATE : ViewState, EVENT : ViewEve
     abstract fun initView()
     abstract fun render(state: STATE)
     fun onEventSent(event: EVENT) = viewModel.setEvent(event)
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

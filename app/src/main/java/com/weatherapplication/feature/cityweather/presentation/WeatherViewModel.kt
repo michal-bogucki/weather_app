@@ -3,12 +3,12 @@ package com.weatherapplication.feature.cityweather.presentation
 import androidx.lifecycle.viewModelScope
 import com.weatherapplication.core.base.BaseViewModel
 import com.weatherapplication.core.base.Resource
+import com.weatherapplication.feature.cityweather.domain.model.WeatherData
 import com.weatherapplication.feature.cityweather.domain.usecase.GetCityWeatherUseCase
 import com.weatherapplication.feature.cityweather.presentation.model.DataDisplayable
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherContract
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -27,22 +27,7 @@ class WeatherViewModel @Inject constructor(
                         when (resource) {
                             is Resource.Success -> {
                                 resource.data?.let { list ->
-                                    if (list.isNotEmpty()) {
-                                        listWeather.clear()
-                                        val element = list.map { WeatherDisplayable(it) }
-                                        listWeather.addAll(element)
-                                        setState { state ->
-                                            state.copy(
-                                                isLoading = false,
-                                                weatherDisplayable = WeatherDisplayable(list[0]),
-                                                listDate = list.map {
-                                                    DataDisplayable(
-                                                        it.date.hashCode(),
-                                                        it.date, it.date == LocalDate.now()
-                                                    )
-                                                })
-                                        }
-                                    }
+                                    processingList(list)
                                 }
                             }
                             is Resource.Loading -> {
@@ -56,8 +41,27 @@ class WeatherViewModel @Inject constructor(
                 }
             }
             result.onFailure {
+                setState { state -> state.copy(isLoading = false, error = it.toString()) }
             }
         }
+    }
+
+    private fun processingList(list: List<WeatherData>) {
+        if (list.isNotEmpty()) {
+            listWeather.clear()
+            listWeather.addAll(list.map { WeatherDisplayable(it) })
+            setState { state ->
+                state.copy(
+                    isLoading = false,
+                    weatherDisplayable = WeatherDisplayable(list[0]),
+                    listDate = listToDisplayable(list, LocalDate.now())
+                )
+            }
+        }
+    }
+
+    private fun listToDisplayable(list: List<WeatherData>, date: LocalDate) = list.map {
+        DataDisplayable(it.date.hashCode(), it.date, it.date == date)
     }
 
     override fun setInitialState() = WeatherContract.WeatherState()
@@ -71,11 +75,9 @@ class WeatherViewModel @Inject constructor(
                 isLoading = false,
                 weatherDisplayable = listWeather.find { it.date == dataDisplayable.date },
                 listDate = listWeather.map {
-                    DataDisplayable(
-                        it.date.hashCode(),
-                        it.date, it.date == dataDisplayable.date
-                    )
-                })
+                    DataDisplayable(it.date.hashCode(), it.date, it.date == dataDisplayable.date)
+                }
+            )
         }
     }
 }

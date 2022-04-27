@@ -2,10 +2,10 @@ package com.weatherapplication.core.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import com.weatherapplication.core.data.ViewEvent
 import com.weatherapplication.core.data.ViewState
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<STATE : ViewState, Event : ViewEvent> : ViewModel() {
 
@@ -37,5 +37,4 @@ abstract class BaseViewModel<STATE : ViewState, Event : ViewEvent> : ViewModel()
             }
         }
     }
-
 }

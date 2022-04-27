@@ -15,12 +15,14 @@ import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDi
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchCityFragment : BaseFragment<FragmentSearchBinding, SearchCityContract.SearchCityState, SearchCityContract.SearchCityEvent, SearchCityViewModel>() {
+class SearchCityFragment :
+    BaseFragment<FragmentSearchBinding, SearchCityContract.SearchCityState, SearchCityContract.SearchCityEvent, SearchCityViewModel>() {
 
     override val viewModel: SearchCityViewModel by viewModels()
     private val searchAdapter by autoCleaned(initializer = { SearchAdapter(::onCityClicked) })
 
     private fun onCityClicked(searchCityDisplayable: SearchCityDisplayable) {
+        binding.searchCity.text.clear()
         onEventSent(event = SearchCityContract.SearchCityEvent.ChooseCity(searchCityDisplayable))
         findNavController().navigate(SearchCityFragmentDirections.actionSearchCityFragmentToWeatherFragment(searchCityDisplayable.id))
     }
