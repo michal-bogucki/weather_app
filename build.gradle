@@ -9,11 +9,12 @@ buildscript {
         google()
         mavenCentral()
     }
+    apply from: 'dependencies.gradle'
     dependencies {
-        classpath "com.android.tools.build:gradle:4.2.2"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0"
-        classpath "com.google.dagger:hilt-android-gradle-plugin:$daggerHiltVersion"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
+        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+        classpath hiltPlugin
+        classpath safeArgs
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -27,7 +28,7 @@ allprojects {
         jcenter() // Warning: this repository is going to shut down soon
     }
 }
-
+apply from: 'dependencies.gradle'
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

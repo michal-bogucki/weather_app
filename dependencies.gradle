@@ -1,80 +1,106 @@
 ext {
-    // Android Plugin
-    androidGradlePluginVersion = '7.0.3'
+    //core dependencies
+    def appCompatVersion = "1.4.0"
+    def coreKtxVersion = "1.7.0"
 
-    // Kotlin
-    kotlinVersion = "1.5.31"
-    ktlintVersion = "10.2.0"
-    coroutinesVersion = "1.5.2"
+    coreDependencies = [
+            appCompat: "androidx.appcompat:appcompat:" + appCompatVersion,
+            coreKtx  : "androidx.core:core-ktx:" + coreKtxVersion
+    ]
 
-    // Android
-    appcompatVersion = "1.3.1"
-    coreKtxVersion = "1.6.0"
-    constraintlayoutVersion = "2.1.2"
-    swipeRefreshLayoutVersion = "1.1.0"
-    recyclerViewVersion = "1.2.1"
-    workmanagerVersion = '2.7.1'
-    lifecycleVersion = "2.4.0"
-    navigationVersion = "2.3.5"
-    securityCryptoVersion = '1.1.0-alpha03'
-    roomVersion = "2.3.0"
-    dataStoreVersion = '1.0.0'
-    legacySupportVersion = "1.0.0"
-    jdkLib = "1.1.5"
+    //ui dependencies
+    def constraintLayoutVersion = "2.1.2"
+    def materialVersion = "1.4.0"
+    def recyclerViewVersion = "1.2.1"
+    def glideVersion = "4.12.0"
 
-    // Design
-    materialDesignVersion = "1.4.0"
+    uiDependencies = [
+            constraintLayout: "androidx.constraintlayout:constraintlayout:" + constraintLayoutVersion,
+            material        : "com.google.android.material:material:" + materialVersion,
+            recyclerview    : "androidx.recyclerview:recyclerview:" + recyclerViewVersion,
+            glide           : "com.github.bumptech.glide:glide:" + glideVersion
+    ]
 
-    // Lottie Animation
-    lottieVersion = "4.2.2"
+    //navigation dependencies
+    def navigationVersion = "2.4.1"
+    navigationDependencies = [
+            fragmentNav: "androidx.navigation:navigation-fragment-ktx:" + navigationVersion,
+            uiNav      : "androidx.navigation:navigation-ui-ktx:" + navigationVersion
+    ]
 
-    // Lottie Animation (Compose)
-    lottieComposeVersion = "4.2.2"
+    //di dependencies
+    def hiltDaggerVersion = "2.41"
 
-    // DI
-    daggerHiltVersion = "2.38.1"
-    jetpackHiltVersion = "1.0.0"
+    hiltAndroid = "com.google.dagger:hilt-android:$hiltDaggerVersion"
+    hiltAndroidCompiler = "com.google.dagger:hilt-android-compiler:$hiltDaggerVersion"
+    hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:$hiltDaggerVersion"
 
-    // Networking
-    retrofitVersion = "2.9.0"
+    //navigation safe args
+    def safeArgsVersion = "2.4.1"
+    safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$safeArgsVersion"
 
-    // Moshi
-    moshiVersion = "1.12.0"
+    //coroutines dependencies
+    def coroutinesVersion = "1.6.0"
 
-    //OkHttp
-    okhttpVersion = "4.9.1"
+    coroutinesDependencies = [
+            coroutinesAndroid: "org.jetbrains.kotlinx:kotlinx-coroutines-android:" + coroutinesVersion,
+            coroutinesCore   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:" + coroutinesVersion
+    ]
 
-    //Okio
-    okioVersion = "2.10.0"
-    // Other utility
-    leakCanaryVersion = "2.7"
-    javaxInjectVersion = "1"
+    //lifecycle dependencies
+    def lifecycleVersion = "2.4.1"
+    def lifeEventVersion = "1.3.0"
 
-    // Jetpack Compose
-    composeVersion = "1.0.5"
+    lifecycleDependencies = [
+            lifecycleViewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:" + lifecycleVersion,
+            lifecycleLivedata  : "androidx.lifecycle:lifecycle-livedata-ktx:" + lifecycleVersion,
+            lifecycleRuntime   : "androidx.lifecycle:lifecycle-runtime-ktx:" + lifecycleVersion,
+            lifecycleCommonJava: "androidx.lifecycle:lifecycle-common-java8:" + lifecycleVersion,
+            liveEvent          : "com.github.hadilq:live-event:" + lifeEventVersion
+    ]
 
-    // Constrain Layout (Compose)
-    composeConstraintLayoutVersion = "1.0.0-rc02"
+    //network dependencies
+    def retrofitVersion = "2.9.0"
+    def okhttpVersion = "4.9.0"
+    def gson = "2.9.0"
 
-    // Jetpack Compose Navigation
-    composeNavVersion = "2.4.0-beta02"
+    networkDependencies = [
+            retrofit          : "com.squareup.retrofit2:retrofit:" + retrofitVersion,
+            converterGson     : "com.squareup.retrofit2:converter-gson:" + retrofitVersion,
+            okhttp            : "com.squareup.okhttp3:okhttp:" + okhttpVersion,
+            loggingInterceptor: "com.squareup.okhttp3:logging-interceptor:" + okhttpVersion,
+            gson              : "com.google.code.gson:gson:" + gson
 
-    // Hilt Compose Navigation
-    hiltComposeNavVersion = "1.0.0-beta01"
+    ]
 
-    lifecycleViewModelComposeVersion = "2.4.0"
+    //room dependencies
+    def roomVersion = "2.4.1"
+    roomDependence = "androidx.room:room-runtime:" + roomVersion
+    roomKtx = "androidx.room:room-ktx:" + roomVersion
+    kaptRoomDependence = "androidx.room:room-compiler:" + roomVersion
 
-    // Accompanist
-    accompanistVersion = "0.20.2"
+    //test dependencies
+    def junitVersion = "5.8.2"
+    def mockVersion = "1.12.2"
+    def kluentVersion = "1.68"
 
-    // Testing
-    jUnitVersion = "4.13.2"
-    androidJUnitVersion = "1.1.3"
-    espressoVersion = "3.3.0"
+    testImplementationDependencies = [
+            junitJupiterApi   : "org.junit.jupiter:junit-jupiter-api:" + junitVersion,
+            junitJupiterParams: "org.junit.jupiter:junit-jupiter-params:" + junitVersion,
+            mockk             : "io.mockk:mockk:" + mockVersion,
+            kluent            : "org.amshove.kluent:kluent:" + kluentVersion
+    ]
 
-    //Glide
-    glide = '4.12.0'
+    testRuntimeDependence = "org.junit.jupiter:junit-jupiter-engine:" + junitVersion
 
-    //Gson
-    gson = '2.8.9'
+    def timberVersion = "5.0.1"
+    timber = "com.jakewharton.timber:timber:" + timberVersion
+
+    def leakcanaryVersion = "2.8.1"
+    leakcanary = "com.squareup.leakcanary:leakcanary-android:" + leakcanaryVersion
+
+    def jdkLibVersion = "1.1.5"
+    jdkLib = "com.android.tools:desugar_jdk_libs:" + jdkLibVersion
+
+
 }

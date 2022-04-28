@@ -5,7 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
 }
-
+apply from: '../dependencies.gradle'
 android {
     compileSdkVersion ProjectConfig.compileSdkVersion
 
@@ -37,48 +37,49 @@ android {
 }
 
 dependencies {
-    implementation project(":mydata")
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    implementation "androidx.core:core-ktx:$coreKtxVersion"
-    implementation "androidx.appcompat:appcompat:$appcompatVersion"
-    implementation "com.google.android.material:material:$materialDesignVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
+    //core dependencies
+    implementation coreDependencies.values()
 
+    //core dependencies
+    implementation coreDependencies.values()
 
+    //ui dependencies
+    implementation uiDependencies.values()
 
-    implementation "com.github.bumptech.glide:glide:$glide"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide"
+    //navigation dependencies
+    implementation navigationDependencies.values()
 
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+    //di dependencies
+    implementation hiltAndroid
+    kapt hiltAndroidCompiler
 
+    //coroutines dependencies
+    implementation coroutinesDependencies.values()
 
-    implementation "com.google.dagger:hilt-android:$daggerHiltVersion"
-    kapt "com.google.dagger:hilt-android-compiler:$daggerHiltVersion"
+    //lifecycle dependencies
+    implementation lifecycleDependencies.values()
 
-
-    implementation "androidx.room:room-runtime:$roomVersion"
-    implementation "androidx.room:room-ktx:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
-
-
-    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    //network dependencies
+    implementation networkDependencies.values()
 
 
-    implementation "com.squareup.okio:okio:$okioVersion"
+    //room dependencies
+    implementation roomDependence
+    implementation roomKtx
+    kapt kaptRoomDependence
+
+    //timber
+    implementation timber
+
+    //leakcanary
+    debugImplementation leakcanary
+
+    //test dependencies
+    testImplementation testImplementationDependencies.values()
+    testRuntimeOnly testRuntimeDependence
 
 
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    coreLibraryDesugaring jdkLib
 
-    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
-
-
-
-    implementation "com.google.code.gson:gson:$gson"
-
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$jdkLib"
 }
