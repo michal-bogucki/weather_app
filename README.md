@@ -12,6 +12,7 @@ Project using Cleean Architecture + MVVM + Kotlin
 * Room
 * Timber
 
-
+# Screen
+![My Image](art/screen1.jpg) &ensp; &ensp; ![My Image](art/screen3.jpg) &ensp; &ensp; ![My Image](art/screen2.jpg)
 
 
