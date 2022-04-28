@@ -1,8 +1,9 @@
 # Weather Application
 
-Project using Cleean Architecture + MVVM + KOtlin
+Project using Cleean Architecture + MVVM + Kotlin
 
 # Libraries Used
+
 * Glide
 * Navigation Component
 * Dagger Hilt
