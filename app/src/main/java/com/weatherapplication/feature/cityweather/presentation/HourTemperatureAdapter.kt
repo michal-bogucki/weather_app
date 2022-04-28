@@ -19,9 +19,7 @@ class HourTemperatureAdapter() :
         return HourTemperatureViewHolder(binding)
     }
 
-    inner class HourTemperatureViewHolder(
-        binding: ItemHourBinding
-    ) : ViewBindingViewHolder<Item, ItemHourBinding>(binding) {
+    inner class HourTemperatureViewHolder(binding: ItemHourBinding) : ViewBindingViewHolder<Item, ItemHourBinding>(binding) {
         override fun bind(item: Item) {
             item as HourTemperatureDisplayable
             binding.run {

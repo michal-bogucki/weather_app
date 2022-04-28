@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.weatherapplication.R
 import com.weatherapplication.core.base.BaseFragment
 import com.weatherapplication.core.extension.autoCleaned
 import com.weatherapplication.core.extension.gone
@@ -17,8 +18,7 @@ import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class WeatherFragment :
-    BaseFragment<FragmentMainBinding, WeatherContract.WeatherState, WeatherContract.WeatherEvent, WeatherViewModel>() {
+class WeatherFragment : BaseFragment<FragmentMainBinding, WeatherContract.WeatherState, WeatherContract.WeatherEvent, WeatherViewModel>() {
 
     override val viewModel: WeatherViewModel by viewModels()
     private val args: WeatherFragmentArgs by navArgs()
@@ -38,11 +38,9 @@ class WeatherFragment :
         viewModel.getWeather(args.cityId)
         binding.run {
             hourRecyclerView.adapter = hourTemperatureAdapter
-            hourRecyclerView.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            hourRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             dateRecyclerView.adapter = dayAdapter
-            dateRecyclerView.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            dateRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
     }
 
@@ -70,9 +68,9 @@ class WeatherFragment :
             weather.text = weatherDisplayable.conditionWeatherName
             val s = "https:" + weatherDisplayable.weatherIcon
             Glide.with(requireContext()).load(s).into(weatherIcon)
-            sunrise.titleDetails.text = "Sunrise"
+            sunrise.titleDetails.text = getString(R.string.sunrise)
             sunrise.valueDetails.text = weatherDisplayable.sunrise
-            sunset.titleDetails.text = "Sunset"
+            sunset.titleDetails.text = getString(R.string.sunset)
             sunset.valueDetails.text = weatherDisplayable.sunset
             if (weatherDisplayable.temperature != Double.MAX_VALUE) {
                 weatherTemperature.text = weatherDisplayable.temperature.toString()
@@ -81,24 +79,24 @@ class WeatherFragment :
                 weatherTemperature.gone()
             minTemperature.text = weatherDisplayable.minTemperature.toString()
             maxTemperature.text = weatherDisplayable.maxTemperature.toString()
-            wind.titleDetails.text = "Wind now"
+            wind.titleDetails.text = getString(R.string.wind_now)
             wind.valueDetails.text = weatherDisplayable.windSpeed.toString()
 
-            humidity.titleDetails.text = "Humidity"
+            humidity.titleDetails.text = getString(R.string.humidity)
             humidity.valueDetails.text = weatherDisplayable.humidity.toString()
 
-            precipitation.titleDetails.text = "Precipitation"
+            precipitation.titleDetails.text = getString(R.string.precipitation)
             precipitation.valueDetails.text = weatherDisplayable.precipitation.toString()
 
-            uvIndex.titleDetails.text = "UV Index"
+            uvIndex.titleDetails.text = getString(R.string.uv_index)
             uvIndex.valueDetails.text = weatherDisplayable.uvIndex.toString()
 
-            feelLike.titleDetails.text = "Feels like"
+            feelLike.titleDetails.text = getString(R.string.feels_like)
             if (weatherDisplayable.feelLike != Double.MAX_VALUE)
                 feelLike.valueDetails.text = weatherDisplayable.feelLike.toString()
             else
                 feelLike.valueDetails.text = "-"
-            visibility.titleDetails.text = "Visibility"
+            visibility.titleDetails.text = getString(R.string.visibility)
             if (weatherDisplayable.visibility != Double.MAX_VALUE)
                 visibility.valueDetails.text = weatherDisplayable.visibility.toString()
             else

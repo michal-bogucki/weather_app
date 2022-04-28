@@ -32,9 +32,7 @@ class SearchCityRepositoryImpl @Inject constructor(@ApplicationContext private v
             ioException.printStackTrace()
         }
 
-        val list: List<SearchCityRemote> = Gson().fromJson(
-            jsonString, object : TypeToken<List<SearchCityRemote?>?>() {}.type
-        )
+        val list: List<SearchCityRemote> = Gson().fromJson(jsonString, object : TypeToken<List<SearchCityRemote?>?>() {}.type)
         listCity = list.sortedBy { searchCityRemote -> searchCityRemote.cityName }
     }
 
@@ -50,8 +48,7 @@ class SearchCityRepositoryImpl @Inject constructor(@ApplicationContext private v
         }
     }
 
-    override fun saveChooseCitySearch(searchCity: SearchCity) =
-        searchCityDao.saveSearchCity(SearchCityCached(searchCity))
+    override fun saveChooseCitySearch(searchCity: SearchCity) = searchCityDao.saveSearchCity(SearchCityCached(searchCity))
 
     override fun getHistorySearchCity() = searchCityDao.getAllCity().map { it.toSearchCity() }
 }

@@ -18,9 +18,7 @@ class DayAdapter(private val onItemClicked: (DataDisplayable) -> Unit) : BaseAda
         return DayViewHolder(binding)
     }
 
-    inner class DayViewHolder(
-        binding: ItemDayBinding
-    ) : ViewBindingViewHolder<Item, ItemDayBinding>(binding) {
+    inner class DayViewHolder(binding: ItemDayBinding) : ViewBindingViewHolder<Item, ItemDayBinding>(binding) {
 
         init {
             itemView.setOnClickListener {

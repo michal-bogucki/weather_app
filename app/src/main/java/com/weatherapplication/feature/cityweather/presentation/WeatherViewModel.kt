@@ -26,9 +26,7 @@ class WeatherViewModel @Inject constructor(
                     flowList.distinctUntilChanged().collect { resource ->
                         when (resource) {
                             is Resource.Success -> {
-                                resource.data?.let { list ->
-                                    processingList(list)
-                                }
+                                resource.data?.let { list -> processingList(list) }
                             }
                             is Resource.Loading -> {
                                 setState { state -> state.copy(isLoading = true) }

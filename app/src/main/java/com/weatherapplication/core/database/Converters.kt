@@ -20,11 +20,7 @@ class Converters {
 
     @TypeConverter
     fun toDateTimeString(date: LocalDateTime?): String? {
-        return if (date == null) {
-            null
-        } else {
-            date.toString()
-        }
+        return date?.toString()
     }
 
     @TypeConverter
@@ -38,11 +34,7 @@ class Converters {
 
     @TypeConverter
     fun toDateString(date: LocalDate?): String? {
-        return if (date == null) {
-            null
-        } else {
-            date.toString()
-        }
+        return date?.toString()
     }
 
     @TypeConverter

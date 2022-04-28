@@ -13,9 +13,4 @@ class WeatherContract {
     ) : ViewState
 
     sealed class WeatherEvent : ViewEvent
-
-    sealed class NavigationWeatherEvent : NavigationEvent {
-        object ShowOtherCity : NavigationWeatherEvent()
-        object OpenMenu : NavigationWeatherEvent()
-    }
 }
