@@ -1,6 +1,6 @@
 # Weather Application
 
-Project using Cleean Architecture + MVVM + Kotlin
+Project using Clean Architecture + MVVM + Kotlin
 
 # Libraries Used
 
