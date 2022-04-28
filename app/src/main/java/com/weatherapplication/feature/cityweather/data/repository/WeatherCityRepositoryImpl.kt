@@ -32,7 +32,7 @@ class WeatherCityRepositoryImpl @Inject constructor(
                 getWeatherFromLocal(city)
             },
             shouldFetchFromRemote = {
-                refreshData(it)
+                true
             },
             fetchFromRemote = {
                 getWeatherFromApi(city)
@@ -46,8 +46,8 @@ class WeatherCityRepositoryImpl @Inject constructor(
 
     private fun refreshData(list: List<WeatherData>?): Boolean {
         if (list.isNullOrEmpty()) return true
-        val find = list.find { it.date == LocalDate.now() } ?: return true
-        if (abs(find.lastUpdate.hour - LocalDateTime.now().hour) > 2) return true
+        if (list[0].date != LocalDate.now()) return true
+        if (abs(list[0].lastUpdate.hour - LocalDateTime.now().hour) > 2) return true
         return false
     }
 
