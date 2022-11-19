@@ -14,7 +14,8 @@
         android:theme="@style/Theme.WeatherApplication">
         <activity
             android:name=".core.activity.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

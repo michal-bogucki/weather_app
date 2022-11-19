@@ -18,5 +18,5 @@ interface SearchCityDao {
     fun saveSearchCity(vararg musicCached: SearchCityCached)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun saveSearchCity(musicCached: SearchCityCached): Long
+    suspend fun saveSearchCity(musicCached: SearchCityCached): Long
 }

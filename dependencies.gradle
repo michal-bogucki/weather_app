@@ -29,7 +29,7 @@ ext {
     ]
 
     //di dependencies
-    def hiltDaggerVersion = "2.41"
+    def hiltDaggerVersion = '2.44.2'
 
     hiltAndroid = "com.google.dagger:hilt-android:$hiltDaggerVersion"
     hiltAndroidCompiler = "com.google.dagger:hilt-android-compiler:$hiltDaggerVersion"
@@ -72,6 +72,24 @@ ext {
             gson              : "com.google.code.gson:gson:" + gson
 
     ]
+
+    def composeVersion = "2022.10.00"
+    composeDependencies = [
+            bom     : "androidx.compose:compose-bom:" + composeVersion,
+            material: "androidx.compose.material:material",
+            ui      : "androidx.compose.ui:ui",
+            preview : "androidx.compose.ui:ui-tooling-preview",
+            core    : "androidx.compose.material:material-icons-core",
+    ]
+
+
+
+    def composeActivityVersion = "1.5.1"
+    composeActivityDependence = "androidx.activity:activity-compose:" + composeActivityVersion
+
+    def composeViewModelVersion = "2.5.1"
+    composeViewModelDependence = "androidx.lifecycle:lifecycle-viewmodel-compose:" + composeViewModelVersion
+
 
     //room dependencies
     def roomVersion = "2.4.1"

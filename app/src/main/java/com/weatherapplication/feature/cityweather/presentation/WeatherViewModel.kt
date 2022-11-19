@@ -18,7 +18,9 @@ import javax.inject.Inject
 class WeatherViewModel @Inject constructor(
     private val getCityWeatherUseCase: GetCityWeatherUseCase
 ) : BaseViewModel<WeatherContract.WeatherState, WeatherContract.WeatherEvent>() {
+
     var listWeather: MutableList<WeatherDisplayable> = mutableListOf()
+
     fun getWeather(cityId: String) {
         getCityWeatherUseCase(cityId, viewModelScope) { result ->
             result.onSuccess { flowList ->

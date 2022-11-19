@@ -48,8 +48,8 @@ class SearchCityViewModel @Inject constructor(
         when (event) {
             is SearchCityContract.SearchCityEvent.ChooseCity -> {
                 val searchCity = event.searchCity.toSearchCity()
-                viewModelScope.launch(Dispatchers.IO) {
-                    chooseCityUseCase.action(searchCity)
+                viewModelScope.launch {
+                    chooseCityUseCase(searchCity, viewModelScope)
                 }
             }
             is SearchCityContract.SearchCityEvent.OnTextChange -> {
