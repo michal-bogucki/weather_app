@@ -1,7 +1,7 @@
 package com.weatherapplication.feature.searchcity.presentation
 
 import androidx.lifecycle.viewModelScope
-import com.weatherapplication.core.base.BaseViewModel
+import com.weatherapplication.core.base.BaseComposeViewModel
 import com.weatherapplication.feature.searchcity.domain.usecase.ChooseCityUseCase
 import com.weatherapplication.feature.searchcity.domain.usecase.SearchCityUseCase
 import com.weatherapplication.feature.searchcity.domain.usecase.ShowHistorySearchCity
@@ -9,9 +9,7 @@ import com.weatherapplication.feature.searchcity.presentation.model.SearchCityCo
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,18 +18,52 @@ class SearchCityViewModel @Inject constructor(
     private val searchCityUseCase: SearchCityUseCase,
     private val showHistorySearchCityUseCase: ShowHistorySearchCity,
     private val chooseCityUseCase: ChooseCityUseCase,
-) : BaseViewModel<SearchCityContract.SearchCityState, SearchCityContract.SearchCityEvent>() {
+) : BaseComposeViewModel<SearchCityContract.SearchCityState, SearchCityContract.SearchCityEvent>() {
     override fun setInitialState() = SearchCityContract.SearchCityState()
+    private val _search = MutableStateFlow("")
+    private val search = _search.asStateFlow()
+
+    fun searchCity(city: String) {
+        _search.value = city
+        setState {
+            copy(
+                searchText = city
+            )
+        }
+    }
 
     init {
         showHistorySearch()
+        searchListener()
+    }
+
+    fun searchListener() {
+        searchCityUseCase(search.debounce(200L), viewModelScope) { result ->
+            result.onSuccess {
+                viewModelScope.launch {
+                    it.flowOn(Dispatchers.IO).map { list ->
+                        list.map { SearchCityDisplayable(it) }
+                    }.collect {
+                        setState {
+                            copy(
+                                isLoading = false,
+                                actualSearchCityList = it
+                            )
+                        }
+                    }
+                }
+            }
+            result.onFailure {
+                setState { copy(error = it.message ?: "") }
+            }
+        }
     }
 
     private fun showHistorySearch() {
         showHistorySearchCityUseCase(Unit, viewModelScope) { result ->
             result.onSuccess {
-                setState { state ->
-                    state.copy(
+                setState {
+                    copy(
                         isLoading = false,
                         historySearchCityList = it.map { SearchCityDisplayable(it) }
                     )
@@ -39,10 +71,11 @@ class SearchCityViewModel @Inject constructor(
             }
 
             result.onFailure {
-                setState { state -> state.copy(isLoading = false, error = it.message ?: "") }
+                setState { copy(isLoading = false, error = it.message ?: "") }
             }
         }
     }
+
 
     override fun handleEvents(event: SearchCityContract.SearchCityEvent) {
         when (event) {
@@ -51,26 +84,15 @@ class SearchCityViewModel @Inject constructor(
                 viewModelScope.launch {
                     chooseCityUseCase(searchCity, viewModelScope)
                 }
+                searchCity("")
+
             }
             is SearchCityContract.SearchCityEvent.OnTextChange -> {
-                searchCityUseCase(event.cityName.debounce(200L), viewModelScope) { result ->
-                    result.onSuccess {
-                        viewModelScope.launch {
-                            it.flowOn(Dispatchers.IO).map { list ->
-                                list.map { SearchCityDisplayable(it) }
-                            }.collect {
-                                setState { state ->
-                                    state.copy(
-                                        isLoading = false,
-                                        actualSearchCityList = it
-                                    )
-                                }
-                            }
-                        }
-                    }
-                    result.onFailure {
-                        setState { state -> state.copy(error = it.message ?: "") }
-                    }
+                searchCity(event.cityName)
+                setState {
+                    copy(
+                        searchText = event.cityName
+                    )
                 }
             }
         }

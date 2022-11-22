@@ -1,5 +1,6 @@
 package com.weatherapplication.core.base
 
+import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.weatherapplication.core.data.ViewEvent
@@ -14,6 +15,7 @@ abstract class BaseViewModel<STATE : ViewState, Event : ViewEvent> : ViewModel()
 
     private val _state = MutableStateFlow(initialState)
     val state: StateFlow<STATE> = _state.asStateFlow()
+
     val currentState: STATE get() = state.value
     protected fun setState(update: (old: STATE) -> STATE): STATE = _state.updateAndGet(update)
     private val _event: MutableSharedFlow<Event> = MutableSharedFlow()
