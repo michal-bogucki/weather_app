@@ -12,7 +12,11 @@ class SearchCityContract {
         val searchText: String = "",
         val historySearchCityList: List<SearchCityDisplayable> = emptyList(),
         val actualSearchCityList: List<SearchCityDisplayable> = emptyList(),
-    ) : ViewState
+    ) : ViewState{
+        companion object {
+            val Empty = SearchCityState()
+        }
+    }
 
     sealed class SearchCityEvent : ViewEvent {
         data class ChooseCity(val searchCity: SearchCityDisplayable) : SearchCityEvent()

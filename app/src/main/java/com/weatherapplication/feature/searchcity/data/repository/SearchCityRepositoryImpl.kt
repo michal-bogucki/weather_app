@@ -9,10 +9,7 @@ import com.weatherapplication.feature.searchcity.data.local.model.SearchCityCach
 import com.weatherapplication.feature.searchcity.domain.model.SearchCity
 import com.weatherapplication.feature.searchcity.domain.repository.SearchCityRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 import java.io.IOException
 import javax.inject.Inject
 
@@ -36,19 +33,11 @@ class SearchCityRepositoryImpl @Inject constructor(@ApplicationContext private v
         listCity = list.sortedBy { searchCityRemote -> searchCityRemote.cityName }
     }
 
-    override fun searchCity(cityName: Flow<String>): Flow<List<SearchCity>> {
-        return cityName.onStart { listCity }.flatMapLatest { name ->
-            if (name.isNotEmpty()) {
-                val foundPlace: List<SearchCity> = listCity.filter { it.cityName.lowercase().contains(name) }.map { it.toSearchCity() }
-                flowOf(foundPlace)
-            } else {
-                val value = searchCityDao.getAllCity().map { list -> list.toSearchCity() }
-                flowOf(value)
-            }
-        }
+    override suspend fun searchCity(cityName: String): List<SearchCity> {
+       return listCity.filter { cityName.lowercase().contains(cityName) }.map { it.toSearchCity() }
     }
 
     override suspend fun saveChooseCitySearch(searchCity: SearchCity) = searchCityDao.saveSearchCity(SearchCityCached(searchCity))
 
-    override fun getHistorySearchCity() = searchCityDao.getAllCity().map { it.toSearchCity() }
+    override fun getHistorySearchCity() = searchCityDao.getAllCity().map { it.map {  it.toSearchCity() }}
 }

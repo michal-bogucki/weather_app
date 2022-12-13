@@ -12,6 +12,7 @@ import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,11 +30,12 @@ import com.weatherapplication.R
 import com.weatherapplication.feature.searchcity.presentation.SearchCityViewModel
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
+import kotlin.reflect.KProperty0
 
 
 @Composable
 fun SearchView(viewModel: SearchCityViewModel, openFragment: (SearchCityDisplayable) -> Unit) {
-    val value = viewModel.viewState.value
+    val value = viewModel.state.collectAsState()
 
     Column(Modifier.background(colorResource(R.color.background))) {
         Text(
@@ -45,8 +47,8 @@ fun SearchView(viewModel: SearchCityViewModel, openFragment: (SearchCityDisplaya
                 .padding(top = 24.dp, bottom = 24.dp)
                 .fillMaxWidth()
         )
-        SearchLabel(value.searchText, viewModel)
-        CityList(getList(value.actualSearchCityList, value.historySearchCityList), openFragment)
+        SearchLabel(value.value.searchText, viewModel)
+        CityList(getList(value.value.actualSearchCityList, value.value.historySearchCityList), openFragment)
     }
 }
 
@@ -60,7 +62,7 @@ fun SearchLabel(text: String, searchCity: SearchCityViewModel) {
     TextField(
         value = text,
         onValueChange = {
-            searchCity.setEvent(SearchCityContract.SearchCityEvent.OnTextChange(it))
+            searchCity.search(it)
         },
         modifier = Modifier
             .fillMaxWidth()

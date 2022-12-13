@@ -20,7 +20,7 @@ class SearchCityFragment : Fragment() {
 
 
     private fun onCityClicked(searchCityDisplayable: SearchCityDisplayable) {
-        viewModel.setEvent(event = SearchCityContract.SearchCityEvent.ChooseCity(searchCityDisplayable))
+        //viewModel.setEvent(event = SearchCityContract.SearchCityEvent.ChooseCity(searchCityDisplayable))
         findNavController().navigate(SearchCityFragmentDirections.actionSearchCityFragmentToWeatherFragment(searchCityDisplayable.id))
     }
 
