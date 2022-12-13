@@ -10,7 +10,9 @@ import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
+
 
 @HiltViewModel
 class SearchCityViewModel @Inject constructor(
@@ -19,6 +21,7 @@ class SearchCityViewModel @Inject constructor(
     private val chooseCityUseCase: ChooseCityUseCase,
 ) : ViewModel() {
     private val searchQuery = MutableStateFlow("")
+
     val state: StateFlow<SearchCityState> = combine(
         searchCityUseCase.flow,
         showHistorySearchCityUseCase.flow,
@@ -29,7 +32,6 @@ class SearchCityViewModel @Inject constructor(
             historySearchCityList = historyList.map { SearchCityDisplayable(it) },
             actualSearchCityList = searchList.map { SearchCityDisplayable(it) }
         )
-
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
@@ -42,13 +44,23 @@ class SearchCityViewModel @Inject constructor(
                 val job = launch {
                     searchCityUseCase(SearchCityUseCase.Params(query))
                 }
+                job.invokeOnCompletion { }
                 job.join()
 
-            }.collect()
+            }
+                .catch { throwable -> {} }
+                .collect()
         }
     }
 
     fun search(searchTerm: String) {
+        Timber.d("majkel $searchTerm")
         searchQuery.value = searchTerm
+    }
+
+    fun chooseCity(searchCity: SearchCityDisplayable) {
+        viewModelScope.launch {
+            chooseCityUseCase(searchCity.toSearchCity(), viewModelScope)
+        }
     }
 }

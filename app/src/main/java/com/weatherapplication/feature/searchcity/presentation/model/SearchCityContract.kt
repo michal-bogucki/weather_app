@@ -12,7 +12,7 @@ class SearchCityContract {
         val searchText: String = "",
         val historySearchCityList: List<SearchCityDisplayable> = emptyList(),
         val actualSearchCityList: List<SearchCityDisplayable> = emptyList(),
-    ) : ViewState{
+    ){
         companion object {
             val Empty = SearchCityState()
         }

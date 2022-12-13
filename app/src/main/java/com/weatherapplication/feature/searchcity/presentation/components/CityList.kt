@@ -11,8 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,13 +30,11 @@ import com.weatherapplication.R
 import com.weatherapplication.feature.searchcity.presentation.SearchCityViewModel
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
-import kotlin.reflect.KProperty0
+import timber.log.Timber
 
 
 @Composable
-fun SearchView(viewModel: SearchCityViewModel, openFragment: (SearchCityDisplayable) -> Unit) {
-    val value = viewModel.state.collectAsState()
-
+fun SearchView(value: SearchCityContract.SearchCityState, viewModel: SearchCityViewModel, openFragment: (SearchCityDisplayable) -> Unit) {
     Column(Modifier.background(colorResource(R.color.background))) {
         Text(
             text = "Search city",
@@ -47,22 +45,24 @@ fun SearchView(viewModel: SearchCityViewModel, openFragment: (SearchCityDisplaya
                 .padding(top = 24.dp, bottom = 24.dp)
                 .fillMaxWidth()
         )
-        SearchLabel(value.value.searchText, viewModel)
-        CityList(getList(value.value.actualSearchCityList, value.value.historySearchCityList), openFragment)
+        SearchLabel(value.searchText, viewModel::search)
+        CityList(getList(value.actualSearchCityList, value.historySearchCityList), openFragment)
     }
 }
 
 fun getList(actualSearchCityList: List<SearchCityDisplayable>, historySearchCityList: List<SearchCityDisplayable>): List<SearchCityDisplayable> {
+    Timber.d("majkel getList")
     return actualSearchCityList.ifEmpty { historySearchCityList }
 }
 
 @Composable
-fun SearchLabel(text: String, searchCity: SearchCityViewModel) {
-
+fun SearchLabel(text: String, onSearchQueryChanged: (query: String) -> Unit) {
+    var searchQuery by remember { mutableStateOf(TextFieldValue(text)) }
     TextField(
-        value = text,
-        onValueChange = {
-            searchCity.search(it)
+        value = searchQuery,
+        onValueChange = { value ->
+            searchQuery = value
+            onSearchQueryChanged(value.text)
         },
         modifier = Modifier
             .fillMaxWidth()
