@@ -51,7 +51,6 @@ fun SearchView(value: SearchCityContract.SearchCityState, viewModel: SearchCityV
 }
 
 fun getList(actualSearchCityList: List<SearchCityDisplayable>, historySearchCityList: List<SearchCityDisplayable>): List<SearchCityDisplayable> {
-    Timber.d("majkel getList")
     return actualSearchCityList.ifEmpty { historySearchCityList }
 }
 

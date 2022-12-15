@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface SearchCityDao {
     @Query("SELECT * FROM SearchCityCached")
-    fun getAllCity(): Flow<List<SearchCityCached>>
+    fun getAllCity(): List<SearchCityCached>
 
     @Update
     suspend fun updateSearchCityCached(music: SearchCityCached)

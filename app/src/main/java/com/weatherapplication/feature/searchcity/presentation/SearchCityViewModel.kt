@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.weatherapplication.feature.searchcity.domain.usecase.ChooseCityUseCase
 import com.weatherapplication.feature.searchcity.domain.usecase.SearchCityUseCase
-import com.weatherapplication.feature.searchcity.domain.usecase.ShowHistorySearchCity
-import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract.SearchCityState
+import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -17,27 +16,22 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchCityViewModel @Inject constructor(
     private val searchCityUseCase: SearchCityUseCase,
-    private val showHistorySearchCityUseCase: ShowHistorySearchCity,
     private val chooseCityUseCase: ChooseCityUseCase,
 ) : ViewModel() {
     private val searchQuery = MutableStateFlow("")
-
-    val state: StateFlow<SearchCityState> = combine(
+    val state: StateFlow<SearchCityContract.SearchCityState> = combine(
         searchCityUseCase.flow,
-        showHistorySearchCityUseCase.flow,
         searchQuery,
-    ) { searchList, historyList, searchQuery ->
-        SearchCityState(
+    ) { searchList, searchQuery ->
+        SearchCityContract.SearchCityState(
             searchText = searchQuery,
-            historySearchCityList = historyList.map { SearchCityDisplayable(it) },
             actualSearchCityList = searchList.map { SearchCityDisplayable(it) }
         )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = SearchCityState.Empty
+        initialValue = SearchCityContract.SearchCityState.Empty
     )
-
     init {
         viewModelScope.launch {
             searchQuery.debounce(300).onEach { query ->
@@ -51,7 +45,10 @@ class SearchCityViewModel @Inject constructor(
                 .catch { throwable -> {} }
                 .collect()
         }
+
+
     }
+
 
     fun search(searchTerm: String) {
         Timber.d("majkel $searchTerm")

@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface SearchCityRepository {
     suspend fun searchCity(cityName: String): List<SearchCity>
     suspend fun saveChooseCitySearch(searchCity: SearchCity): Long
-    fun getHistorySearchCity(): Flow<List<SearchCity>>
+    fun getHistorySearchCity(): List<SearchCity>
 }

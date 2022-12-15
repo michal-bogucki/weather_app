@@ -39,5 +39,5 @@ class SearchCityRepositoryImpl @Inject constructor(@ApplicationContext private v
 
     override suspend fun saveChooseCitySearch(searchCity: SearchCity) = searchCityDao.saveSearchCity(SearchCityCached(searchCity))
 
-    override fun getHistorySearchCity() = searchCityDao.getAllCity().map { it.map {  it.toSearchCity() }}
+    override fun getHistorySearchCity() = searchCityDao.getAllCity().map { it.toSearchCity() }
 }
