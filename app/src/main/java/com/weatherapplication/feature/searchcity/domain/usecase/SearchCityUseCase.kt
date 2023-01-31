@@ -1,6 +1,5 @@
 package com.weatherapplication.feature.searchcity.domain.usecase
 
-import com.weatherapplication.feature.searchcity.AppCoroutineDispatchers
 import com.weatherapplication.feature.searchcity.base.SuspendingWorkInteractor
 import com.weatherapplication.feature.searchcity.domain.model.SearchCity
 import com.weatherapplication.feature.searchcity.domain.repository.SearchCityRepository

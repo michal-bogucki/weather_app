@@ -10,13 +10,14 @@ inline fun <DB, REMOTE> networkLocalBoundResource(
     crossinline fetchFromLocal: suspend () -> Flow<DB>,
     crossinline shouldFetchFromRemote: suspend (DB?) -> Boolean = { true },
     crossinline fetchFromRemote: suspend () -> Response<REMOTE>,
-    crossinline saveFetchResult: suspend (REMOTE) -> Unit,
+    crossinline saveFetchResult: suspend (REMOTE) -> Unit
 ) = flow<Resource<DB>> {
     emit(Resource.loading())
     val data = fetchFromLocal().firstOrNull()
     if (shouldFetchFromRemote(data)) {
-        if (data != null)
+        if (data != null) {
             emit(Resource.success(data))
+        }
         val fetchResult = fetchFromRemote()
         if (fetchResult.isSuccessful) {
             fetchResult.body()?.let {
@@ -24,7 +25,6 @@ inline fun <DB, REMOTE> networkLocalBoundResource(
             }
             emitAll(fetchFromLocal().map { dbData -> Resource.success(dbData) })
         } else {
-
             val msg = fetchResult.errorBody()?.stringSuspending()
             val errorMsg = if (msg.isNullOrEmpty()) {
                 fetchResult.message()

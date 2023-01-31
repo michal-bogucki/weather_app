@@ -20,7 +20,6 @@ abstract class BaseComposeViewModel<UiState : ViewState, Event : ViewEvent> : Vi
 
     private val _event: MutableSharedFlow<Event> = MutableSharedFlow()
 
-
     fun setEvent(event: Event) {
         viewModelScope.launch { _event.emit(event) }
     }
@@ -43,6 +42,4 @@ abstract class BaseComposeViewModel<UiState : ViewState, Event : ViewEvent> : Vi
     }
 
     abstract fun handleEvents(event: Event)
-
-
 }

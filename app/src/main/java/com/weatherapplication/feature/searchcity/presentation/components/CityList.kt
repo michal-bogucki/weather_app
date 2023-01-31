@@ -30,8 +30,6 @@ import com.weatherapplication.R
 import com.weatherapplication.feature.searchcity.presentation.SearchCityViewModel
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
-import timber.log.Timber
-
 
 @Composable
 fun SearchView(value: SearchCityContract.SearchCityState, viewModel: SearchCityViewModel, openFragment: (SearchCityDisplayable) -> Unit) {
@@ -73,16 +71,16 @@ fun SearchLabel(text: String, onSearchQueryChanged: (query: String) -> Unit) {
         colors = TextFieldDefaults.textFieldColors(
             textColor = White,
             backgroundColor = colorResource(R.color.search_background),
-            focusedIndicatorColor = Color.Transparent,
-        ),
+            focusedIndicatorColor = Color.Transparent
+        )
     )
 }
-
 
 @Composable
 fun CityList(botList: List<SearchCityDisplayable>, onClick: (SearchCityDisplayable) -> Unit) {
     LazyColumn(
-        contentPadding = PaddingValues(horizontal = 16.dp), modifier = Modifier
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        modifier = Modifier
     ) {
         items(botList) { item: SearchCityDisplayable ->
             CityItem(item = item, onClick = onClick)
@@ -90,18 +88,18 @@ fun CityList(botList: List<SearchCityDisplayable>, onClick: (SearchCityDisplayab
     }
 }
 
-
 @Composable
 fun CityItem(item: SearchCityDisplayable, onClick: (SearchCityDisplayable) -> Unit) {
     val myFont = FontFamily(
-        Font(R.font.rubik_medium, FontWeight.Medium), Font(R.font.rubik_regular, FontWeight.Normal)
+        Font(R.font.rubik_medium, FontWeight.Medium),
+        Font(R.font.rubik_regular, FontWeight.Normal)
     )
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp)
-            .clickable { onClick(item) },
+            .clickable { onClick(item) }
     ) {
         IconList(icon = if (item.isHistory) R.drawable.ic_round_history_24 else R.drawable.ic_round_location_on_24)
         Column(
@@ -115,21 +113,19 @@ fun CityItem(item: SearchCityDisplayable, onClick: (SearchCityDisplayable) -> Un
                 style = typography.subtitle2,
                 color = Color.White,
                 fontFamily = myFont,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Medium
             )
             Text(
                 text = item.countryName,
                 style = typography.subtitle2,
                 color = Color.Gray,
                 fontFamily = myFont,
-                fontWeight = FontWeight.Normal,
+                fontWeight = FontWeight.Normal
             )
         }
 
         IconList(icon = R.drawable.ic_round_keyboard_arrow_right_24)
-
     }
-
 }
 
 @Composable
@@ -147,5 +143,4 @@ fun IconList(modifier: Modifier = Modifier, icon: Int) {
 @Preview
 @Composable
 fun ScreenPreview() {
-
 }

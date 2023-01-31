@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 
 inline fun <REMOTE> networkResource(
-    crossinline fetchFromRemote: suspend () -> Response<REMOTE>,
+    crossinline fetchFromRemote: suspend () -> Response<REMOTE>
 ) = flow<Resource<REMOTE>> {
     emit(Resource.loading())
     val fetchResult = fetchFromRemote()

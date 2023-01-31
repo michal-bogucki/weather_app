@@ -1,6 +1,5 @@
 package com.weatherapplication.core.base
 
-import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.weatherapplication.core.data.ViewEvent

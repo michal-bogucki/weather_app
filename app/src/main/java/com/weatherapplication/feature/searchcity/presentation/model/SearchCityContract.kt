@@ -2,8 +2,6 @@ package com.weatherapplication.feature.searchcity.presentation.model
 
 import com.weatherapplication.core.data.NavigationEvent
 import com.weatherapplication.core.data.ViewEvent
-import com.weatherapplication.core.data.ViewState
-import kotlinx.coroutines.flow.Flow
 
 class SearchCityContract {
     data class SearchCityState(
@@ -11,8 +9,8 @@ class SearchCityContract {
         val error: String = "",
         val searchText: String = "",
         val historySearchCityList: List<SearchCityDisplayable> = emptyList(),
-        val actualSearchCityList: List<SearchCityDisplayable> = emptyList(),
-    ){
+        val actualSearchCityList: List<SearchCityDisplayable> = emptyList()
+    ) {
         companion object {
             val Empty = SearchCityState()
         }

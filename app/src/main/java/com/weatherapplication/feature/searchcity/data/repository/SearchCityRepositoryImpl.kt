@@ -34,7 +34,7 @@ class SearchCityRepositoryImpl @Inject constructor(@ApplicationContext private v
     }
 
     override suspend fun searchCity(cityName: String): List<SearchCity> {
-       return listCity.filter { it.cityName.lowercase().contains(cityName) }.map { it.toSearchCity() }
+        return listCity.filter { it.cityName.lowercase().contains(cityName) }.map { it.toSearchCity() }
     }
 
     override suspend fun saveChooseCitySearch(searchCity: SearchCity) = searchCityDao.saveSearchCity(SearchCityCached(searchCity))
