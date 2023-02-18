@@ -11,7 +11,9 @@ import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,17 +24,27 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.weatherapplication.R
+import com.weatherapplication.feature.searchcity.presentation.SearchCityFragmentDirections
 import com.weatherapplication.feature.searchcity.presentation.SearchCityViewModel
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
 
 @Composable
-fun SearchView(value: SearchCityContract.SearchCityState, viewModel: SearchCityViewModel, openFragment: (SearchCityDisplayable) -> Unit) {
+fun SearchView(viewModel: SearchCityViewModel, navController: NavController) {
+    val value by viewModel.state.collectAsState()
+    SearchViewContent(value = value, click = { searchCityDisplayable ->
+        viewModel.saveUserChoose(searchCityDisplayable)
+        navController.navigate(SearchCityFragmentDirections.actionSearchCityFragmentToWeatherFragment(searchCityDisplayable.id))
+    }, search = viewModel::search)
+}
+
+@Composable
+fun SearchViewContent(value: SearchCityContract.SearchCityState, click: (SearchCityDisplayable) -> Unit, search: (String) -> Unit) {
     Column(Modifier.background(colorResource(R.color.background))) {
         Text(
             text = "Search city",
@@ -43,23 +55,19 @@ fun SearchView(value: SearchCityContract.SearchCityState, viewModel: SearchCityV
                 .padding(top = 24.dp, bottom = 24.dp)
                 .fillMaxWidth()
         )
-        SearchLabel(value.searchText, viewModel::search)
-        CityList(getList(value.actualSearchCityList, value.historySearchCityList), openFragment)
+        SearchLabel(value.searchText, search)
+        CityList(value.actualSearchCityList) { city ->
+            click(city)
+        }
     }
-}
-
-fun getList(actualSearchCityList: List<SearchCityDisplayable>, historySearchCityList: List<SearchCityDisplayable>): List<SearchCityDisplayable> {
-    return actualSearchCityList.ifEmpty { historySearchCityList }
 }
 
 @Composable
 fun SearchLabel(text: String, onSearchQueryChanged: (query: String) -> Unit) {
-    var searchQuery by remember { mutableStateOf(TextFieldValue(text)) }
     TextField(
-        value = searchQuery,
+        value = text,
         onValueChange = { value ->
-            searchQuery = value
-            onSearchQueryChanged(value.text)
+            onSearchQueryChanged(value)
         },
         modifier = Modifier
             .fillMaxWidth()
@@ -79,8 +87,7 @@ fun SearchLabel(text: String, onSearchQueryChanged: (query: String) -> Unit) {
 @Composable
 fun CityList(botList: List<SearchCityDisplayable>, onClick: (SearchCityDisplayable) -> Unit) {
     LazyColumn(
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        modifier = Modifier
+        contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
         items(botList) { item: SearchCityDisplayable ->
             CityItem(item = item, onClick = onClick)
@@ -101,7 +108,7 @@ fun CityItem(item: SearchCityDisplayable, onClick: (SearchCityDisplayable) -> Un
             .padding(top = 16.dp)
             .clickable { onClick(item) }
     ) {
-        IconList(icon = if (item.isHistory) R.drawable.ic_round_history_24 else R.drawable.ic_round_location_on_24)
+        IconItemList(icon = if (item.isHistory) R.drawable.ic_round_history_24 else R.drawable.ic_round_location_on_24)
         Column(
             modifier = Modifier
                 .align(CenterVertically)
@@ -124,17 +131,17 @@ fun CityItem(item: SearchCityDisplayable, onClick: (SearchCityDisplayable) -> Un
             )
         }
 
-        IconList(icon = R.drawable.ic_round_keyboard_arrow_right_24)
+        IconItemList(icon = R.drawable.ic_round_keyboard_arrow_right_24)
     }
 }
 
 @Composable
-fun IconList(modifier: Modifier = Modifier, icon: Int) {
+fun IconItemList(modifier: Modifier = Modifier, icon: Int) {
     Image(
         painter = painterResource(id = icon),
         contentDescription = null,
         modifier = modifier
-            .size(40.dp, 40.dp)
+            .size(40.dp)
             .padding(8.dp)
             .clip(MaterialTheme.shapes.small)
     )
@@ -143,4 +150,5 @@ fun IconList(modifier: Modifier = Modifier, icon: Int) {
 @Preview
 @Composable
 fun ScreenPreview() {
+    SearchViewContent(SearchCityContract.SearchCityState.Empty, {}, {})
 }

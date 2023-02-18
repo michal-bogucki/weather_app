@@ -15,7 +15,7 @@ fun createWeatherCached(
     forecast: Forecast,
     index: Int,
     weatherNext: ForecastDay
-): WeatherCached {
+): WeatherCached {//sealed class (value, emptyState)
     val weather = WeatherCached(
         cityName = city.cityName,
         date = LocalDate.parse(forecast.forecastday[index].date),

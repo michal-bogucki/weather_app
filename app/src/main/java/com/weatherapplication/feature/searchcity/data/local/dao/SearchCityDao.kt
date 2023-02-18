@@ -2,7 +2,6 @@ package com.weatherapplication.feature.searchcity.data.local.dao
 
 import androidx.room.*
 import com.weatherapplication.feature.searchcity.data.local.model.SearchCityCached
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SearchCityDao {

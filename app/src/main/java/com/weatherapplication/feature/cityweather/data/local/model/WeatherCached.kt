@@ -30,7 +30,7 @@ data class WeatherCached(
     val uvIndex: Double,
     val feelLike: Double,
     val visibility: Double,
-    val listHourTemperature: List<HourTemperatureCached>,
+    val listHourTemperature: List<HourTemperatureCached>
 ) {
     constructor(weather: WeatherData) : this(
         weather.cityName,
@@ -84,13 +84,18 @@ data class WeatherCached(
 data class HourTemperatureCached(
     val hour: String,
     val temperature: Double,
-    val weatherIcon: String,
+    val weatherIcon: String
 ) {
     constructor(hourTemperature: HourTemperature) : this(
-        hourTemperature.hour, hourTemperature.temperature, hourTemperature.weatherIcon,
+        hourTemperature.hour,
+        hourTemperature.temperature,
+        hourTemperature.weatherIcon
     )
 
     fun toHourTemperature() = HourTemperature(
-        hour, temperature, weatherIcon, hour.toCharArray().sumOf { it.code },
+        hour,
+        temperature,
+        weatherIcon,
+        hour.toCharArray().sumOf { it.code }
     )
 }

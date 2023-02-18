@@ -9,7 +9,6 @@ import com.weatherapplication.feature.searchcity.data.local.model.SearchCityCach
 import com.weatherapplication.feature.searchcity.domain.model.SearchCity
 import com.weatherapplication.feature.searchcity.domain.repository.SearchCityRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.*
 import java.io.IOException
 import javax.inject.Inject
 

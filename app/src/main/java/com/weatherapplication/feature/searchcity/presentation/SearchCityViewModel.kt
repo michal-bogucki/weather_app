@@ -17,11 +17,14 @@ class SearchCityViewModel @Inject constructor(
     private val chooseCityUseCase: ChooseCityUseCase
 ) : ViewModel() {
     private val searchQuery = MutableStateFlow("")
+    private val errorMessage = MutableStateFlow("")
     val state: StateFlow<SearchCityContract.SearchCityState> = combine(
         searchCityUseCase.flow,
-        searchQuery
-    ) { searchList, searchQuery ->
+        searchQuery,
+        errorMessage
+    ) { searchList, searchQuery, errorMessage ->
         SearchCityContract.SearchCityState(
+            error = errorMessage,
             searchText = searchQuery,
             actualSearchCityList = searchList.map { SearchCityDisplayable(it) }
         )
@@ -39,7 +42,9 @@ class SearchCityViewModel @Inject constructor(
                 }
                 job.join()
             }
-                .catch { throwable -> {} }
+                .catch { throwable ->
+                    errorMessage.value = throwable.message ?: "Error"
+                }
                 .collect()
         }
     }
@@ -48,7 +53,7 @@ class SearchCityViewModel @Inject constructor(
         searchQuery.value = searchTerm
     }
 
-    fun chooseCity(searchCity: SearchCityDisplayable) {
+    fun saveUserChoose(searchCity: SearchCityDisplayable) {
         viewModelScope.launch {
             searchQuery.value = ""
             chooseCityUseCase(searchCity.toSearchCity(), viewModelScope)

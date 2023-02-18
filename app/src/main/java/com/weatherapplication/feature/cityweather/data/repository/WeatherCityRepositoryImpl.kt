@@ -32,7 +32,7 @@ class WeatherCityRepositoryImpl @Inject constructor(
                 getWeatherFromLocal(city)
             },
             shouldFetchFromRemote = {
-                true
+                refreshData(it)
             },
             fetchFromRemote = {
                 getWeatherFromApi(city)
