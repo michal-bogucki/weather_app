@@ -24,7 +24,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
 
-        android:src="@drawable/weather"
+        android:src="@drawable/weather_icon"
         app:layout_constraintBottom_toTopOf="@+id/valueDetails"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

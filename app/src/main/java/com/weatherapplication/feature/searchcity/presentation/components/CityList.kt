@@ -34,6 +34,12 @@ import com.weatherapplication.feature.searchcity.presentation.SearchCityViewMode
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
 
+@Preview
+@Composable
+fun ScreenPreview() {
+    SearchViewContent(SearchCityContract.SearchCityState.Empty, {}, {})
+}
+
 @Composable
 fun SearchView(viewModel: SearchCityViewModel, navController: NavController) {
     val value by viewModel.state.collectAsState()
@@ -145,10 +151,4 @@ fun IconItemList(modifier: Modifier = Modifier, icon: Int) {
             .padding(8.dp)
             .clip(MaterialTheme.shapes.small)
     )
-}
-
-@Preview
-@Composable
-fun ScreenPreview() {
-    SearchViewContent(SearchCityContract.SearchCityState.Empty, {}, {})
 }
