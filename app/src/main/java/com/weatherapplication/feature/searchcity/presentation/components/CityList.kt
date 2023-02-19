@@ -29,6 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.weatherapplication.R
+import com.weatherapplication.feature.cityweather.presentation.components.background
+
 import com.weatherapplication.feature.searchcity.presentation.SearchCityFragmentDirections
 import com.weatherapplication.feature.searchcity.presentation.SearchCityViewModel
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
@@ -51,7 +53,7 @@ fun SearchView(viewModel: SearchCityViewModel, navController: NavController) {
 
 @Composable
 fun SearchViewContent(value: SearchCityContract.SearchCityState, click: (SearchCityDisplayable) -> Unit, search: (String) -> Unit) {
-    Column(Modifier.background(colorResource(R.color.background))) {
+    Column(Modifier.background(background)) {
         Text(
             text = "Search city",
             style = typography.h6,

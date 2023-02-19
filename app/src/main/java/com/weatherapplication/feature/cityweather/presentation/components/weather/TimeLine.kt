@@ -1,0 +1,116 @@
+@file:OptIn(ExperimentalTextApi::class)
+
+package com.weatherapplication.feature.cityweather.presentation.components
+
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.*
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+@Preview
+@Composable
+fun PreviewPorgressBar() {
+    ComposeCircularProgressBar(
+        percentage = 0.5f,
+        fillColor = element,
+        backgroundColor = Color(android.graphics.Color.parseColor("#90A4AE")),
+        strokeWidth = 10.dp
+    )
+}
+
+@Composable
+fun ComposeCircularProgressBar(
+    modifier: Modifier = Modifier,
+    percentage: Float,
+    fillColor: Color,
+    backgroundColor: Color,
+    strokeWidth: Dp
+) {
+    val textMeasurer = rememberTextMeasurer()
+    Canvas(
+        modifier = modifier
+            .width(250.dp).height(120.dp)
+            .padding(10.dp).padding(top = 20.dp)
+    ) {
+        drawArc(
+            color = backgroundColor,
+            210f,
+            120f,
+            false,
+            style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round),
+            size = Size(size.width, size.width)
+        )
+
+        drawArc(
+            color = fillColor,
+            210f,
+            percentage * 120f,
+            false,
+            style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round),
+            size = Size(size.width, size.width)
+        )
+
+        var angleInDegrees = percentage * 120f + 120.0
+        var radius = (size.width / 2)
+        var x = -(radius * kotlin.math.sin(Math.toRadians(angleInDegrees))).toFloat() + (size.width / 2)
+        var y = (radius * kotlin.math.cos(Math.toRadians(angleInDegrees))).toFloat() + (size.width / 2)
+
+        drawCircle(
+            color = Color.White,
+            radius = 10f,
+            center = Offset(x, y)
+        )
+
+        val textLayoutResult: TextLayoutResult = textMeasurer.measure(
+            text = AnnotatedString("12:00"),
+            style = TextStyle(fontSize = 12.sp, color = textColor)
+        )
+        val textSize = textLayoutResult.size
+
+
+            drawText(
+                textLayoutResult,
+                topLeft = Offset(x - textSize.width / 2, y - 70)
+            )
+
+        angleInDegrees = 120.0
+
+        x = -(radius * kotlin.math.sin(Math.toRadians(angleInDegrees))).toFloat() + (size.width / 2)
+        y = (radius * kotlin.math.cos(Math.toRadians(angleInDegrees))).toFloat() + (size.width / 2)
+        drawCircle(
+            color = Color.White,
+            radius = 10f,
+            center = Offset(x, y)
+        )
+
+        drawText(
+            textLayoutResult,
+            topLeft = Offset(x - textSize.width / 2, y + 20)
+        )
+        angleInDegrees = 240.0
+
+        x = -(radius * kotlin.math.sin(Math.toRadians(angleInDegrees))).toFloat() + (size.width / 2)
+        y = (radius * kotlin.math.cos(Math.toRadians(angleInDegrees))).toFloat() + (size.width / 2)
+        drawCircle(
+            color = Color.White,
+            radius = 10f,
+            center = Offset(x, y)
+        )
+        drawText(
+            textLayoutResult,
+            topLeft = Offset(x - textSize.width / 2, y + 20)
+        )
+    }
+}
