@@ -29,7 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.weatherapplication.R
-import com.weatherapplication.feature.cityweather.presentation.components.background
+import com.weatherapplication.feature.cityweather.presentation.newview.components.weather.background
 
 import com.weatherapplication.feature.searchcity.presentation.SearchCityFragmentDirections
 import com.weatherapplication.feature.searchcity.presentation.SearchCityViewModel

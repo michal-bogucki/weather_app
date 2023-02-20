@@ -11,13 +11,20 @@
         android:label="SearchCityFragment">
         <action
             android:id="@+id/action_searchCityFragment_to_weatherFragment"
-            app:destination="@id/weatherFragment" />
-
+            app:destination="@id/weatherNewFragment" />
     </fragment>
     <fragment
-        android:id="@+id/weatherFragment"
-        android:name="com.weatherapplication.feature.cityweather.presentation.WeatherFragment"
-        android:label="WeatherFragment">
+        android:id="@+id/airQualityFragment"
+        android:name="com.weatherapplication.feature.cityweather.presentation.newview.AirQualityFragment"
+        android:label="AirQualityFragment" />
+    <fragment
+        android:id="@+id/forecastFragment"
+        android:name="com.weatherapplication.feature.cityweather.presentation.newview.ForecastFragment"
+        android:label="ForecastFragment" />
+    <fragment
+        android:id="@+id/weatherNewFragment"
+        android:name="com.weatherapplication.feature.cityweather.presentation.newview.WeatherNewFragment"
+        android:label="WeatherNewFragment" >
         <argument
             android:name="cityId"
             app:argType="string" />

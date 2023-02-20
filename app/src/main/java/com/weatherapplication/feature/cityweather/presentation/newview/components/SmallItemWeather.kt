@@ -1,4 +1,4 @@
-package com.weatherapplication.feature.cityweather.presentation.components
+package com.weatherapplication.feature.cityweather.presentation.newview.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -17,6 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.weatherapplication.R
+import com.weatherapplication.feature.cityweather.presentation.newview.components.weather.element2
+import com.weatherapplication.feature.cityweather.presentation.newview.components.weather.textColor
 
 class SmallItemWeather
 

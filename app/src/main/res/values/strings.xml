@@ -20,5 +20,8 @@
     <string name="uv_index">UV Index</string>
     <string name="feels_like">Feels like</string>
     <string name="visibility">Visibility</string>
+    <string name="weather">Weather</string>
+    <string name="forecast">Forecast</string>
+    <string name="air_quality">Air Quality</string>
 
 </resources>

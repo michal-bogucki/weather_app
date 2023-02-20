@@ -1,15 +1,13 @@
-package com.weatherapplication.feature.cityweather.presentation.components.forecast
+package com.weatherapplication.feature.cityweather.presentation.newview.components.forecast
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.weatherapplication.feature.cityweather.presentation.WeatherViewModel
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherContract
+import com.weatherapplication.feature.cityweather.presentation.newview.ForecastViewModel
 
 @Preview
 @Composable
@@ -18,17 +16,20 @@ fun ForecastPreview() {
 }
 
 @Composable
-fun ForecastView(viewModel: WeatherViewModel, navController: NavController) {
+fun ForecastView(viewModel: ForecastViewModel, navController: NavController) {
     // val value by viewModel.state.collectAsState()
+    ForecastViewContent(value = WeatherContract.WeatherState())
 }
 
 @Composable
 fun ForecastViewContent(value: WeatherContract.WeatherState) {
     Column {
+        Spacer(modifier = Modifier.weight(1f))
         ForecastItemContent()
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.weight(1f))
         ForecastItemContent()
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.weight(1f))
         ForecastItemContent()
+        Spacer(modifier = Modifier.weight(1f))
     }
 }

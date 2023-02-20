@@ -1,4 +1,4 @@
-package com.weatherapplication.feature.cityweather.presentation.components
+package com.weatherapplication.feature.cityweather.presentation.newview.components.weather
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,8 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.weatherapplication.R
-import com.weatherapplication.feature.cityweather.presentation.WeatherViewModel
+import com.weatherapplication.feature.cityweather.presentation.components.ComposeCircularProgressBar
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherContract
+import com.weatherapplication.feature.cityweather.presentation.newview.WeatherNewViewModel
+import com.weatherapplication.feature.cityweather.presentation.newview.components.SmallItemWeatherContent
 
 // val background = Color(0xFF24293E)
 // val textColor = Color(0xFFF4F5FC)
@@ -54,8 +56,9 @@ fun WeatherPreview() {
 }
 
 @Composable
-fun WeatherView(viewModel: WeatherViewModel, navController: NavController) {
+fun WeatherView(viewModel: WeatherNewViewModel, navController: NavController) {
     // val value by viewModel.state.collectAsState()
+    WeatherViewContent(value = WeatherContract.WeatherState())
 }
 
 @Composable
