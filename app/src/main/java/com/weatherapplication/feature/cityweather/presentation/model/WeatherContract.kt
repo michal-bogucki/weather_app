@@ -1,16 +1,18 @@
 package com.weatherapplication.feature.cityweather.presentation.model
 
-import com.weatherapplication.core.data.NavigationEvent
-import com.weatherapplication.core.data.ViewEvent
-import com.weatherapplication.core.data.ViewState
+sealed interface WeatherContract {
 
-class WeatherContract {
-    data class WeatherState(
-        val isLoading: Boolean = false,
-        val error: String = "",
-        val weatherDisplayable: WeatherDisplayable? = null,
-        val listDate: List<DataDisplayable> = emptyList()
-    ) : ViewState
+    data class Success(val weatherDisplayable: WeatherDisplayable) : WeatherContract
+    data class Error(val error: String) : WeatherContract
+    object Loading : WeatherContract
 
-    sealed class WeatherEvent : ViewEvent
+//    data class WeatherState(
+//        val isLoading: Boolean = false,
+//        val error: String = "",
+//        val weatherDisplayable: WeatherDisplayable? = null,
+//    ) : ViewState
+//
+//    companion object {
+//        val Empty = WeatherState()
+//    }
 }

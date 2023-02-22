@@ -6,14 +6,14 @@ import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.Response
 
-inline fun <DB, REMOTE, DOMAIN> networkLocalBoundResource(
+inline fun <DB, REMOTE, T> networkLocalBoundResource(
     crossinline fetchFromLocal: suspend () -> Flow<DB>,
     crossinline shouldFetchFromRemote: suspend (DB?) -> Boolean = { true },
     crossinline shouldFetchFromLocale: suspend (DB?) -> Boolean = { false },
     crossinline fetchFromRemote: suspend () -> Response<REMOTE>,
     crossinline saveFetchResult: suspend (REMOTE) -> Unit,
-    crossinline changeToDomain: suspend (DB) -> (DOMAIN)
-) = flow<Resource<DOMAIN>> {
+    crossinline changeToDomain: suspend (DB) -> (T)
+) = flow<Resource<T>> {
     emit(Resource.loading())
     val data = fetchFromLocal().firstOrNull()
     if (shouldFetchFromRemote(data)) {

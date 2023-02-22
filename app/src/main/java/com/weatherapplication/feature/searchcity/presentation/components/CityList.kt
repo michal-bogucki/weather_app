@@ -1,8 +1,6 @@
 package com.weatherapplication.feature.searchcity.presentation.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -29,8 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.weatherapplication.R
-import com.weatherapplication.feature.cityweather.presentation.newview.components.weather.background
-
+import com.weatherapplication.feature.cityweather.presentation.view.components.weather.background
 import com.weatherapplication.feature.searchcity.presentation.SearchCityFragmentDirections
 import com.weatherapplication.feature.searchcity.presentation.SearchCityViewModel
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
@@ -39,7 +36,7 @@ import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDi
 @Preview
 @Composable
 fun ScreenPreview() {
-    SearchViewContent(SearchCityContract.SearchCityState.Empty, {}, {})
+    SearchViewContent(SearchCityContract.SearchCityState.Empty, {}, {}, {})
 }
 
 @Composable
@@ -48,11 +45,16 @@ fun SearchView(viewModel: SearchCityViewModel, navController: NavController) {
     SearchViewContent(value = value, click = { searchCityDisplayable ->
         viewModel.saveUserChoose(searchCityDisplayable)
         navController.navigate(SearchCityFragmentDirections.actionSearchCityFragmentToWeatherFragment(searchCityDisplayable.id))
-    }, search = viewModel::search)
+    }, search = viewModel::search, delete = viewModel::deleteUserChoose)
 }
 
 @Composable
-fun SearchViewContent(value: SearchCityContract.SearchCityState, click: (SearchCityDisplayable) -> Unit, search: (String) -> Unit) {
+fun SearchViewContent(
+    value: SearchCityContract.SearchCityState,
+    click: (SearchCityDisplayable) -> Unit,
+    search: (String) -> Unit,
+    delete: (SearchCityDisplayable) -> Unit,
+) {
     Column(Modifier.background(background)) {
         Text(
             text = "Search city",
@@ -61,12 +63,10 @@ fun SearchViewContent(value: SearchCityContract.SearchCityState, click: (SearchC
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .padding(top = 24.dp, bottom = 24.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         )
         SearchLabel(value.searchText, search)
-        CityList(value.actualSearchCityList) { city ->
-            click(city)
-        }
+        CityList(value.actualSearchCityList, click, delete)
     }
 }
 
@@ -87,40 +87,45 @@ fun SearchLabel(text: String, onSearchQueryChanged: (query: String) -> Unit) {
         colors = TextFieldDefaults.textFieldColors(
             textColor = White,
             backgroundColor = colorResource(R.color.search_background),
-            focusedIndicatorColor = Color.Transparent
-        )
+            focusedIndicatorColor = Color.Transparent,
+        ),
     )
 }
 
 @Composable
-fun CityList(botList: List<SearchCityDisplayable>, onClick: (SearchCityDisplayable) -> Unit) {
+fun CityList(botList: List<SearchCityDisplayable>, onClick: (SearchCityDisplayable) -> Unit, delete: (SearchCityDisplayable) -> Unit) {
     LazyColumn(
-        contentPadding = PaddingValues(horizontal = 16.dp)
+        contentPadding = PaddingValues(horizontal = 16.dp),
     ) {
         items(botList) { item: SearchCityDisplayable ->
-            CityItem(item = item, onClick = onClick)
+            CityItem(item = item, onClick = onClick, delete = delete)
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CityItem(item: SearchCityDisplayable, onClick: (SearchCityDisplayable) -> Unit) {
+fun CityItem(item: SearchCityDisplayable, onClick: (SearchCityDisplayable) -> Unit, delete: (SearchCityDisplayable) -> Unit) {
     val myFont = FontFamily(
         Font(R.font.rubik_medium, FontWeight.Medium),
-        Font(R.font.rubik_regular, FontWeight.Normal)
+        Font(R.font.rubik_regular, FontWeight.Normal),
     )
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp)
-            .clickable { onClick(item) }
+            .combinedClickable(
+                onClick = { onClick(item) },
+                onLongClick = { delete(item) },
+            ),
+
     ) {
         IconItemList(icon = if (item.isHistory) R.drawable.ic_round_history_24 else R.drawable.ic_round_location_on_24)
         Column(
             modifier = Modifier
                 .align(CenterVertically)
-                .weight(1f)
+                .weight(1f),
 
         ) {
             Text(
@@ -128,14 +133,14 @@ fun CityItem(item: SearchCityDisplayable, onClick: (SearchCityDisplayable) -> Un
                 style = typography.subtitle2,
                 color = Color.White,
                 fontFamily = myFont,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
             )
             Text(
                 text = item.countryName,
                 style = typography.subtitle2,
                 color = Color.Gray,
                 fontFamily = myFont,
-                fontWeight = FontWeight.Normal
+                fontWeight = FontWeight.Normal,
             )
         }
 
@@ -151,6 +156,6 @@ fun IconItemList(modifier: Modifier = Modifier, icon: Int) {
         modifier = modifier
             .size(40.dp)
             .padding(8.dp)
-            .clip(MaterialTheme.shapes.small)
+            .clip(MaterialTheme.shapes.small),
     )
 }

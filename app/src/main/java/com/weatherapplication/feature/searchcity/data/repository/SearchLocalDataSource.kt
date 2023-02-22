@@ -10,4 +10,5 @@ class SearchLocalDataSource @Inject constructor(private val searchCityDao: Searc
     suspend fun saveChooseCitySearch(searchCity: SearchCity) = searchCityDao.saveSearchCity(SearchCityCached(searchCity))
 
     fun getHistorySearchCity() = searchCityDao.getAllCity().map { it.toSearchCity() }
+    suspend fun deleteSearchCity(searchCity: SearchCity) = searchCityDao.deleteSearchCity(SearchCityCached(searchCity))
 }

@@ -27,8 +27,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.bottomNavigationView.itemIconTintList = null
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.searchCityFragment -> binding.bottomNavigationView.gone()
-                else -> binding.bottomNavigationView.visible()
+                R.id.searchCityFragment -> {
+                    binding.bottomNavigationView.gone()
+                    binding.divider.gone()
+                }
+                else -> {
+                    binding.bottomNavigationView.visible()
+                    binding.divider.visible()
+                }
             }
         }
     }

@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class SearchCityRepositoryImpl @Inject constructor(
     private val searchLocalDataSource: SearchLocalDataSource,
-    private val searchRemoteDataSource: SearchRemoteDataSource
+    private val searchRemoteDataSource: SearchRemoteDataSource,
 ) : SearchCityRepository {
 
     override suspend fun searchCity(cityName: String) = searchRemoteDataSource.searchCity(cityName)
@@ -14,4 +14,5 @@ class SearchCityRepositoryImpl @Inject constructor(
     override suspend fun saveChooseCitySearch(searchCity: SearchCity) = searchLocalDataSource.saveChooseCitySearch(searchCity)
 
     override fun getHistorySearchCity() = searchLocalDataSource.getHistorySearchCity()
+    override suspend fun deleteSearchCity(searchCity: SearchCity) = searchLocalDataSource.deleteSearchCity(searchCity)
 }

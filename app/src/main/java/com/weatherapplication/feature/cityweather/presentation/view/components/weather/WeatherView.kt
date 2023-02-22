@@ -1,4 +1,4 @@
-package com.weatherapplication.feature.cityweather.presentation.newview.components.weather
+package com.weatherapplication.feature.cityweather.presentation.view.components.weather
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -10,6 +10,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,8 +24,8 @@ import androidx.navigation.NavController
 import com.weatherapplication.R
 import com.weatherapplication.feature.cityweather.presentation.components.ComposeCircularProgressBar
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherContract
-import com.weatherapplication.feature.cityweather.presentation.newview.WeatherNewViewModel
-import com.weatherapplication.feature.cityweather.presentation.newview.components.SmallItemWeatherContent
+import com.weatherapplication.feature.cityweather.presentation.view.components.SmallItemWeatherContent
+import com.weatherapplication.feature.cityweather.presentation.view.weather.WeatherNewViewModel
 
 // val background = Color(0xFF24293E)
 // val textColor = Color(0xFFF4F5FC)
@@ -52,23 +54,28 @@ val element2 = Color(0xFFF79E1B)
 @Preview
 @Composable
 fun WeatherPreview() {
-    WeatherViewContent(value = WeatherContract.WeatherState())
+    WeatherViewContent(value = WeatherContract.Loading)
 }
 
 @Composable
 fun WeatherView(viewModel: WeatherNewViewModel, navController: NavController) {
-    // val value by viewModel.state.collectAsState()
-    WeatherViewContent(value = WeatherContract.WeatherState())
+    val value by viewModel.state.collectAsState()
+    WeatherViewContent(value = value)
 }
 
 @Composable
-fun WeatherViewContent(value: WeatherContract.WeatherState) {
+fun WeatherViewContent(value: WeatherContract) {
+    when (value) {
+        is WeatherContract.Error -> {}
+        WeatherContract.Loading -> {}
+        is WeatherContract.Success -> {}
+    }
     Column(Modifier.background(background)) {
         Row(
             Modifier
                 .fillMaxWidth()
                 .height(56.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
                 modifier = Modifier
@@ -76,11 +83,11 @@ fun WeatherViewContent(value: WeatherContract.WeatherState) {
                     .clickable {
                     },
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_round_menu_24),
-                    contentDescription = null
+                    contentDescription = null,
 
                 )
             }
@@ -92,11 +99,11 @@ fun WeatherViewContent(value: WeatherContract.WeatherState) {
                     .clickable {
                     },
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_round_search_24),
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
         }
@@ -105,33 +112,33 @@ fun WeatherViewContent(value: WeatherContract.WeatherState) {
             Modifier
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_round_location_on_24),
                 contentDescription = null,
                 modifier = Modifier
                     .size(24.dp),
-                colorFilter = ColorFilter.tint(element)
+                colorFilter = ColorFilter.tint(element),
 
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = "Kraków",
                 fontSize = 24.sp,
-                color = textColor
+                color = textColor,
 
             )
         }
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = "Sat, 3 Aug",
                 fontSize = 12.sp,
-                color = textColor
+                color = textColor,
 
             )
         }
@@ -139,40 +146,40 @@ fun WeatherViewContent(value: WeatherContract.WeatherState) {
         Row(
             Modifier
                 .fillMaxWidth().height(54.dp),
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
         ) {
             Column(
                 modifier = Modifier.weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
                     text = "3°",
                     fontSize = 24.sp,
-                    color = textColor
+                    color = textColor,
 
                 )
                 Text(
                     text = "min 3°/ max 3°",
                     fontSize = 16.sp,
-                    color = textColor
+                    color = textColor,
 
                 )
             }
             Spacer(modifier = Modifier.width(4.dp))
             Divider(
                 modifier = Modifier.background(element)
-                    .fillMaxHeight().width(2.dp)
+                    .fillMaxHeight().width(2.dp),
             )
             Spacer(modifier = Modifier.width(4.dp))
             Column(
                 modifier = Modifier.weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.weather_icon),
                     contentDescription = null,
                     modifier = Modifier.height(56.dp).fillMaxWidth(),
-                    colorFilter = ColorFilter.tint(textColor)
+                    colorFilter = ColorFilter.tint(textColor),
                 )
             }
         }
@@ -182,13 +189,13 @@ fun WeatherViewContent(value: WeatherContract.WeatherState) {
                 percentage = 0.80f,
                 fillColor = element,
                 backgroundColor = Color(android.graphics.Color.parseColor("#90A4AE")),
-                strokeWidth = 5.dp
+                strokeWidth = 5.dp,
             )
         }
         Spacer(modifier = Modifier.weight(1f))
         Column {
             LazyVerticalGrid(
-                columns = GridCells.Fixed(3)
+                columns = GridCells.Fixed(3),
             ) {
                 items(6) { index ->
                     Row(Modifier.height(IntrinsicSize.Min)) {
@@ -199,7 +206,7 @@ fun WeatherViewContent(value: WeatherContract.WeatherState) {
                                     color = element,
                                     modifier = Modifier
                                         .fillMaxWidth().padding(start = 8.dp, end = 8.dp)
-                                        .height(1.dp)
+                                        .height(1.dp),
                                 )
                             }
                         }
@@ -209,7 +216,7 @@ fun WeatherViewContent(value: WeatherContract.WeatherState) {
                                     color = element,
                                     modifier = Modifier
                                         .fillMaxHeight().padding(top = 8.dp, bottom = 8.dp)
-                                        .width(1.dp)
+                                        .width(1.dp),
                                 )
                             }
                         }
@@ -220,7 +227,7 @@ fun WeatherViewContent(value: WeatherContract.WeatherState) {
         Spacer(modifier = Modifier.weight(1f))
         Column {
             LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 items(14) {
                     SmallItemWeatherContent(title = "Sun", icon = R.drawable.sunny_24, text = "All 12")

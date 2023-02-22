@@ -15,15 +15,23 @@
     </fragment>
     <fragment
         android:id="@+id/airQualityFragment"
-        android:name="com.weatherapplication.feature.cityweather.presentation.newview.AirQualityFragment"
-        android:label="AirQualityFragment" />
+        android:name="com.weatherapplication.feature.cityweather.presentation.view.airquality.AirQualityFragment"
+        android:label="AirQualityFragment">
+        <argument
+            android:name="cityId"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/forecastFragment"
-        android:name="com.weatherapplication.feature.cityweather.presentation.newview.ForecastFragment"
-        android:label="ForecastFragment" />
+        android:name="com.weatherapplication.feature.cityweather.presentation.view.forecast.ForecastFragment"
+        android:label="ForecastFragment">
+        <argument
+            android:name="cityId"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/weatherNewFragment"
-        android:name="com.weatherapplication.feature.cityweather.presentation.newview.WeatherNewFragment"
+        android:name="com.weatherapplication.feature.cityweather.presentation.view.weather.WeatherNewFragment"
         android:label="WeatherNewFragment" >
         <argument
             android:name="cityId"

@@ -1,6 +1,6 @@
 package com.weatherapplication.core.di.module
 
-import com.weatherapplication.feature.cityweather.data.api.WeatherApiService
+import com.weatherapplication.feature.cityweather.data.remote.WeatherApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

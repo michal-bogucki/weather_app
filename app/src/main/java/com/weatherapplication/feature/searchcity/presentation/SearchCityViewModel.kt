@@ -2,8 +2,9 @@ package com.weatherapplication.feature.searchcity.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.weatherapplication.feature.searchcity.domain.usecase.ChooseCityUseCase
+import com.weatherapplication.feature.searchcity.domain.usecase.DeleteChooseCityUseCase
 import com.weatherapplication.feature.searchcity.domain.usecase.SearchCityUseCase
+import com.weatherapplication.feature.searchcity.domain.usecase.UpdateChooseCityUseCase
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,24 +15,25 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchCityViewModel @Inject constructor(
     private val searchCityUseCase: SearchCityUseCase,
-    private val chooseCityUseCase: ChooseCityUseCase
+    private val updateChooseCityUseCase: UpdateChooseCityUseCase,
+    private val deleteChooseCityUseCase: DeleteChooseCityUseCase,
 ) : ViewModel() {
     private val searchQuery = MutableStateFlow("")
     private val errorMessage = MutableStateFlow("")
     val state: StateFlow<SearchCityContract.SearchCityState> = combine(
         searchCityUseCase.flow,
         searchQuery,
-        errorMessage
+        errorMessage,
     ) { searchList, searchQuery, errorMessage ->
         SearchCityContract.SearchCityState(
             error = errorMessage,
             searchText = searchQuery,
-            actualSearchCityList = searchList.map { SearchCityDisplayable(it) }
+            actualSearchCityList = searchList.map { SearchCityDisplayable(it) },
         )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = SearchCityContract.SearchCityState.Empty
+        initialValue = SearchCityContract.SearchCityState.Empty,
     )
 
     init {
@@ -41,11 +43,9 @@ class SearchCityViewModel @Inject constructor(
                     searchCityUseCase(SearchCityUseCase.Params(query))
                 }
                 job.join()
-            }
-                .catch { throwable ->
-                    errorMessage.value = throwable.message ?: "Error"
-                }
-                .collect()
+            }.catch { throwable ->
+                errorMessage.value = throwable.message ?: "Error"
+            }.collect()
         }
     }
 
@@ -56,7 +56,15 @@ class SearchCityViewModel @Inject constructor(
     fun saveUserChoose(searchCity: SearchCityDisplayable) {
         viewModelScope.launch {
             searchQuery.value = ""
-            chooseCityUseCase(searchCity.toSearchCity(), viewModelScope)
+            updateChooseCityUseCase.executeSync(UpdateChooseCityUseCase.Params(searchCity.toSearchCity()))
+        }
+    }
+
+    fun deleteUserChoose(searchCity: SearchCityDisplayable) { // ???
+        viewModelScope.launch {
+            deleteChooseCityUseCase.executeSync(DeleteChooseCityUseCase.Params(searchCity.toSearchCity()))
+            searchCityUseCase(SearchCityUseCase.Params("123"))
+            searchCityUseCase(SearchCityUseCase.Params(""))
         }
     }
 }

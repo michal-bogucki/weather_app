@@ -1,6 +1,6 @@
 package com.weatherapplication.feature.cityweather.data.repository
 
-import com.weatherapplication.feature.cityweather.data.api.WeatherApiService
+import com.weatherapplication.feature.cityweather.data.remote.WeatherApiService
 import com.weatherapplication.feature.searchcity.domain.model.SearchCity
 import javax.inject.Inject
 

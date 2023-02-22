@@ -1,4 +1,4 @@
-package com.weatherapplication.feature.cityweather.presentation.newview
+package com.weatherapplication.feature.cityweather.presentation.view.forecast
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,34 +1,32 @@
 package com.weatherapplication.feature.cityweather.presentation.model
 
-import com.weatherapplication.core.data.Item
+import com.weatherapplication.core.base.ValueState
 import com.weatherapplication.feature.cityweather.domain.model.HourTemperature
 import com.weatherapplication.feature.cityweather.domain.model.WeatherData
 import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class WeatherDisplayable(
-    override val id: Int,
     val cityName: String,
     val date: LocalDate,
     val lastUpdate: LocalDateTime,
     val countryName: String,
-    val weatherIcon: String,
-    val temperature: Double,
-    val minTemperature: Double,
-    val maxTemperature: Double,
-    val conditionWeatherName: String,
-    val sunrise: String,
-    val sunset: String,
-    val windSpeed: Double,
-    val humidity: Int,
-    val precipitation: Double,
-    val uvIndex: Double,
-    val feelLike: Double,
-    val visibility: Double,
+    val weatherIcon: ValueState<String>,
+    val temperature: ValueState<Double>,
+    val minTemperature: ValueState<Double>,
+    val maxTemperature: ValueState<Double>,
+    val conditionWeatherName: ValueState<String>,
+    val sunrise: ValueState<String>,
+    val sunset: ValueState<String>,
+    val windSpeed: ValueState<Double>,
+    val humidity: ValueState<Int>,
+    val precipitation: ValueState<Double>,
+    val uvIndex: ValueState<Double>,
+    val feelLike: ValueState<Double>,
+    val visibility: ValueState<Double>,
     val listHourTemperature: List<HourTemperatureDisplayable>,
-) : Item {
+) {
     constructor(weather: WeatherData) : this(
-        weather.date.hashCode(),
         weather.cityName,
         weather.date,
         weather.lastUpdate,
@@ -46,20 +44,18 @@ data class WeatherDisplayable(
         weather.uvIndex,
         weather.feelLike,
         weather.visibility,
-        weather.listHourTemperature.map { HourTemperatureDisplayable(it, weather.date.hashCode()) }
+        weather.listHourTemperature.map { HourTemperatureDisplayable(it) },
     )
 }
 
 data class HourTemperatureDisplayable(
-    val hour: String,
-    val temperature: Double,
-    val weatherIcon: String,
-    override val id: Int,
-) : Item {
-    constructor(hour: HourTemperature, id: Int) : this(
+    val hour: ValueState<String>,
+    val temperature: ValueState<Double>,
+    val weatherIcon: ValueState<String>,
+) {
+    constructor(hour: HourTemperature) : this(
         hour.hour,
         hour.temperature,
         hour.weatherIcon,
-        id
     )
 }
