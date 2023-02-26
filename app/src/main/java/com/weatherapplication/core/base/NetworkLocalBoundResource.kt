@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.Response
+import timber.log.Timber
 
 inline fun <DB, REMOTE, T> networkLocalBoundResource(
     crossinline fetchFromLocal: suspend () -> Flow<DB>,
@@ -12,11 +13,12 @@ inline fun <DB, REMOTE, T> networkLocalBoundResource(
     crossinline shouldFetchFromLocale: suspend (DB?) -> Boolean = { false },
     crossinline fetchFromRemote: suspend () -> Response<REMOTE>,
     crossinline saveFetchResult: suspend (REMOTE) -> Unit,
-    crossinline changeToDomain: suspend (DB) -> (T)
+    crossinline changeToDomain: suspend (DB) -> (T),
 ) = flow<Resource<T>> {
     emit(Resource.loading())
     val data = fetchFromLocal().firstOrNull()
-    if (shouldFetchFromRemote(data)) {
+    val shouldFetchFromRemote1 = shouldFetchFromRemote(data)
+    if (shouldFetchFromRemote1) {
         if (data != null && shouldFetchFromLocale(data)) {
             emit(Resource.success(changeToDomain(data)))
         }
@@ -38,6 +40,9 @@ inline fun <DB, REMOTE, T> networkLocalBoundResource(
     } else {
         emitAll(fetchFromLocal().map { dbData -> Resource.success(changeToDomain(dbData)) })
     }
+}.catch {
+    val v = it.message.toString()
+    emit(Resource.error(v))
 }
 
 @Suppress("BlockingMethodInNonBlockingContext")

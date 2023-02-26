@@ -5,15 +5,16 @@ import com.weatherapplication.feature.cityweather.data.local.model.WeatherCached
 import com.weatherapplication.feature.cityweather.data.remote.WeatherModelRemote
 import com.weatherapplication.feature.searchcity.data.local.dao.SearchCityDao
 import com.weatherapplication.feature.searchcity.domain.model.SearchCity
+import java.time.LocalDate
 import javax.inject.Inject
 
 class WeatherLocalDataSource @Inject constructor(
     private val searchCityDao: SearchCityDao,
     private val weatherDao: WeatherDao,
 ) {
-    fun getCity(city: String) = searchCityDao.getSearchCityById(city).toSearchCity()
+    suspend fun getCity(city: String) = searchCityDao.getSearchCityById(city).toSearchCity()
 
-    fun getWeatherFromLocal(city: SearchCity) = weatherDao.getWeatherById(city.cityName)
+    fun getWeatherFromLocal(city: SearchCity, now: LocalDate) = weatherDao.getWeatherById(city.cityName, now)
 
     fun saveWeatherToDatabase(weatherRemote: WeatherModelRemote, city: SearchCity) {
         val list: MutableList<WeatherCached> = mutableListOf()

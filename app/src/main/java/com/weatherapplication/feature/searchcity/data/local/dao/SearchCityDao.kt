@@ -12,7 +12,7 @@ interface SearchCityDao {
     suspend fun updateSearchCityCached(music: SearchCityCached)
 
     @Query("SELECT * FROM SearchCityCached WHERE cityName = :cityName")
-    fun getSearchCityById(cityName: String): SearchCityCached
+    suspend fun getSearchCityById(cityName: String): SearchCityCached
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun saveSearchCity(vararg searchCityCached: SearchCityCached)

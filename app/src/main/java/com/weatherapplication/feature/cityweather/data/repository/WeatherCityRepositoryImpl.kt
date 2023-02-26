@@ -10,7 +10,6 @@ import com.weatherapplication.feature.searchcity.domain.model.SearchCity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.mapNotNull
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -20,20 +19,12 @@ class WeatherCityRepositoryImpl @Inject constructor(
     private val weatherLocalDataSource: WeatherLocalDataSource,
     private val weatherRemoteDataSource: WeatherRemoteDataSource,
 ) : WeatherCityRepository {
-    override fun getCity(city: String) = weatherLocalDataSource.getCity(city)
+    override suspend fun getCity(city: String) = weatherLocalDataSource.getCity(city)
 
     override fun getWeather(city: SearchCity): Flow<Resource<WeatherData>> {
         val networkBoundFlow = networkLocalBoundResource(
             fetchFromLocal = {
-                getWeatherFromLocal(city).mapNotNull { list ->
-                    if (list.isNotEmpty()) {
-                        list.first {
-                            it.date == LocalDate.now()
-                        }
-                    } else {
-                        null
-                    }
-                }
+                getWeatherFromLocal(city, LocalDate.now())
             },
             shouldFetchFromRemote = { weatherCachedList ->
                 refreshData(weatherCachedList)
@@ -63,7 +54,7 @@ class WeatherCityRepositoryImpl @Inject constructor(
 
     private suspend fun getWeatherFromApi(city: SearchCity) = weatherRemoteDataSource.getWeatherFromApi(city)
 
-    private fun getWeatherFromLocal(city: SearchCity) = weatherLocalDataSource.getWeatherFromLocal(city)
+    private fun getWeatherFromLocal(city: SearchCity, now: LocalDate) = weatherLocalDataSource.getWeatherFromLocal(city, now)
 
     private fun saveWeatherToDatabase(weatherRemote: WeatherModelRemote, city: SearchCity) =
         weatherLocalDataSource.saveWeatherToDatabase(weatherRemote, city)

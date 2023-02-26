@@ -17,13 +17,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.weatherapplication.R
-import com.weatherapplication.feature.cityweather.presentation.components.ComposeCircularProgressBar
+import com.weatherapplication.core.base.ValueState
+import com.weatherapplication.feature.cityweather.presentation.getUnitSymbol
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherContract
+import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
 import com.weatherapplication.feature.cityweather.presentation.view.components.SmallItemWeatherContent
 import com.weatherapplication.feature.cityweather.presentation.view.weather.WeatherNewViewModel
 
@@ -66,10 +69,58 @@ fun WeatherView(viewModel: WeatherNewViewModel, navController: NavController) {
 @Composable
 fun WeatherViewContent(value: WeatherContract) {
     when (value) {
-        is WeatherContract.Error -> {}
-        WeatherContract.Loading -> {}
-        is WeatherContract.Success -> {}
+        is WeatherContract.Error -> {
+            ViewError(error = value.error)
+        }
+        WeatherContract.Loading -> {
+            ViewLoading()
+        }
+        is WeatherContract.Success -> {
+            ViewWeather(value.weatherDisplayable)
+        }
     }
+}
+
+@Composable
+fun ViewLoading() {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Text(
+            text = "Please wait...",
+            style = TextStyle(
+                color = Color.White,
+                fontSize = 16.sp,
+
+            ),
+        )
+    }
+}
+
+@Composable
+fun ViewError(error: String) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Text(
+            text = "Error \n ",
+            style = TextStyle(
+                color = Color.White,
+                fontSize = 16.sp,
+
+            ),
+        )
+    }
+}
+
+@Composable
+private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
     Column(Modifier.background(background)) {
         Row(
             Modifier
@@ -124,7 +175,7 @@ fun WeatherViewContent(value: WeatherContract) {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Kraków",
+                text = weatherDisplayable.cityName,
                 fontSize = 24.sp,
                 color = textColor,
 
@@ -136,7 +187,7 @@ fun WeatherViewContent(value: WeatherContract) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = "Sat, 3 Aug",
+                text = weatherDisplayable.date.toString(),
                 fontSize = 12.sp,
                 color = textColor,
 
@@ -145,21 +196,34 @@ fun WeatherViewContent(value: WeatherContract) {
         Spacer(modifier = Modifier.height(16.dp))
         Row(
             Modifier
-                .fillMaxWidth().height(54.dp),
+                .fillMaxWidth()
+                .height(54.dp),
             horizontalArrangement = Arrangement.Center,
         ) {
             Column(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                val valueTemperature = when (val temperature = weatherDisplayable.temperature) {
+                    ValueState.Empty -> "-"
+                    is ValueState.Value -> temperature.value.toString()
+                } + getUnitSymbol("temperature")
+                val valueMaxTemperature = when (val temperature = weatherDisplayable.maxTemperature) {
+                    ValueState.Empty -> "-"
+                    is ValueState.Value -> temperature.value.toString()
+                } + getUnitSymbol("temperature")
+                val valueMinTemperature = when (val temperature = weatherDisplayable.maxTemperature) {
+                    ValueState.Empty -> "-"
+                    is ValueState.Value -> temperature.value.toString()
+                } + getUnitSymbol("temperature")
                 Text(
-                    text = "3°",
+                    text = valueTemperature,
                     fontSize = 24.sp,
                     color = textColor,
 
                 )
                 Text(
-                    text = "min 3°/ max 3°",
+                    text = "min $valueMinTemperature/ max $valueMaxTemperature",
                     fontSize = 16.sp,
                     color = textColor,
 
@@ -167,8 +231,10 @@ fun WeatherViewContent(value: WeatherContract) {
             }
             Spacer(modifier = Modifier.width(4.dp))
             Divider(
-                modifier = Modifier.background(element)
-                    .fillMaxHeight().width(2.dp),
+                modifier = Modifier
+                    .background(element)
+                    .fillMaxHeight()
+                    .width(2.dp),
             )
             Spacer(modifier = Modifier.width(4.dp))
             Column(
@@ -178,7 +244,9 @@ fun WeatherViewContent(value: WeatherContract) {
                 Image(
                     painter = painterResource(id = R.drawable.weather_icon),
                     contentDescription = null,
-                    modifier = Modifier.height(56.dp).fillMaxWidth(),
+                    modifier = Modifier
+                        .height(56.dp)
+                        .fillMaxWidth(),
                     colorFilter = ColorFilter.tint(textColor),
                 )
             }
@@ -205,7 +273,8 @@ fun WeatherViewContent(value: WeatherContract) {
                                 Divider(
                                     color = element,
                                     modifier = Modifier
-                                        .fillMaxWidth().padding(start = 8.dp, end = 8.dp)
+                                        .fillMaxWidth()
+                                        .padding(start = 8.dp, end = 8.dp)
                                         .height(1.dp),
                                 )
                             }
@@ -215,7 +284,8 @@ fun WeatherViewContent(value: WeatherContract) {
                                 Divider(
                                     color = element,
                                     modifier = Modifier
-                                        .fillMaxHeight().padding(top = 8.dp, bottom = 8.dp)
+                                        .fillMaxHeight()
+                                        .padding(top = 8.dp, bottom = 8.dp)
                                         .width(1.dp),
                                 )
                             }

@@ -20,11 +20,13 @@ class SearchCityViewModel @Inject constructor(
 ) : ViewModel() {
     private val searchQuery = MutableStateFlow("")
     private val errorMessage = MutableStateFlow("")
+    private val deleteState = MutableStateFlow(false)//nazwa
     val state: StateFlow<SearchCityContract.SearchCityState> = combine(
         searchCityUseCase.flow,
         searchQuery,
         errorMessage,
-    ) { searchList, searchQuery, errorMessage ->
+        deleteState,
+    ) { searchList, searchQuery, errorMessage, _ ->
         SearchCityContract.SearchCityState(
             error = errorMessage,
             searchText = searchQuery,
@@ -63,8 +65,7 @@ class SearchCityViewModel @Inject constructor(
     fun deleteUserChoose(searchCity: SearchCityDisplayable) { // ???
         viewModelScope.launch {
             deleteChooseCityUseCase.executeSync(DeleteChooseCityUseCase.Params(searchCity.toSearchCity()))
-            searchCityUseCase(SearchCityUseCase.Params("123"))
-            searchCityUseCase(SearchCityUseCase.Params(""))
+            deleteState.value = deleteState.value.not()
         }
     }
 }
