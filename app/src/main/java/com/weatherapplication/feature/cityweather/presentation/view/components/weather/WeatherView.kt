@@ -7,9 +7,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -22,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.weatherapplication.R
 import com.weatherapplication.core.base.ValueState
 import com.weatherapplication.feature.cityweather.presentation.getUnitSymbol
@@ -29,6 +33,7 @@ import com.weatherapplication.feature.cityweather.presentation.model.WeatherCont
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
 import com.weatherapplication.feature.cityweather.presentation.view.components.SmallItemWeatherContent
 import com.weatherapplication.feature.cityweather.presentation.view.weather.WeatherNewViewModel
+import java.time.LocalDateTime
 
 // val background = Color(0xFF24293E)
 // val textColor = Color(0xFFF4F5FC)
@@ -109,7 +114,7 @@ fun ViewError(error: String) {
         Spacer(modifier = Modifier.height(32.dp))
 
         Text(
-            text = "Error \n ",
+            text = "Error \n $error",
             style = TextStyle(
                 color = Color.White,
                 fontSize = 16.sp,
@@ -241,8 +246,12 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.weather_icon),
+                val url = when (val url = weatherDisplayable.weatherIcon) {
+                    ValueState.Empty -> "-"
+                    is ValueState.Value -> "https:" + url.value
+                }
+                AsyncImage(
+                    model = url,
                     contentDescription = null,
                     modifier = Modifier
                         .height(56.dp)
@@ -253,11 +262,22 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
         }
         Spacer(modifier = Modifier.height(16.dp))
         Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            val sunrise = when (val sunrise = weatherDisplayable.sunrise) {
+                ValueState.Empty -> "-"
+                is ValueState.Value -> sunrise.value
+            }
+
+            val sunset = when (val sunset = weatherDisplayable.sunset) {
+                ValueState.Empty -> "-"
+                is ValueState.Value -> sunset.value
+            }
             ComposeCircularProgressBar(
                 percentage = 0.80f,
                 fillColor = element,
                 backgroundColor = Color(android.graphics.Color.parseColor("#90A4AE")),
                 strokeWidth = 5.dp,
+                sunrise = sunrise,
+                sunset = sunset,
             )
         }
         Spacer(modifier = Modifier.weight(1f))
@@ -296,12 +316,36 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
         }
         Spacer(modifier = Modifier.weight(1f))
         Column {
+            val listState = rememberLazyListState()
             LazyRow(
+                state = listState,
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                items(14) {
-                    SmallItemWeatherContent(title = "Sun", icon = R.drawable.sunny_24, text = "All 12")
+                items(weatherDisplayable.listHourTemperature) {
+                    val temperature = when (val temperature = it.temperature) {
+                        ValueState.Empty -> "-"
+                        is ValueState.Value -> temperature.value.toString()
+                    } + getUnitSymbol("temperature")
+                    val hour = when (val hour = it.hour) {
+                        ValueState.Empty -> "-"
+                        is ValueState.Value -> hour.value
+                    }
+                    val url = when (val url = it.weatherIcon) {
+                        ValueState.Empty -> "-"
+                        is ValueState.Value -> "https:" + url.value
+                    }
+                    SmallItemWeatherContent(title = hour, icon = url, text = temperature)
                 }
+            }
+            LaunchedEffect(weatherDisplayable.listHourTemperature) {
+                val index = weatherDisplayable.listHourTemperature.indexOfFirst {
+                    val hour = when (val hour = it.hour) {
+                        ValueState.Empty -> "-"
+                        is ValueState.Value -> hour.value
+                    }
+                    hour.contains(LocalDateTime.now().hour.toString())
+                }
+                listState.scrollToItem(index)
             }
         }
     }

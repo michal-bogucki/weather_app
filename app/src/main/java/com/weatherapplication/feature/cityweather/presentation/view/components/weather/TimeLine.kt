@@ -18,6 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Preview
 @Composable
@@ -27,6 +29,8 @@ fun PreviewPorgressBar() {
         fillColor = element,
         backgroundColor = Color(android.graphics.Color.parseColor("#90A4AE")),
         strokeWidth = 10.dp,
+        sunrise = "07:30",
+        sunset = "18:45",
     )
 }
 
@@ -37,6 +41,8 @@ fun ComposeCircularProgressBar(
     fillColor: Color,
     backgroundColor: Color,
     strokeWidth: Dp,
+    sunrise: String,
+    sunset: String,
 ) {
     val textMeasurer = rememberTextMeasurer()
     Canvas(
@@ -73,11 +79,11 @@ fun ComposeCircularProgressBar(
             center = Offset(x, y),
         )
 
-        val textLayoutResult: TextLayoutResult = textMeasurer.measure(
-            text = AnnotatedString("12:00"),
+        var textLayoutResult: TextLayoutResult = textMeasurer.measure(
+            text = AnnotatedString(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME).substring(0,5)),
             style = TextStyle(fontSize = 12.sp, color = textColor),
         )
-        val textSize = textLayoutResult.size
+        var textSize = textLayoutResult.size
 
         drawText(
             textLayoutResult,
@@ -89,7 +95,11 @@ fun ComposeCircularProgressBar(
         x = -(radius * kotlin.math.sin(Math.toRadians(angleInDegrees))).toFloat() + (size.width / 2)
         y = (radius * kotlin.math.cos(Math.toRadians(angleInDegrees))).toFloat() + (size.width / 2)
         val center1 = Offset(x, y)
-
+        textLayoutResult = textMeasurer.measure(
+            text = AnnotatedString(sunrise),
+            style = TextStyle(fontSize = 12.sp, color = textColor),
+        )
+        textSize = textLayoutResult.size
         drawText(
             textLayoutResult,
             topLeft = Offset(x - textSize.width / 2, y + 20),
@@ -99,7 +109,11 @@ fun ComposeCircularProgressBar(
         x = -(radius * kotlin.math.sin(Math.toRadians(angleInDegrees))).toFloat() + (size.width / 2)
         y = (radius * kotlin.math.cos(Math.toRadians(angleInDegrees))).toFloat() + (size.width / 2)
         val center2 = Offset(x, y)
-
+        textLayoutResult = textMeasurer.measure(
+            text = AnnotatedString(sunset),
+            style = TextStyle(fontSize = 12.sp, color = textColor),
+        )
+        textSize = textLayoutResult.size
         drawText(
             textLayoutResult,
             topLeft = Offset(x - textSize.width / 2, y + 20),
