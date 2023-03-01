@@ -2,6 +2,7 @@ package com.weatherapplication.core.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.navigation.NavArgument
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.weatherapplication.R
@@ -19,13 +20,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setContentView(binding.root)
         initBottomNavView()
     }
-
+    var cityId: String? = null
     private fun initBottomNavView() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNavigationView.setupWithNavController(navController)
         binding.bottomNavigationView.itemIconTintList = null
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+
+        navController.addOnDestinationChangedListener { _, destination, bundle ->
+
             when (destination.id) {
                 R.id.searchCityFragment -> {
                     binding.bottomNavigationView.gone()
@@ -34,6 +37,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 else -> {
                     binding.bottomNavigationView.visible()
                     binding.divider.visible()
+                }
+            }
+
+            when (destination.id) {
+                R.id.weatherNewFragment -> {
+                    cityId = bundle?.getString("cityId")
                 }
             }
         }

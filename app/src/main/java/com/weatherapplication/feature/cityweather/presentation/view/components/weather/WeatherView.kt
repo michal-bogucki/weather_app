@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
@@ -27,7 +28,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.weatherapplication.R
+import com.weatherapplication.core.background
 import com.weatherapplication.core.base.ValueState
+import com.weatherapplication.core.element
+import com.weatherapplication.core.textColor
 import com.weatherapplication.feature.cityweather.presentation.getUnitSymbol
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherContract
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
@@ -35,30 +39,6 @@ import com.weatherapplication.feature.cityweather.presentation.view.components.S
 import com.weatherapplication.feature.cityweather.presentation.view.weather.WeatherNewViewModel
 import java.time.LocalDateTime
 
-// val background = Color(0xFF24293E)
-// val textColor = Color(0xFFF4F5FC)
-// val element = Color(0xFF8EBBFF)
-// val element2 = Color(0xFFCCCCCC)
-
-val background = Color(0xFF171923)
-val textColor = Color(0xFFFFFFFF)
-val element = Color(0xFFF79E1B)
-val element2 = Color(0xFFF79E1B)
-
-// val background = Color(0xFF191D2B)
-// val textColor = Color(0xFFF3E1D3)
-// val element = Color(0xFFFB7023)
-// val element2 = Color(0xFFFB7023)
-
-// val background = Color(0xFF292A31)
-// val textColor = Color(0xFFFFFFFF)
-// val element = Color(0xFFFFB700)
-// val element2 = Color(0xFF4871FF)
-
-// val background = Color(0xFF5D5E67)
-// val textColor = Color(0xFFFFFFFF)
-// val element = Color(0xFFDDD8AE)
-// val element2 = Color(0xFFDDD8AE)
 @Preview
 @Composable
 fun WeatherPreview() {
@@ -133,21 +113,6 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
                 .height(56.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Column(
-                modifier = Modifier
-                    .size(48.dp)
-                    .clickable {
-                    },
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_round_menu_24),
-                    contentDescription = null,
-
-                )
-            }
-
             Spacer(modifier = Modifier.weight(1f))
             Column(
                 modifier = Modifier
@@ -158,7 +123,7 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_round_search_24),
+                    painter = painterResource(id = R.drawable.baseline_settings_24),
                     contentDescription = null,
                 )
             }
@@ -217,7 +182,7 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
                     ValueState.Empty -> "-"
                     is ValueState.Value -> temperature.value.toString()
                 } + getUnitSymbol("temperature")
-                val valueMinTemperature = when (val temperature = weatherDisplayable.maxTemperature) {
+                val valueMinTemperature = when (val temperature = weatherDisplayable.minTemperature) {
                     ValueState.Empty -> "-"
                     is ValueState.Value -> temperature.value.toString()
                 } + getUnitSymbol("temperature")
@@ -256,7 +221,6 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
                     modifier = Modifier
                         .height(56.dp)
                         .fillMaxWidth(),
-                    colorFilter = ColorFilter.tint(textColor),
                 )
             }
         }
@@ -285,10 +249,10 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
             ) {
-                items(6) { index ->
+                itemsIndexed(getListWidget(weatherDisplayable)) { index, item ->
                     Row(Modifier.height(IntrinsicSize.Min)) {
                         Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                            SmallItemWeatherContent(title = "Sun", icon = R.drawable.sunny_24, text = "All 12")
+                            SmallItemWeatherContent(title = item.second, icon = item.third, text = item.first)
                             if (index in (0..2)) {
                                 Divider(
                                     color = element,
@@ -349,4 +313,38 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
             }
         }
     }
+}
+
+fun getListWidget(weatherDisplayable: WeatherDisplayable): List<Triple<String, String, Int>> {
+    val windSpeed = when (val windSpeed = weatherDisplayable.windSpeed) {
+        ValueState.Empty -> "-"
+        is ValueState.Value -> windSpeed.value.toString()
+    } + getUnitSymbol("windSpeed")
+    val windSpeedT = Triple(windSpeed, "Wind", R.drawable.weather_windy)
+    val humidity = when (val humidity = weatherDisplayable.humidity) {
+        ValueState.Empty -> "-"
+        is ValueState.Value -> humidity.value.toString()
+    } + getUnitSymbol("humidity")
+    val humidityT = Triple(humidity, "Humidity", R.drawable.water_percent)
+    val precipitation = when (val precipitation = weatherDisplayable.precipitation) {
+        ValueState.Empty -> "-"
+        is ValueState.Value -> precipitation.value.toString()
+    } + getUnitSymbol("precipitation")
+    val precipitationT = Triple(precipitation, "Precipitation", R.drawable.weather_pouring)
+    val uvIndex = when (val uvIndex = weatherDisplayable.uvIndex) {
+        ValueState.Empty -> "-"
+        is ValueState.Value -> uvIndex.value.toString()
+    } + getUnitSymbol("uvIndex")
+    val uvIndexT = Triple(uvIndex, "Index UV", R.drawable.sun_wireless)
+    val feelLike = when (val feelLike = weatherDisplayable.feelLike) {
+        ValueState.Empty -> "-"
+        is ValueState.Value -> feelLike.value.toString()
+    } + getUnitSymbol("temperature")
+    val feelLikeT = Triple(feelLike, "Feellike", R.drawable.sun_thermometer)
+    val visibility = when (val visibility = weatherDisplayable.visibility) {
+        ValueState.Empty -> "-"
+        is ValueState.Value -> visibility.value.toString()
+    } + getUnitSymbol("Visibility")
+    val visibilityT = Triple(visibility, "Visibility", R.drawable.eye)
+    return listOf(windSpeedT, humidityT, precipitationT, uvIndexT, feelLikeT, visibilityT)
 }

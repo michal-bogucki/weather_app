@@ -9,15 +9,16 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetTodayWeatherUseCase @Inject constructor(private val weatherCityRepository: WeatherCityRepository) :
-    SubjectUseCase<GetTodayWeatherUseCase.Params, Resource<WeatherData>>() {
+class GetNextDayWeatherUseCase @Inject constructor(private val weatherCityRepository: WeatherCityRepository) :
+    SubjectUseCase<GetNextDayWeatherUseCase.Params, Resource<List<WeatherData>>>() {
 
     data class Params(val cityId: String)
 
-    override fun createObservable(params: Params): Flow<Resource<WeatherData>> {
+    override fun createObservable(params: Params): Flow<Resource<List<WeatherData>>> {
         return flow {
             val city = weatherCityRepository.getCity(params.cityId)
-            emitAll(weatherCityRepository.getWeatherToday(city))
+
+            emitAll(weatherCityRepository.getWeatherNextDays(city))
         }
     }
 }

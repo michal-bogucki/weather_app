@@ -10,14 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.weatherapplication.R
-import com.weatherapplication.feature.cityweather.presentation.view.components.weather.element2
-import com.weatherapplication.feature.cityweather.presentation.view.components.weather.textColor
+import com.weatherapplication.core.textColor
 
 class SmallItemWeather
 
@@ -70,7 +68,7 @@ fun SmallItemWeatherView() {
 fun SmallItemWeatherContent(title: String, icon: Any, text: String) {
     Column(
         modifier = Modifier
-            .fillMaxWidth().padding(16.dp)
+            .fillMaxWidth().padding(16.dp).height(70.dp)
             .clickable {
             },
         verticalArrangement = Arrangement.Center,
@@ -80,19 +78,20 @@ fun SmallItemWeatherContent(title: String, icon: Any, text: String) {
             modifier = Modifier.size(36.dp),
             model = icon,
             contentDescription = null,
-            colorFilter = ColorFilter.tint(element2),
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(
+            modifier = Modifier.height(16.dp),
             text = title,
-            fontSize = 16.sp,
+            fontSize = 14.sp,
             color = textColor,
 
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(
+            modifier = Modifier.height(14.dp),
             text = text,
-            fontSize = 14.sp,
+            fontSize = 12.sp,
             color = textColor,
 
         )

@@ -18,6 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.weatherapplication.core.element
+import com.weatherapplication.core.textColor
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

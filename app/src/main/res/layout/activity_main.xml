@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#171923"
     android:layout_height="match_parent"
     tools:context=".core.activity.MainActivity">
 
@@ -23,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:visibility="gone"
-        android:background="@color/white"
+        android:background="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -31,7 +30,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#171923"
         android:visibility="gone"
         app:itemTextColor="@drawable/bnv_tab_item_foreground"
         app:itemIconTint="@drawable/menu_icon_states"

@@ -15,6 +15,7 @@ class WeatherLocalDataSource @Inject constructor(
     suspend fun getCity(city: String) = searchCityDao.getSearchCityById(city).toSearchCity()
 
     fun getWeatherFromLocal(city: SearchCity, now: LocalDate) = weatherDao.getWeatherById(city.cityName, now)
+    fun getWeatherFromLocalNextDays(city: SearchCity, dateList: List<LocalDate>) = weatherDao.getWeatherNextDay(city.cityName, dateList)
 
     fun saveWeatherToDatabase(weatherRemote: WeatherModelRemote, city: SearchCity) {
         val list: MutableList<WeatherCached> = mutableListOf()

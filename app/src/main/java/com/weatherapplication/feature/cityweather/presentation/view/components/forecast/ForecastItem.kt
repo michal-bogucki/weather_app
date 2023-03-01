@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -19,16 +21,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.weatherapplication.R
+import com.weatherapplication.core.background
+import com.weatherapplication.core.base.ValueState
+import com.weatherapplication.core.element
+import com.weatherapplication.core.textColor
+import com.weatherapplication.feature.cityweather.presentation.getUnitSymbol
+import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
 import com.weatherapplication.feature.cityweather.presentation.view.components.SmallItemWeatherContent
-import com.weatherapplication.feature.cityweather.presentation.view.components.weather.background
-import com.weatherapplication.feature.cityweather.presentation.view.components.weather.element
-import com.weatherapplication.feature.cityweather.presentation.view.components.weather.textColor
 
 @Preview
 @Composable
 fun ForecastItemPreview() {
-    ForecastItemContent()
 }
 
 @Composable
@@ -36,20 +41,24 @@ fun ForecastItem() {
 }
 
 @Composable
-fun ForecastItemContent() {
+fun ForecastItemContent(weatherDisplayable: WeatherDisplayable) {
     // pokazać kolejnośc border padding
     Card(
         elevation = 20.dp,
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(1.dp, element),
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier.padding(8.dp),
     ) {
-        Column(Modifier.background(background).padding(4.dp)) {
+        Column(
+            Modifier
+                .background(background)
+                .padding(4.dp),
+        ) {
             Row(
                 Modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Spacer(modifier = Modifier.width(16.dp))
                 Image(
@@ -57,74 +66,91 @@ fun ForecastItemContent() {
                     contentDescription = null,
                     modifier = Modifier
                         .size(12.dp),
-                    colorFilter = ColorFilter.tint(element)
+                    colorFilter = ColorFilter.tint(element),
 
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Kraków",
+                    text = weatherDisplayable.cityName,
                     fontSize = 12.sp,
-                    color = textColor
+                    color = textColor,
 
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Sat, 3 Aug",
+                    text = weatherDisplayable.date.toString(),
                     fontSize = 12.sp,
-                    color = textColor
+                    color = textColor,
 
                 )
             }
             Row {
                 LazyVerticalGrid(
-                    modifier = Modifier.weight(2f).height(80.dp),
-                    columns = GridCells.Fixed(3)
+                    modifier = Modifier
+                        .weight(4f)
+                        .height(92.dp),
+                    columns = GridCells.Fixed(3),
                 ) {
-                    items(3) { index ->
+                    itemsIndexed(getListWidget(weatherDisplayable)) { index, item ->
                         Row(Modifier.height(IntrinsicSize.Min)) {
                             Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                                SmallItemWeatherContent(title = "Sun", icon = R.drawable.sunny_24, text = "All 12")
+                                SmallItemWeatherContent(title = item.second, icon = item.third, text = item.first)
                             }
                             if ((index + 1) % 3 != 0) {
                                 Column {
                                     Divider(
                                         color = element,
                                         modifier = Modifier
-                                            .fillMaxHeight().padding(top = 8.dp, bottom = 8.dp)
-                                            .width(1.dp)
+                                            .fillMaxHeight()
+                                            .padding(top = 8.dp, bottom = 8.dp)
+                                            .width(1.dp),
                                     )
                                 }
                             }
                         }
                     }
                 }
-                Column(Modifier.weight(1f).height(80.dp), verticalArrangement = Arrangement.Center) {
+                Column(
+                    Modifier
+                        .weight(1f)
+                        .height(92.dp),
+                    verticalArrangement = Arrangement.Center,
+                ) {
                     Row(
-                        Modifier.height(54.dp).fillMaxWidth(),
+                        Modifier
+                            .height(54.dp)
+                            .fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text(
-                            text = "3°",
-                            fontSize = 24.sp,
-                            color = textColor
-
-                        )
-                        Image(
-                            painter = painterResource(id = R.drawable.weather_icon),
+                        val icon = weatherDisplayable.listHourTemperature.map {
+                            when (val icon = it.weatherIcon) {
+                                ValueState.Empty -> "-"
+                                is ValueState.Value -> icon.value
+                            }
+                        }.groupingBy { it }.eachCount().maxBy { it.value }
+                        AsyncImage(
+                            model = "https:" + icon.key,
                             contentDescription = null,
                             modifier = Modifier.height(56.dp),
-                            colorFilter = ColorFilter.tint(textColor)
                         )
                     }
                     Column(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
+                        val valueMaxTemperature = when (val temperature = weatherDisplayable.maxTemperature) {
+                            ValueState.Empty -> "-"
+                            is ValueState.Value -> temperature.value.toString()
+                        } + getUnitSymbol("temperature")
+                        val valueMinTemperature = when (val temperature = weatherDisplayable.minTemperature) {
+                            ValueState.Empty -> "-"
+                            is ValueState.Value -> temperature.value.toString()
+                        } + getUnitSymbol("temperature")
                         Text(
-                            text = "min 3°/ max 3°",
-                            fontSize = 16.sp,
-                            color = textColor
+                            text = "min $valueMinTemperature\nmax $valueMaxTemperature",
+                            fontSize = 12.sp,
+                            color = textColor,
 
                         )
                     }
@@ -132,13 +158,45 @@ fun ForecastItemContent() {
             }
             Column {
                 LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    items(14) {
-                        SmallItemWeatherContent(title = "Sun", icon = R.drawable.sunny_24, text = "All 12")
+                    items(weatherDisplayable.listHourTemperature) {
+                        val temperature = when (val temperature = it.temperature) {
+                            ValueState.Empty -> "-"
+                            is ValueState.Value -> temperature.value.toString()
+                        } + getUnitSymbol("temperature")
+                        val hour = when (val hour = it.hour) {
+                            ValueState.Empty -> "-"
+                            is ValueState.Value -> hour.value
+                        }
+                        val url = when (val url = it.weatherIcon) {
+                            ValueState.Empty -> "-"
+                            is ValueState.Value -> "https:" + url.value
+                        }
+                        SmallItemWeatherContent(title = hour, icon = url, text = temperature)
                     }
                 }
             }
         }
     }
+}
+
+fun getListWidget(weatherDisplayable: WeatherDisplayable): List<Triple<String, String, Int>> {
+    val windSpeed = when (val windSpeed = weatherDisplayable.windSpeed) {
+        ValueState.Empty -> "-"
+        is ValueState.Value -> windSpeed.value.toString()
+    } + getUnitSymbol("windSpeed")
+    val windSpeedT = Triple(windSpeed, "Wind", R.drawable.weather_windy)
+    val humidity = when (val humidity = weatherDisplayable.humidity) {
+        ValueState.Empty -> "-"
+        is ValueState.Value -> humidity.value.toString()
+    } + getUnitSymbol("humidity")
+    val humidityT = Triple(humidity, "Humidity", R.drawable.water_percent)
+    val precipitation = when (val precipitation = weatherDisplayable.precipitation) {
+        ValueState.Empty -> "-"
+        is ValueState.Value -> precipitation.value.toString()
+    } + getUnitSymbol("precipitation")
+    val precipitationT = Triple(precipitation, "Precipitation", R.drawable.weather_pouring)
+
+    return listOf(windSpeedT, humidityT, precipitationT)
 }

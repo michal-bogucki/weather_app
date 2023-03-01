@@ -27,7 +27,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.weatherapplication.R
-import com.weatherapplication.feature.cityweather.presentation.view.components.weather.background
+import com.weatherapplication.core.background
+import com.weatherapplication.core.element
 import com.weatherapplication.feature.searchcity.presentation.SearchCityFragmentDirections
 import com.weatherapplication.feature.searchcity.presentation.SearchCityViewModel
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
@@ -86,7 +87,7 @@ fun SearchLabel(text: String, onSearchQueryChanged: (query: String) -> Unit) {
         },
         colors = TextFieldDefaults.textFieldColors(
             textColor = White,
-            backgroundColor = colorResource(R.color.search_background),
+            backgroundColor = element,
             focusedIndicatorColor = Color.Transparent,
         ),
     )
