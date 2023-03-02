@@ -25,11 +25,13 @@ import coil.compose.AsyncImage
 import com.weatherapplication.R
 import com.weatherapplication.core.background
 import com.weatherapplication.core.base.ValueState
+import com.weatherapplication.core.base.getValue
 import com.weatherapplication.core.element
 import com.weatherapplication.core.textColor
 import com.weatherapplication.feature.cityweather.presentation.getUnitSymbol
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
 import com.weatherapplication.feature.cityweather.presentation.view.components.SmallItemWeatherContent
+import com.weatherapplication.feature.cityweather.presentation.view.components.weather.getListWidget
 
 @Preview
 @Composable
@@ -91,7 +93,7 @@ fun ForecastItemContent(weatherDisplayable: WeatherDisplayable) {
                         .height(92.dp),
                     columns = GridCells.Fixed(3),
                 ) {
-                    itemsIndexed(getListWidget(weatherDisplayable)) { index, item ->
+                    itemsIndexed(getListWidget(weatherDisplayable).subList(0,3)) { index, item ->
                         Row(Modifier.height(IntrinsicSize.Min)) {
                             Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
                                 SmallItemWeatherContent(title = item.second, icon = item.third, text = item.first)
@@ -124,10 +126,7 @@ fun ForecastItemContent(weatherDisplayable: WeatherDisplayable) {
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         val icon = weatherDisplayable.listHourTemperature.map {
-                            when (val icon = it.weatherIcon) {
-                                ValueState.Empty -> "-"
-                                is ValueState.Value -> icon.value
-                            }
+                            getValue(it.weatherIcon)
                         }.groupingBy { it }.eachCount().maxBy { it.value }
                         AsyncImage(
                             model = "https:" + icon.key,
@@ -139,14 +138,8 @@ fun ForecastItemContent(weatherDisplayable: WeatherDisplayable) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        val valueMaxTemperature = when (val temperature = weatherDisplayable.maxTemperature) {
-                            ValueState.Empty -> "-"
-                            is ValueState.Value -> temperature.value.toString()
-                        } + getUnitSymbol("temperature")
-                        val valueMinTemperature = when (val temperature = weatherDisplayable.minTemperature) {
-                            ValueState.Empty -> "-"
-                            is ValueState.Value -> temperature.value.toString()
-                        } + getUnitSymbol("temperature")
+                        val valueMaxTemperature = getValue(weatherDisplayable.maxTemperature, "temperature")
+                        val valueMinTemperature = getValue(weatherDisplayable.minTemperature, "temperature")
                         Text(
                             text = "min $valueMinTemperature\nmax $valueMaxTemperature",
                             fontSize = 12.sp,
@@ -161,42 +154,13 @@ fun ForecastItemContent(weatherDisplayable: WeatherDisplayable) {
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     items(weatherDisplayable.listHourTemperature) {
-                        val temperature = when (val temperature = it.temperature) {
-                            ValueState.Empty -> "-"
-                            is ValueState.Value -> temperature.value.toString()
-                        } + getUnitSymbol("temperature")
-                        val hour = when (val hour = it.hour) {
-                            ValueState.Empty -> "-"
-                            is ValueState.Value -> hour.value
-                        }
-                        val url = when (val url = it.weatherIcon) {
-                            ValueState.Empty -> "-"
-                            is ValueState.Value -> "https:" + url.value
-                        }
+                        val temperature = getValue(it.temperature, "temperature")
+                        val hour = getValue(it.hour)
+                        val url = "https:" + getValue(it.weatherIcon)
                         SmallItemWeatherContent(title = hour, icon = url, text = temperature)
                     }
                 }
             }
         }
     }
-}
-
-fun getListWidget(weatherDisplayable: WeatherDisplayable): List<Triple<String, String, Int>> {
-    val windSpeed = when (val windSpeed = weatherDisplayable.windSpeed) {
-        ValueState.Empty -> "-"
-        is ValueState.Value -> windSpeed.value.toString()
-    } + getUnitSymbol("windSpeed")
-    val windSpeedT = Triple(windSpeed, "Wind", R.drawable.weather_windy)
-    val humidity = when (val humidity = weatherDisplayable.humidity) {
-        ValueState.Empty -> "-"
-        is ValueState.Value -> humidity.value.toString()
-    } + getUnitSymbol("humidity")
-    val humidityT = Triple(humidity, "Humidity", R.drawable.water_percent)
-    val precipitation = when (val precipitation = weatherDisplayable.precipitation) {
-        ValueState.Empty -> "-"
-        is ValueState.Value -> precipitation.value.toString()
-    } + getUnitSymbol("precipitation")
-    val precipitationT = Triple(precipitation, "Precipitation", R.drawable.weather_pouring)
-
-    return listOf(windSpeedT, humidityT, precipitationT)
 }
