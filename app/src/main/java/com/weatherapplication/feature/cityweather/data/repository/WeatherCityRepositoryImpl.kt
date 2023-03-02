@@ -48,7 +48,7 @@ class WeatherCityRepositoryImpl @Inject constructor(
     override fun getWeatherNextDays(city: SearchCity): Flow<Resource<List<WeatherData>>> {
         val networkBoundFlow = networkLocalBoundResource(
             fetchFromLocal = {
-                getWeatherFromLocalNextDays(city, listOf(LocalDate.now().plusDays(1), LocalDate.now().plusDays(2)))
+                getWeatherFromLocalNextDays(city, LocalDate.now())
             },
             shouldFetchFromRemote = { weatherCachedList ->
                 refreshData(weatherCachedList)
@@ -84,7 +84,7 @@ class WeatherCityRepositoryImpl @Inject constructor(
     private suspend fun getWeatherFromApi(city: SearchCity) = weatherRemoteDataSource.getWeatherFromApi(city)
 
     private fun getWeatherFromLocal(city: SearchCity, now: LocalDate) = weatherLocalDataSource.getWeatherFromLocal(city, now)
-    private fun getWeatherFromLocalNextDays(city: SearchCity, dateList: List<LocalDate>) =
+    private fun getWeatherFromLocalNextDays(city: SearchCity, dateList: LocalDate) =
         weatherLocalDataSource.getWeatherFromLocalNextDays(city, dateList)
 
     private fun saveWeatherToDatabase(weatherRemote: WeatherModelRemote, city: SearchCity) =

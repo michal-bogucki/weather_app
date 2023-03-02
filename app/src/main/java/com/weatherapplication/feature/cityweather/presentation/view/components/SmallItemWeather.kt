@@ -68,7 +68,7 @@ fun SmallItemWeatherView() {
 fun SmallItemWeatherContent(title: String, icon: Any, text: String) {
     Column(
         modifier = Modifier
-            .fillMaxWidth().padding(16.dp).height(70.dp)
+            .fillMaxWidth().padding(8.dp).height(70.dp)
             .clickable {
             },
         verticalArrangement = Arrangement.Center,
@@ -83,7 +83,7 @@ fun SmallItemWeatherContent(title: String, icon: Any, text: String) {
         Text(
             modifier = Modifier.height(16.dp),
             text = title,
-            fontSize = 14.sp,
+            fontSize = 12.sp,
             color = textColor,
 
         )

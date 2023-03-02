@@ -30,12 +30,15 @@ import coil.compose.AsyncImage
 import com.weatherapplication.R
 import com.weatherapplication.core.background
 import com.weatherapplication.core.base.ValueState
+import com.weatherapplication.core.base.getValue
 import com.weatherapplication.core.element
 import com.weatherapplication.core.textColor
 import com.weatherapplication.feature.cityweather.presentation.getUnitSymbol
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherContract
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
 import com.weatherapplication.feature.cityweather.presentation.view.components.SmallItemWeatherContent
+import com.weatherapplication.feature.cityweather.presentation.view.components.ViewError
+import com.weatherapplication.feature.cityweather.presentation.view.components.ViewLoading
 import com.weatherapplication.feature.cityweather.presentation.view.weather.WeatherNewViewModel
 import java.time.LocalDateTime
 
@@ -66,43 +69,6 @@ fun WeatherViewContent(value: WeatherContract) {
     }
 }
 
-@Composable
-fun ViewLoading() {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Text(
-            text = "Please wait...",
-            style = TextStyle(
-                color = Color.White,
-                fontSize = 16.sp,
-
-            ),
-        )
-    }
-}
-
-@Composable
-fun ViewError(error: String) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Text(
-            text = "Error \n $error",
-            style = TextStyle(
-                color = Color.White,
-                fontSize = 16.sp,
-
-            ),
-        )
-    }
-}
 
 @Composable
 private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
@@ -142,14 +108,14 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
                     .size(24.dp),
                 colorFilter = ColorFilter.tint(element),
 
-            )
+                )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = weatherDisplayable.cityName,
                 fontSize = 24.sp,
                 color = textColor,
 
-            )
+                )
         }
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -161,7 +127,7 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
                 fontSize = 12.sp,
                 color = textColor,
 
-            )
+                )
         }
         Spacer(modifier = Modifier.height(16.dp))
         Row(
@@ -174,30 +140,21 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                val valueTemperature = when (val temperature = weatherDisplayable.temperature) {
-                    ValueState.Empty -> "-"
-                    is ValueState.Value -> temperature.value.toString()
-                } + getUnitSymbol("temperature")
-                val valueMaxTemperature = when (val temperature = weatherDisplayable.maxTemperature) {
-                    ValueState.Empty -> "-"
-                    is ValueState.Value -> temperature.value.toString()
-                } + getUnitSymbol("temperature")
-                val valueMinTemperature = when (val temperature = weatherDisplayable.minTemperature) {
-                    ValueState.Empty -> "-"
-                    is ValueState.Value -> temperature.value.toString()
-                } + getUnitSymbol("temperature")
+                val valueTemperature = getValue(weatherDisplayable.temperature, "temperature")
+                val valueMaxTemperature = getValue(weatherDisplayable.maxTemperature, "temperature")
+                val valueMinTemperature = getValue(weatherDisplayable.minTemperature, "temperature")
                 Text(
                     text = valueTemperature,
                     fontSize = 24.sp,
                     color = textColor,
 
-                )
+                    )
                 Text(
                     text = "min $valueMinTemperature/ max $valueMaxTemperature",
                     fontSize = 16.sp,
                     color = textColor,
 
-                )
+                    )
             }
             Spacer(modifier = Modifier.width(4.dp))
             Divider(
@@ -211,10 +168,7 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                val url = when (val url = weatherDisplayable.weatherIcon) {
-                    ValueState.Empty -> "-"
-                    is ValueState.Value -> "https:" + url.value
-                }
+                val url = "https:" + getValue(weatherDisplayable.weatherIcon)
                 AsyncImage(
                     model = url,
                     contentDescription = null,
@@ -226,15 +180,8 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
         }
         Spacer(modifier = Modifier.height(16.dp))
         Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            val sunrise = when (val sunrise = weatherDisplayable.sunrise) {
-                ValueState.Empty -> "-"
-                is ValueState.Value -> sunrise.value
-            }
-
-            val sunset = when (val sunset = weatherDisplayable.sunset) {
-                ValueState.Empty -> "-"
-                is ValueState.Value -> sunset.value
-            }
+            val sunrise = getValue(weatherDisplayable.sunrise)
+            val sunset = getValue(weatherDisplayable.sunset)
             ComposeCircularProgressBar(
                 percentage = 0.80f,
                 fillColor = element,
@@ -286,27 +233,15 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 items(weatherDisplayable.listHourTemperature) {
-                    val temperature = when (val temperature = it.temperature) {
-                        ValueState.Empty -> "-"
-                        is ValueState.Value -> temperature.value.toString()
-                    } + getUnitSymbol("temperature")
-                    val hour = when (val hour = it.hour) {
-                        ValueState.Empty -> "-"
-                        is ValueState.Value -> hour.value
-                    }
-                    val url = when (val url = it.weatherIcon) {
-                        ValueState.Empty -> "-"
-                        is ValueState.Value -> "https:" + url.value
-                    }
+                    val temperature = getValue(it.temperature, "temperature")
+                    val hour = getValue(it.hour)
+                    val url = "https:" + getValue(it.weatherIcon)
                     SmallItemWeatherContent(title = hour, icon = url, text = temperature)
                 }
             }
             LaunchedEffect(weatherDisplayable.listHourTemperature) {
                 val index = weatherDisplayable.listHourTemperature.indexOfFirst {
-                    val hour = when (val hour = it.hour) {
-                        ValueState.Empty -> "-"
-                        is ValueState.Value -> hour.value
-                    }
+                    val hour = getValue(it.hour)
                     hour.contains(LocalDateTime.now().hour.toString())
                 }
                 listState.scrollToItem(index)
@@ -316,35 +251,17 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
 }
 
 fun getListWidget(weatherDisplayable: WeatherDisplayable): List<Triple<String, String, Int>> {
-    val windSpeed = when (val windSpeed = weatherDisplayable.windSpeed) {
-        ValueState.Empty -> "-"
-        is ValueState.Value -> windSpeed.value.toString()
-    } + getUnitSymbol("windSpeed")
+    val windSpeed = getValue(weatherDisplayable.windSpeed, "windSpeed")
     val windSpeedT = Triple(windSpeed, "Wind", R.drawable.weather_windy)
-    val humidity = when (val humidity = weatherDisplayable.humidity) {
-        ValueState.Empty -> "-"
-        is ValueState.Value -> humidity.value.toString()
-    } + getUnitSymbol("humidity")
+    val humidity = getValue(weatherDisplayable.humidity, "humidity")
     val humidityT = Triple(humidity, "Humidity", R.drawable.water_percent)
-    val precipitation = when (val precipitation = weatherDisplayable.precipitation) {
-        ValueState.Empty -> "-"
-        is ValueState.Value -> precipitation.value.toString()
-    } + getUnitSymbol("precipitation")
+    val precipitation = getValue(weatherDisplayable.precipitation, "precipitation")
     val precipitationT = Triple(precipitation, "Precipitation", R.drawable.weather_pouring)
-    val uvIndex = when (val uvIndex = weatherDisplayable.uvIndex) {
-        ValueState.Empty -> "-"
-        is ValueState.Value -> uvIndex.value.toString()
-    } + getUnitSymbol("uvIndex")
+    val uvIndex = getValue(weatherDisplayable.uvIndex, "uvIndex")
     val uvIndexT = Triple(uvIndex, "Index UV", R.drawable.sun_wireless)
-    val feelLike = when (val feelLike = weatherDisplayable.feelLike) {
-        ValueState.Empty -> "-"
-        is ValueState.Value -> feelLike.value.toString()
-    } + getUnitSymbol("temperature")
+    val feelLike = getValue(weatherDisplayable.feelLike, "temperature")
     val feelLikeT = Triple(feelLike, "Feellike", R.drawable.sun_thermometer)
-    val visibility = when (val visibility = weatherDisplayable.visibility) {
-        ValueState.Empty -> "-"
-        is ValueState.Value -> visibility.value.toString()
-    } + getUnitSymbol("Visibility")
+    val visibility = getValue(weatherDisplayable.feelLike, "visibility")
     val visibilityT = Triple(visibility, "Visibility", R.drawable.eye)
     return listOf(windSpeedT, humidityT, precipitationT, uvIndexT, feelLikeT, visibilityT)
 }

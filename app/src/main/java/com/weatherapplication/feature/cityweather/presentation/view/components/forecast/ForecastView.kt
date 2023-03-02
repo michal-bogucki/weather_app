@@ -2,6 +2,8 @@ package com.weatherapplication.feature.cityweather.presentation.view.components.
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -9,8 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.weatherapplication.feature.cityweather.presentation.model.ForecastContract
-import com.weatherapplication.feature.cityweather.presentation.view.components.weather.ViewError
-import com.weatherapplication.feature.cityweather.presentation.view.components.weather.ViewLoading
+import com.weatherapplication.feature.cityweather.presentation.view.components.ViewError
+import com.weatherapplication.feature.cityweather.presentation.view.components.ViewLoading
+
 import com.weatherapplication.feature.cityweather.presentation.view.forecast.ForecastViewModel
 
 @Preview
@@ -38,10 +41,14 @@ fun ForecastViewContent(value: ForecastContract) {
             val weatherDisplayable = value.weatherDisplayable
             Column {
                 Spacer(modifier = Modifier.weight(1f))
-                ForecastItemContent(weatherDisplayable[0])
+                LazyColumn {
+                    items(weatherDisplayable) {
+                        ForecastItemContent(it)
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
                 Spacer(modifier = Modifier.weight(1f))
-                ForecastItemContent(weatherDisplayable[1])
-                Spacer(modifier = Modifier.weight(1f))
+
             }
         }
     }
