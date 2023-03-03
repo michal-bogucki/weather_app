@@ -88,5 +88,5 @@ class WeatherCityRepositoryImpl @Inject constructor(
         weatherLocalDataSource.getWeatherFromLocalNextDays(city, dateList)
 
     private fun saveWeatherToDatabase(weatherRemote: WeatherModelRemote, city: SearchCity) =
-        weatherLocalDataSource.saveWeatherToDatabase(weatherRemote, city)
+        weatherLocalDataSource.saveWeatherToDatabase(weatherRemote.toWeatherData(city))
 }

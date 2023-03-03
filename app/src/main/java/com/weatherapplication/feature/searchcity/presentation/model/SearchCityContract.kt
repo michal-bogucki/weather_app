@@ -5,7 +5,8 @@ class SearchCityContract {
         val isLoading: Boolean = false,
         val error: String = "",
         val searchText: String = "",
-        val actualSearchCityList: List<SearchCityDisplayable> = emptyList()
+        val actualSearchCityList: List<SearchCityDisplayable> = emptyList(),
+        val isHistoryList: Boolean = true,
     ) {
         companion object {
             val Empty = SearchCityState()

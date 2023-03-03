@@ -48,7 +48,6 @@ fun ForecastViewContent(value: ForecastContract) {
                     }
                 }
                 Spacer(modifier = Modifier.weight(1f))
-
             }
         }
     }

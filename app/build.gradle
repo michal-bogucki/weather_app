@@ -8,11 +8,13 @@ plugins {
 apply from: '../dependencies.gradle'
 android {
     compileSdkVersion ProjectConfig.compileSdkVersion
-
-
+    def localPropertiesFile = rootProject.file("local.properties")
+    def localProperties = new Properties()
+    localProperties.load(new FileInputStream(localPropertiesFile))
     defaultConfig {
         minSdkVersion ProjectConfig.minSdkVersion
         targetSdkVersion ProjectConfig.targetSdkVersion
+        buildConfigField "String", "API_KEY", localProperties['apiKey']
     }
     lintOptions {
         abortOnError false
@@ -98,4 +100,5 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
     implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation "com.airbnb.android:lottie-compose:6.0.0"
 }

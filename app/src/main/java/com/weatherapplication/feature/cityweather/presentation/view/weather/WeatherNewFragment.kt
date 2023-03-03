@@ -19,7 +19,7 @@ class WeatherNewFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 val viewModel: WeatherNewViewModel by viewModels()
-                WeatherView(viewModel = viewModel, navController = findNavController())
+                WeatherView(viewModel = viewModel)
             }
         }
     }

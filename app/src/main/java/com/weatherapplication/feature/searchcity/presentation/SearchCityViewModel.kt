@@ -20,7 +20,7 @@ class SearchCityViewModel @Inject constructor(
 ) : ViewModel() {
     private val searchQuery = MutableStateFlow("")
     private val errorMessage = MutableStateFlow("")
-    private val deleteState = MutableStateFlow(false)//nazwa
+    private val deleteState = MutableStateFlow(false) // nazwa
     val state: StateFlow<SearchCityContract.SearchCityState> = combine(
         searchCityUseCase.flow,
         searchQuery,
@@ -31,6 +31,7 @@ class SearchCityViewModel @Inject constructor(
             error = errorMessage,
             searchText = searchQuery,
             actualSearchCityList = searchList.map { SearchCityDisplayable(it) },
+            isHistoryList = searchList.any { it.isHistory } || searchList.isEmpty(),
         )
     }.stateIn(
         scope = viewModelScope,

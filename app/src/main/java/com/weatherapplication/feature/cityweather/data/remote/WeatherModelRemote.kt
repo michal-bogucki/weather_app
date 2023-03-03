@@ -1,11 +1,30 @@
 package com.weatherapplication.feature.cityweather.data.remote
 
 import com.google.gson.annotations.SerializedName
+import com.weatherapplication.feature.cityweather.data.repository.createWeatherCached
+import com.weatherapplication.feature.cityweather.domain.model.WeatherData
+import com.weatherapplication.feature.searchcity.domain.model.SearchCity
 
 class WeatherModelRemote(
     @SerializedName("current") val current: Current? = null,
     @SerializedName("forecast") val forecast: Forecast? = null,
-)
+) {
+    fun toWeatherData(city: SearchCity): List<WeatherData> { // todo: trzeba to przemyśleć jeszcze raz!!!
+        val list: MutableList<WeatherData> = mutableListOf()
+        val todayWeather = createWeatherCached(city, this)
+        list.add(todayWeather)
+        val forecast_ = this.forecast?.forecastday
+        if (forecast_ != null) {
+            for ((index, weatherNext) in forecast_.withIndex()) {
+                if (index != 0) {
+                    val weather = createWeatherCached(city, forecast, index, weatherNext)
+                    list.add(weather)
+                }
+            }
+        }
+        return list
+    }
+}
 
 data class Current(
     @SerializedName("temp_c") val tempC: Double?,

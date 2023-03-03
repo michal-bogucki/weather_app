@@ -5,6 +5,8 @@ import com.weatherapplication.feature.cityweather.domain.model.HourTemperature
 import com.weatherapplication.feature.cityweather.domain.model.WeatherData
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 data class WeatherDisplayable(
     val cityName: String,
@@ -16,8 +18,8 @@ data class WeatherDisplayable(
     val minTemperature: ValueState<Double>,
     val maxTemperature: ValueState<Double>,
     val conditionWeatherName: ValueState<String>,
-    val sunrise: ValueState<String>,
-    val sunset: ValueState<String>,
+    val sunrise: LocalTime,
+    val sunset: LocalTime,
     val windSpeed: ValueState<Double>,
     val humidity: ValueState<Int>,
     val precipitation: ValueState<Double>,
@@ -31,19 +33,19 @@ data class WeatherDisplayable(
         weather.date,
         weather.lastUpdate,
         weather.countryName,
-        weather.weatherIcon,
-        weather.temperature,
-        weather.minTemperature,
-        weather.maxTemperature,
-        weather.conditionWeatherName,
-        weather.sunrise,
-        weather.sunset,
-        weather.windSpeed,
-        weather.humidity,
-        weather.precipitation,
-        weather.uvIndex,
-        weather.feelLike,
-        weather.visibility,
+        ValueState.initValueState(weather.weatherIcon),
+        ValueState.initValueState(weather.temperature),
+        ValueState.initValueState(weather.minTemperature),
+        ValueState.initValueState(weather.maxTemperature),
+        ValueState.initValueState(weather.conditionWeatherName),
+        LocalTime.parse(weather.sunrise, DateTimeFormatter.ofPattern("hh:mm a")),
+        LocalTime.parse(weather.sunset, DateTimeFormatter.ofPattern("hh:mm a")),
+        ValueState.initValueState(weather.windSpeed),
+        ValueState.initValueState(weather.humidity),
+        ValueState.initValueState(weather.precipitation),
+        ValueState.initValueState(weather.uvIndex),
+        ValueState.initValueState(weather.feelLike),
+        ValueState.initValueState(weather.visibility),
         weather.listHourTemperature.map { HourTemperatureDisplayable(it) },
     )
 }
@@ -54,8 +56,8 @@ data class HourTemperatureDisplayable(
     val weatherIcon: ValueState<String>,
 ) {
     constructor(hour: HourTemperature) : this(
-        hour.hour,
-        hour.temperature,
-        hour.weatherIcon,
+        ValueState.initValueState(hour.hour),
+        ValueState.initValueState(hour.temperature),
+        ValueState.initValueState(hour.weatherIcon),
     )
 }

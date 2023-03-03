@@ -19,5 +19,4 @@ fun getValue(value: ValueState<Any>, unit: String = ""): String {
         ValueState.Empty -> "-"
         is ValueState.Value -> value.value.toString()
     } + getUnitSymbol(unit)
-
 }

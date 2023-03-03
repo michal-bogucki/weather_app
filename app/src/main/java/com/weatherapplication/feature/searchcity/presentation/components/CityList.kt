@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -26,6 +25,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.weatherapplication.R
 import com.weatherapplication.core.background
 import com.weatherapplication.core.element
@@ -68,6 +71,16 @@ fun SearchViewContent(
         )
         SearchLabel(value.searchText, search)
         CityList(value.actualSearchCityList, click, delete)
+        if (value.isHistoryList) {
+            Spacer(modifier = Modifier.height(32.dp))
+            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.search_file))
+            val progress by animateLottieCompositionAsState(composition)
+            LottieAnimation(
+                modifier = Modifier.fillMaxWidth().height(120.dp),
+                composition = composition,
+                progress = { progress },
+            )
+        }
     }
 }
 
@@ -87,7 +100,7 @@ fun SearchLabel(text: String, onSearchQueryChanged: (query: String) -> Unit) {
         },
         colors = TextFieldDefaults.textFieldColors(
             textColor = White,
-            backgroundColor = element,
+            backgroundColor = element.copy(alpha = 0.5f),
             focusedIndicatorColor = Color.Transparent,
         ),
     )

@@ -21,35 +21,67 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.weatherapplication.R
 import com.weatherapplication.core.background
 import com.weatherapplication.core.base.ValueState
 import com.weatherapplication.core.base.getValue
 import com.weatherapplication.core.element
 import com.weatherapplication.core.textColor
-import com.weatherapplication.feature.cityweather.presentation.getUnitSymbol
+import com.weatherapplication.feature.cityweather.presentation.TEMPERATURE
+import com.weatherapplication.feature.cityweather.presentation.getListWidget
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherContract
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
 import com.weatherapplication.feature.cityweather.presentation.view.components.SmallItemWeatherContent
 import com.weatherapplication.feature.cityweather.presentation.view.components.ViewError
 import com.weatherapplication.feature.cityweather.presentation.view.components.ViewLoading
 import com.weatherapplication.feature.cityweather.presentation.view.weather.WeatherNewViewModel
+import java.lang.Math.abs
+import java.lang.Math.max
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.temporal.ChronoUnit.MINUTES
 
 @Preview
 @Composable
 fun WeatherPreview() {
-    WeatherViewContent(value = WeatherContract.Loading)
+    WeatherViewContent(
+        value = WeatherContract.Success(
+            WeatherDisplayable(
+                "Kielce",
+                LocalDate.now(),
+                LocalDateTime.now(),
+                "PL",
+                ValueState.initValueState(""),
+                ValueState.initValueState(3.3),
+                ValueState.initValueState(3.3),
+                ValueState.initValueState(3.3),
+                ValueState.initValueState(""),
+                LocalTime.now(),
+                LocalTime.now(),
+                ValueState.initValueState(3.5),
+                ValueState.initValueState(3),
+                ValueState.initValueState(3.5),
+                ValueState.initValueState(3.5),
+                ValueState.initValueState(3.5),
+                ValueState.initValueState(3.5),
+                listOf(),
+            ),
+        ),
+    )
 }
 
 @Composable
-fun WeatherView(viewModel: WeatherNewViewModel, navController: NavController) {
+fun WeatherView(viewModel: WeatherNewViewModel) {
     val value by viewModel.state.collectAsState()
     WeatherViewContent(value = value)
 }
@@ -69,17 +101,25 @@ fun WeatherViewContent(value: WeatherContract) {
     }
 }
 
-
 @Composable
 private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
     Column(Modifier.background(background)) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .height(56.dp),
+                .height(86.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.width(48.dp))
+            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.city2))
+            val progress by animateLottieCompositionAsState(composition)
+            LottieAnimation(
+                modifier = Modifier
+                    .height(86.dp)
+                    .weight(1f),
+                composition = composition,
+                progress = { progress },
+            )
             Column(
                 modifier = Modifier
                     .size(48.dp)
@@ -108,14 +148,14 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
                     .size(24.dp),
                 colorFilter = ColorFilter.tint(element),
 
-                )
+            )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = weatherDisplayable.cityName,
                 fontSize = 24.sp,
                 color = textColor,
 
-                )
+            )
         }
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -127,7 +167,7 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
                 fontSize = 12.sp,
                 color = textColor,
 
-                )
+            )
         }
         Spacer(modifier = Modifier.height(16.dp))
         Row(
@@ -140,21 +180,21 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                val valueTemperature = getValue(weatherDisplayable.temperature, "temperature")
-                val valueMaxTemperature = getValue(weatherDisplayable.maxTemperature, "temperature")
-                val valueMinTemperature = getValue(weatherDisplayable.minTemperature, "temperature")
+                val valueTemperature = getValue(weatherDisplayable.temperature, TEMPERATURE)
+                val valueMaxTemperature = getValue(weatherDisplayable.maxTemperature, TEMPERATURE)
+                val valueMinTemperature = getValue(weatherDisplayable.minTemperature, TEMPERATURE)
                 Text(
                     text = valueTemperature,
                     fontSize = 24.sp,
                     color = textColor,
 
-                    )
+                )
                 Text(
-                    text = "min $valueMinTemperature/ max $valueMaxTemperature",
+                    text = "${stringResource(id = R.string.min)} $valueMinTemperature/ ${stringResource(id = R.string.max)} $valueMaxTemperature",
                     fontSize = 16.sp,
                     color = textColor,
 
-                    )
+                )
             }
             Spacer(modifier = Modifier.width(4.dp))
             Divider(
@@ -180,10 +220,13 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
         }
         Spacer(modifier = Modifier.height(16.dp))
         Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            val sunrise = getValue(weatherDisplayable.sunrise)
-            val sunset = getValue(weatherDisplayable.sunset)
+            val sunrise = weatherDisplayable.sunrise.toString()
+            val sunset = weatherDisplayable.sunset.toString()
+            val a = abs(MINUTES.between(weatherDisplayable.sunset, weatherDisplayable.sunrise))
+            val b = abs(MINUTES.between(LocalTime.now(), weatherDisplayable.sunrise))
+            val c = max((b / (a.toDouble())).toFloat(), 1f)
             ComposeCircularProgressBar(
-                percentage = 0.80f,
+                percentage = c,
                 fillColor = element,
                 backgroundColor = Color(android.graphics.Color.parseColor("#90A4AE")),
                 strokeWidth = 5.dp,
@@ -233,7 +276,7 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 items(weatherDisplayable.listHourTemperature) {
-                    val temperature = getValue(it.temperature, "temperature")
+                    val temperature = getValue(it.temperature, TEMPERATURE)
                     val hour = getValue(it.hour)
                     val url = "https:" + getValue(it.weatherIcon)
                     SmallItemWeatherContent(title = hour, icon = url, text = temperature)
@@ -248,20 +291,4 @@ private fun ViewWeather(weatherDisplayable: WeatherDisplayable) {
             }
         }
     }
-}
-
-fun getListWidget(weatherDisplayable: WeatherDisplayable): List<Triple<String, String, Int>> {
-    val windSpeed = getValue(weatherDisplayable.windSpeed, "windSpeed")
-    val windSpeedT = Triple(windSpeed, "Wind", R.drawable.weather_windy)
-    val humidity = getValue(weatherDisplayable.humidity, "humidity")
-    val humidityT = Triple(humidity, "Humidity", R.drawable.water_percent)
-    val precipitation = getValue(weatherDisplayable.precipitation, "precipitation")
-    val precipitationT = Triple(precipitation, "Precipitation", R.drawable.weather_pouring)
-    val uvIndex = getValue(weatherDisplayable.uvIndex, "uvIndex")
-    val uvIndexT = Triple(uvIndex, "Index UV", R.drawable.sun_wireless)
-    val feelLike = getValue(weatherDisplayable.feelLike, "temperature")
-    val feelLikeT = Triple(feelLike, "Feellike", R.drawable.sun_thermometer)
-    val visibility = getValue(weatherDisplayable.feelLike, "visibility")
-    val visibilityT = Triple(visibility, "Visibility", R.drawable.eye)
-    return listOf(windSpeedT, humidityT, precipitationT, uvIndexT, feelLikeT, visibilityT)
 }

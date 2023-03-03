@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,14 +25,14 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.weatherapplication.R
 import com.weatherapplication.core.background
-import com.weatherapplication.core.base.ValueState
 import com.weatherapplication.core.base.getValue
 import com.weatherapplication.core.element
 import com.weatherapplication.core.textColor
-import com.weatherapplication.feature.cityweather.presentation.getUnitSymbol
+import com.weatherapplication.feature.cityweather.presentation.TEMPERATURE
+import com.weatherapplication.feature.cityweather.presentation.getListWidget
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
 import com.weatherapplication.feature.cityweather.presentation.view.components.SmallItemWeatherContent
-import com.weatherapplication.feature.cityweather.presentation.view.components.weather.getListWidget
+
 
 @Preview
 @Composable
@@ -138,8 +139,8 @@ fun ForecastItemContent(weatherDisplayable: WeatherDisplayable) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        val valueMaxTemperature = getValue(weatherDisplayable.maxTemperature, "temperature")
-                        val valueMinTemperature = getValue(weatherDisplayable.minTemperature, "temperature")
+                        val valueMaxTemperature = getValue(weatherDisplayable.maxTemperature, TEMPERATURE)
+                        val valueMinTemperature = getValue(weatherDisplayable.minTemperature, TEMPERATURE)
                         Text(
                             text = "min $valueMinTemperature\nmax $valueMaxTemperature",
                             fontSize = 12.sp,
@@ -154,7 +155,7 @@ fun ForecastItemContent(weatherDisplayable: WeatherDisplayable) {
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     items(weatherDisplayable.listHourTemperature) {
-                        val temperature = getValue(it.temperature, "temperature")
+                        val temperature = getValue(it.temperature, TEMPERATURE)
                         val hour = getValue(it.hour)
                         val url = "https:" + getValue(it.weatherIcon)
                         SmallItemWeatherContent(title = hour, icon = url, text = temperature)

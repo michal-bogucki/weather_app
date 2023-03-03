@@ -2,8 +2,6 @@ package com.weatherapplication.feature.cityweather.data.local.model
 
 import androidx.room.Entity
 import androidx.room.TypeConverters
-import com.weatherapplication.core.base.ValueState
-
 import com.weatherapplication.core.database.Converters
 import com.weatherapplication.feature.cityweather.domain.model.HourTemperature
 import com.weatherapplication.feature.cityweather.domain.model.WeatherData
@@ -34,27 +32,51 @@ data class WeatherCached(
     val visibility: Double?,
     val listHourTemperature: List<HourTemperatureCached>,
 ) {
+    constructor(weather: WeatherData) : this(
+        weather.cityName,
+        weather.date,
+        weather.lastUpdate,
+        weather.countryName,
+        weather.lat,
+        weather.lon,
+        weather.weatherIcon,
+        weather.temperature,
+        weather.minTemperature,
+        weather.maxTemperature,
+        weather.conditionWeatherName,
+        weather.sunrise,
+        weather.sunset,
+        weather.windSpeed,
+        weather.humidity,
+        weather.precipitation,
+        weather.uvIndex,
+        weather.feelLike,
+        weather.visibility,
+        weather.listHourTemperature.map {
+            HourTemperatureCached(it)
+        },
+    )
+
     fun toWeatherData() = WeatherData(
-        cityName.toCharArray().sumOf { it.code },
         cityName,
         date,
         lastUpdate,
         countryName,
         lat,
         lon,
-        ValueState.initValueState(weatherIcon),
-        ValueState.initValueState(temperature),
-        ValueState.initValueState(minTemperature),
-        ValueState.initValueState(maxTemperature),
-        ValueState.initValueState(conditionWeatherName),
-        ValueState.initValueState(sunrise),
-        ValueState.initValueState(sunset),
-        ValueState.initValueState(windSpeed),
-        ValueState.initValueState(humidity),
-        ValueState.initValueState(precipitation),
-        ValueState.initValueState(uvIndex),
-        ValueState.initValueState(feelLike),
-        ValueState.initValueState(visibility),
+        weatherIcon,
+        temperature,
+        minTemperature,
+        maxTemperature,
+        conditionWeatherName,
+        sunrise,
+        sunset,
+        windSpeed,
+        humidity,
+        precipitation,
+        uvIndex,
+        feelLike,
+        visibility,
         listHourTemperature.map { it.toHourTemperature() },
 
     )
@@ -65,9 +87,15 @@ data class HourTemperatureCached(
     val temperature: Double?,
     val weatherIcon: String?,
 ) {
+    constructor(hourTemperature: HourTemperature) : this(
+        hourTemperature.hour,
+        hourTemperature.temperature,
+        hourTemperature.weatherIcon,
+    )
+
     fun toHourTemperature() = HourTemperature(
-        ValueState.initValueState(hour),
-        ValueState.initValueState(temperature),
-        ValueState.initValueState(weatherIcon),
+        hour,
+        temperature,
+        weatherIcon,
     )
 }
