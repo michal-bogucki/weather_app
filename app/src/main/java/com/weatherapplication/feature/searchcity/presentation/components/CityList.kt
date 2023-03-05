@@ -32,6 +32,8 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.weatherapplication.R
 import com.weatherapplication.core.background
 import com.weatherapplication.core.element
+import com.weatherapplication.feature.cityweather.presentation.view.components.ViewError
+import com.weatherapplication.feature.cityweather.presentation.view.components.ViewLoading
 import com.weatherapplication.feature.searchcity.presentation.SearchCityFragmentDirections
 import com.weatherapplication.feature.searchcity.presentation.SearchCityViewModel
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
@@ -40,7 +42,7 @@ import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDi
 @Preview
 @Composable
 fun ScreenPreview() {
-    SearchViewContent(SearchCityContract.SearchCityState.Empty, {}, {}, {})
+    SearchViewContent(SearchCityContract.SearchCityState(), {}, {}, {})
 }
 
 @Composable
@@ -54,32 +56,42 @@ fun SearchView(viewModel: SearchCityViewModel, navController: NavController) {
 
 @Composable
 fun SearchViewContent(
-    value: SearchCityContract.SearchCityState,
+    value: SearchCityContract,
     click: (SearchCityDisplayable) -> Unit,
     search: (String) -> Unit,
     delete: (SearchCityDisplayable) -> Unit,
 ) {
-    Column(Modifier.background(background)) {
-        Text(
-            text = "Search city",
-            style = typography.h6,
-            color = Color.White,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .padding(top = 24.dp, bottom = 24.dp)
-                .fillMaxWidth(),
-        )
-        SearchLabel(value.searchText, search)
-        CityList(value.actualSearchCityList, click, delete)
-        if (value.isHistoryList) {
-            Spacer(modifier = Modifier.height(32.dp))
-            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.search_file))
-            val progress by animateLottieCompositionAsState(composition)
-            LottieAnimation(
-                modifier = Modifier.fillMaxWidth().height(120.dp),
-                composition = composition,
-                progress = { progress },
-            )
+    when (value) {
+        is SearchCityContract.Error -> {
+            ViewError(error = value.error)
+        }
+        SearchCityContract.Loading -> {
+            ViewLoading()
+        }
+        is SearchCityContract.SearchCityState -> {
+            Column(Modifier.background(background)) {
+                Text(
+                    text = "Search city",
+                    style = typography.h6,
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(top = 24.dp, bottom = 24.dp)
+                        .fillMaxWidth(),
+                )
+                SearchLabel(value.searchText, search)
+                CityList(value.actualSearchCityList, click, delete)
+                if (value.isHistoryList) {
+                    Spacer(modifier = Modifier.height(32.dp))
+                    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.search_file))
+                    val progress by animateLottieCompositionAsState(composition)
+                    LottieAnimation(
+                        modifier = Modifier.fillMaxWidth().height(120.dp),
+                        composition = composition,
+                        progress = { progress },
+                    )
+                }
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ import com.weatherapplication.feature.searchcity.domain.usecase.UpdateChooseCity
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,29 +21,30 @@ class SearchCityViewModel @Inject constructor(
 ) : ViewModel() {
     private val searchQuery = MutableStateFlow("")
     private val errorMessage = MutableStateFlow("")
-    private val deleteState = MutableStateFlow(false) // nazwa
-    val state: StateFlow<SearchCityContract.SearchCityState> = combine(
+    val state: StateFlow<SearchCityContract> = combine(
         searchCityUseCase.flow,
         searchQuery,
         errorMessage,
-        deleteState,
-    ) { searchList, searchQuery, errorMessage, _ ->
-        SearchCityContract.SearchCityState(
-            error = errorMessage,
-            searchText = searchQuery,
-            actualSearchCityList = searchList.map { SearchCityDisplayable(it) },
-            isHistoryList = searchList.any { it.isHistory } || searchList.isEmpty(),
-        )
+    ) { searchList, searchQuery, errorMessage ->
+        if (errorMessage.isEmpty()) {
+            SearchCityContract.SearchCityState(
+                searchText = searchQuery,
+                actualSearchCityList = searchList.map { SearchCityDisplayable(it) },
+                isHistoryList = searchList.any { it.isHistory } || searchList.isEmpty(),
+            )
+        } else {
+            SearchCityContract.Error(errorMessage)
+        }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = SearchCityContract.SearchCityState.Empty,
+        initialValue = SearchCityContract.SearchCityState(),
     )
 
     init {
         viewModelScope.launch {
             searchQuery.debounce(300).onEach { query ->
-                val job = launch {
+                val job = launch(Dispatchers.IO) {
                     searchCityUseCase(SearchCityUseCase.Params(query))
                 }
                 job.join()
@@ -63,10 +65,9 @@ class SearchCityViewModel @Inject constructor(
         }
     }
 
-    fun deleteUserChoose(searchCity: SearchCityDisplayable) { // ???
+    fun deleteUserChoose(searchCity: SearchCityDisplayable) {
         viewModelScope.launch {
             deleteChooseCityUseCase.executeSync(DeleteChooseCityUseCase.Params(searchCity.toSearchCity()))
-            deleteState.value = deleteState.value.not()
         }
     }
 }

@@ -24,7 +24,7 @@ fun createWeatherCached(
         lat = city.lat,
         lon = city.lon,
         weatherIcon = weatherNext.day?.condition?.icon,
-        temperature = null,
+        temperature = forecast?.forecastday?.get(index)?.day?.avgtempC,
         minTemperature = forecast?.forecastday?.get(index)?.day?.mintempC,
         maxTemperature = forecast?.forecastday?.get(index)?.day?.maxtempC,
         conditionWeatherName = weatherNext.day?.condition?.text,

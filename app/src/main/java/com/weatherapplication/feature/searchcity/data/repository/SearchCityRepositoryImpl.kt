@@ -9,7 +9,7 @@ class SearchCityRepositoryImpl @Inject constructor(
     private val searchRemoteDataSource: SearchRemoteDataSource,
 ) : SearchCityRepository {
 
-    override suspend fun searchCity(cityName: String) = searchRemoteDataSource.searchCity(cityName)
+    override fun searchCity(cityName: String) = searchRemoteDataSource.searchCity(cityName)
 
     override suspend fun saveChooseCitySearch(searchCity: SearchCity) = searchLocalDataSource.saveChooseCitySearch(searchCity)
 

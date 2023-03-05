@@ -28,7 +28,7 @@ class SearchRemoteDataSource @Inject constructor(@ApplicationContext private val
         listCity = list.sortedBy { searchCityRemote -> searchCityRemote.cityName }
     }
 
-    suspend fun searchCity(cityName: String): List<SearchCity> {
+    fun searchCity(cityName: String): List<SearchCity> {
         return listCity.filter { it.cityName.lowercase().contains(cityName) }.map { it.toSearchCity() }
     }
 }

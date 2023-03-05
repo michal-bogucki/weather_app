@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.weatherapplication.core.base.Resource
-import com.weatherapplication.feature.cityweather.domain.model.WeatherData
 import com.weatherapplication.feature.cityweather.domain.usecase.GetTodayWeatherUseCase
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherContract
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
@@ -20,15 +19,10 @@ class WeatherNewViewModel @Inject constructor(
     getTodayWeatherUseCase: GetTodayWeatherUseCase,
 ) : ViewModel() {
     private val cityId: String = savedStateHandle["cityId"]!!
+    private val errorMessage = MutableStateFlow("")
 
-    val state: StateFlow<WeatherContract> = weatherUiState(getTodayWeatherUseCase.flow).stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = WeatherContract.Loading,
-    )
-
-    private fun weatherUiState(getTodayWeatherUseCase: Flow<Resource<WeatherData>>) =
-        getTodayWeatherUseCase.map { resources ->
+    val state: StateFlow<WeatherContract> = combine(getTodayWeatherUseCase.flow, errorMessage) { resources, error ->
+        if (error.isEmpty()) {
             when (resources) {
                 is Resource.Error -> {
                     WeatherContract.Error(resources.throwable)
@@ -41,9 +35,17 @@ class WeatherNewViewModel @Inject constructor(
                     WeatherContract.Success(weather)
                 }
             }
+        } else {
+            WeatherContract.Error(error)
         }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = WeatherContract.Loading,
+    )
 
     init {
+
         viewModelScope.launch(Dispatchers.IO) {
             getTodayWeatherUseCase(GetTodayWeatherUseCase.Params(cityId))
         }
