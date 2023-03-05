@@ -1,5 +1,9 @@
 package com.weatherapplication.core.network
 
+import kotlinx.coroutines.flow.Flow
+
 interface NetworkStateProvider {
-    fun isNetworkAvailable(): Boolean
+    val isNetworkAvailableFlow: Flow<ConnectionState>
+    fun isNetworkAvailable(): ConnectionState
+    fun cleanLastState()
 }

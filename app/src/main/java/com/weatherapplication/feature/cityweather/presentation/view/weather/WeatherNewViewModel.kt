@@ -22,21 +22,17 @@ class WeatherNewViewModel @Inject constructor(
     private val errorMessage = MutableStateFlow("")
 
     val state: StateFlow<WeatherContract> = combine(getTodayWeatherUseCase.flow, errorMessage) { resources, error ->
-        if (error.isEmpty()) {
-            when (resources) {
-                is Resource.Error -> {
-                    WeatherContract.Error(resources.throwable)
-                }
-                is Resource.Loading -> {
-                    WeatherContract.Loading
-                }
-                is Resource.Success -> {
-                    val weather = WeatherDisplayable(resources.data)
-                    WeatherContract.Success(weather)
-                }
+        when (resources) {
+            is Resource.Error -> {
+                WeatherContract.Error(resources.throwable)
             }
-        } else {
-            WeatherContract.Error(error)
+            is Resource.Loading -> {
+                WeatherContract.Loading
+            }
+            is Resource.Success -> {
+                val weather = WeatherDisplayable(resources.data)
+                WeatherContract.Success(weather)
+            }
         }
     }.stateIn(
         scope = viewModelScope,
