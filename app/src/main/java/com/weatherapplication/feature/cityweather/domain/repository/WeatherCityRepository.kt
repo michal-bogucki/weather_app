@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface WeatherCityRepository {
     suspend fun getCity(city: String): SearchCity
+
+    suspend fun getLastCity(): SearchCity?
     fun getWeatherToday(city: SearchCity): Flow<Resource<WeatherData>>
 
     fun getWeatherNextDays(city: SearchCity): Flow<Resource<List<WeatherData>>>

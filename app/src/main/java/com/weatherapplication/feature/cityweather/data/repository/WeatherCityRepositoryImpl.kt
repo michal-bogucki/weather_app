@@ -2,20 +2,15 @@ package com.weatherapplication.feature.cityweather.data.repository
 
 import com.weatherapplication.core.base.Resource
 import com.weatherapplication.core.base.networkLocalBoundResource
-import com.weatherapplication.core.network.ConnectionState
 import com.weatherapplication.core.network.NetworkStateProvider
 import com.weatherapplication.feature.cityweather.data.local.model.WeatherCached
 import com.weatherapplication.feature.cityweather.data.remote.WeatherModelRemote
 import com.weatherapplication.feature.cityweather.domain.model.WeatherData
 import com.weatherapplication.feature.cityweather.domain.repository.WeatherCityRepository
 import com.weatherapplication.feature.searchcity.domain.model.SearchCity
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -28,6 +23,7 @@ class WeatherCityRepositoryImpl @Inject constructor(
 ) : WeatherCityRepository {
 
     override suspend fun getCity(city: String) = weatherLocalDataSource.getCity(city)
+    override suspend fun getLastCity() = weatherLocalDataSource.getLastCity()
 
     override fun getWeatherToday(city: SearchCity): Flow<Resource<WeatherData>> {
         val networkBoundFlow = networkLocalBoundResource(

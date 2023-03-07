@@ -41,13 +41,9 @@ abstract class AppDatabase : RoomDatabase() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
                         val database = getDatabase(context)
-                        GlobalScope.launch { database.initDatabase(context) }
                     }
                 })
                 .build()
         }
-    }
-
-    suspend fun initDatabase(context: Context) {
     }
 }

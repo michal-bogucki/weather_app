@@ -9,6 +9,9 @@ interface SearchCityDao {
     @Query("SELECT * FROM SearchCityCached")
     fun getAllCity(): Flow<List<SearchCityCached>>
 
+    @Query("SELECT * FROM SearchCityCached")
+    fun getAllCityList(): List<SearchCityCached>
+
     @Update
     suspend fun updateSearchCityCached(music: SearchCityCached)
 
