@@ -15,7 +15,7 @@ class WeatherLocalDataSource @Inject constructor(
 ) {
     suspend fun getCity(city: String) = searchCityDao.getSearchCityById(city).toSearchCity()
 
-    suspend fun getLastCity(): SearchCity? = null
+    suspend fun getLastCity(): SearchCity? = searchCityDao.getAllCityList().lastOrNull()?.toSearchCity()
 
     fun getWeatherFromLocal(city: SearchCity, now: LocalDate) = weatherDao.getWeatherById(city.cityName, now)
     fun getWeatherFromLocalNextDays(city: SearchCity, dateList: LocalDate) = weatherDao.getWeatherNextDay(city.cityName, dateList)

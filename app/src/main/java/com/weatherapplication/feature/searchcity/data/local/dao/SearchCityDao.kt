@@ -11,7 +11,6 @@ interface SearchCityDao {
 
     @Query("SELECT * FROM SearchCityCached")
     fun getAllCityList(): List<SearchCityCached>
-
     @Update
     suspend fun updateSearchCityCached(music: SearchCityCached)
 

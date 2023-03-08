@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.*
 import com.weatherapplication.core.workmanager.DownloadWeatherWorker
+
+
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
@@ -16,12 +18,10 @@ class MyApplication : Application(), Configuration.Provider {
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
-
     override fun getWorkManagerConfiguration() =
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .build()
-
     override fun onCreate() {
         super.onCreate()
         Timber.plant(object : Timber.DebugTree() {
@@ -38,11 +38,10 @@ class MyApplication : Application(), Configuration.Provider {
         WorkManager.initialize(this, workManagerConfiguration)
 
         val constraints = Constraints.Builder()
-            .setRequiresCharging(false)
-            .setRequiredNetworkType(NetworkType.UNMETERED)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        val work = PeriodicWorkRequestBuilder<DownloadWeatherWorker>(5, TimeUnit.MINUTES)
+        val work = PeriodicWorkRequestBuilder<DownloadWeatherWorker>(15, TimeUnit.MINUTES)
             .setConstraints(constraints)
             .build()
 
