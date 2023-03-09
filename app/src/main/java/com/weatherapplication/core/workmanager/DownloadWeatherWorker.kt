@@ -20,7 +20,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-const val EXACT_ALARM_INTENT_REQUEST_CODE = 1999
+const val EXACT_ALARM_INTENT_REQUEST_CODE_1 = 1999
+const val EXACT_ALARM_INTENT_1245 = 1245
+const val EXACT_ALARM_INTENT_REQUEST_CODE_2 = 1998
+const val EXACT_ALARM_INTENT_1246 = 1246
 const val NOTIFICATION_CHANNEL_ID = "Weather Notifications"
 const val NOTIFICATION_CHANNEL_GROUP = "Reminder"
 
@@ -45,22 +48,25 @@ class DownloadWeatherWorker @AssistedInject constructor(
                                 Timber.i("majkel worker Loading")
                             }
                             is Resource.Success -> {
+                                showNot(EXACT_ALARM_INTENT_REQUEST_CODE_1, EXACT_ALARM_INTENT_1245, "Success")
                                 Timber.i("majkel worker Success")
                             }
                         }
                     }
                 }
-                showNot()
             }
-            Timber.d("majkel worker Result.success()")
+
+            showNot(EXACT_ALARM_INTENT_REQUEST_CODE_2, EXACT_ALARM_INTENT_1246, "Result.success()")
+            Timber.i("majkel worker Result.success()")
             Result.success()
         } catch (e: Exception) {
-            Timber.d("majkel worker Result.failure() ${e?.toString()}")
+            Timber.i("majkel worker Result.failure() ${e?.toString()}")
             Result.failure()
         }
     }
 
-    private fun showNot() {
+    private fun showNot(EXACT_ALARM_INTENT_REQUEST_CODE: Int, EXACT_ALARM_INTENT: Int, s: String) {
+        Timber.i("majkel worker showNot")
         val intentStart = Intent(context, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             context,
@@ -69,7 +75,7 @@ class DownloadWeatherWorker @AssistedInject constructor(
             PendingIntent.FLAG_IMMUTABLE,
         )
         val notificationBuilder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-            .setContentTitle("weather")
+            .setContentTitle(s)
             .setContentText("majkel")
             .setSmallIcon(R.drawable.weather_icon)
             .setContentIntent(pendingIntent)
@@ -93,6 +99,6 @@ class DownloadWeatherWorker @AssistedInject constructor(
             )
         }
 
-        notificationManager.notify(1245, notification)
+        notificationManager.notify(EXACT_ALARM_INTENT, notification)
     }
 }

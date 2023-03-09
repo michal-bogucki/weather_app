@@ -21,6 +21,7 @@ class MyApplication : Application(), Configuration.Provider {
     override fun getWorkManagerConfiguration() =
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
+            .setMinimumLoggingLevel(android.util.Log.DEBUG)
             .build()
     override fun onCreate() {
         super.onCreate()
@@ -39,9 +40,10 @@ class MyApplication : Application(), Configuration.Provider {
 
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresBatteryNotLow(false)
             .build()
 
-        val work = PeriodicWorkRequestBuilder<DownloadWeatherWorker>(15, TimeUnit.MINUTES)
+        val work = PeriodicWorkRequestBuilder<DownloadWeatherWorker>(20, TimeUnit.MINUTES)
             .setConstraints(constraints)
             .build()
 

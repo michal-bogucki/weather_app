@@ -31,7 +31,7 @@ class WeatherCityRepositoryImpl @Inject constructor(
                 getWeatherFromLocal(city, LocalDate.now())
             },
             shouldFetchFromRemote = { weatherCachedList ->
-                refreshData(weatherCachedList)
+                true
             },
             shouldFetchFromLocale = {
                 false
