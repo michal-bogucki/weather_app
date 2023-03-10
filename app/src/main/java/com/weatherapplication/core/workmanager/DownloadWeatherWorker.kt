@@ -69,7 +69,7 @@ class DownloadWeatherWorker @AssistedInject constructor(
 //                }
 //            }
 
-            showNot(EXACT_ALARM_INTENT_REQUEST_CODE_2, EXACT_ALARM_INTENT_1246, "Result.success()")
+            showNot(EXACT_ALARM_INTENT_REQUEST_CODE_2, EXACT_ALARM_INTENT_1246, "worker work")
             Result.success()
         } catch (e: Exception) {
             firebaseAnalytics.logEvent("work_manager") {
