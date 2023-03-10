@@ -4,8 +4,6 @@ import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.*
 import com.weatherapplication.core.workmanager.DownloadWeatherWorker
-
-
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
@@ -49,5 +47,13 @@ class MyApplication : Application(), Configuration.Provider {
 
         WorkManager.getInstance(this)
             .enqueueUniquePeriodicWork(DownloadWeatherWorker::class.java.name, ExistingPeriodicWorkPolicy.KEEP, work)
+
+        cancelJob()
+    }
+
+    fun cancelJob() {
+        val workInfosForUniqueWork = WorkManager.getInstance(this).getWorkInfosForUniqueWork(DownloadWeatherWorker::class.java.name).get()
+        Timber.d("majkel $workInfosForUniqueWork")
+        //WorkManager.getInstance(this).cancelAllWork()
     }
 }

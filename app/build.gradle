@@ -4,6 +4,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
+    id 'com.google.gms.google-services'
 }
 apply from: '../dependencies.gradle'
 android {
@@ -104,4 +105,6 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation "com.airbnb.android:lottie-compose:6.0.0"
+    implementation platform('com.google.firebase:firebase-bom:31.2.3')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }

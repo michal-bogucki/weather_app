@@ -10,6 +10,10 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import com.weatherapplication.R
 import com.weatherapplication.core.activity.MainActivity
 import com.weatherapplication.core.base.Resource
@@ -19,6 +23,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.time.LocalDateTime
 
 const val EXACT_ALARM_INTENT_REQUEST_CODE_1 = 1999
 const val EXACT_ALARM_INTENT_1245 = 1245
@@ -33,34 +38,44 @@ class DownloadWeatherWorker @AssistedInject constructor(
     @Assisted private val workerParameters: WorkerParameters,
     private val weatherCityRepository: WeatherCityRepository,
 ) : CoroutineWorker(context, workerParameters) {
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     override suspend fun doWork(): Result {
+        firebaseAnalytics = Firebase.analytics
+        firebaseAnalytics.logEvent("work_manager") {
+            param("result", "start")
+            param("time", LocalDateTime.now().toString())
+        }
         return try {
-            withContext(Dispatchers.IO) {
-                val lastCity = weatherCityRepository.getLastCity()
-                lastCity?.let {
-                    val weatherToday = weatherCityRepository.getWeatherToday(it)
-                    weatherToday.collect { resource ->
-                        when (resource) {
-                            is Resource.Error -> {
-                                Timber.i("majkel worker Error")
-                            }
-                            is Resource.Loading -> {
-                                Timber.i("majkel worker Loading")
-                            }
-                            is Resource.Success -> {
-                                showNot(EXACT_ALARM_INTENT_REQUEST_CODE_1, EXACT_ALARM_INTENT_1245, "Success")
-                                Timber.i("majkel worker Success")
-                            }
-                        }
-                    }
-                }
-            }
+//            withContext(Dispatchers.IO) {
+//                val lastCity = weatherCityRepository.getLastCity()
+//                lastCity?.let {
+//                    val weatherToday = weatherCityRepository.getWeatherToday(it)
+//                    weatherToday.collect { resource ->
+//                        when (resource) {
+//                            is Resource.Error -> {
+//                            }
+//                            is Resource.Loading -> {
+//                            }
+//                            is Resource.Success -> {
+//                                firebaseAnalytics.logEvent("work_manager") {
+//                                    param("result", "success")
+//                                    param("time", LocalDateTime.now().toString())
+//                                }
+//                                showNot(EXACT_ALARM_INTENT_REQUEST_CODE_1, EXACT_ALARM_INTENT_1245, "Success")
+//                            }
+//                        }
+//                    }
+//                }
+//            }
 
             showNot(EXACT_ALARM_INTENT_REQUEST_CODE_2, EXACT_ALARM_INTENT_1246, "Result.success()")
-            Timber.i("majkel worker Result.success()")
             Result.success()
         } catch (e: Exception) {
-            Timber.i("majkel worker Result.failure() ${e?.toString()}")
+            firebaseAnalytics.logEvent("work_manager") {
+                param("result", "exception $e")
+                param("time", LocalDateTime.now().toString())
+            }
             Result.failure()
         }
     }
