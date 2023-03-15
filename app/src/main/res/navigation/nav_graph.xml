@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/searchCityFragment">
+    app:startDestination="@id/chooseGetCityFragment">
 
 
     <fragment
@@ -35,7 +35,19 @@
         android:label="WeatherNewFragment" >
         <argument
             android:name="cityId"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/chooseGetCityFragment"
+        android:name="com.weatherapplication.feature.choosesearchlocationorgetfromgps.ChooseGetCityFragment"
+        android:label="ChooseGetCityFragment" >
+        <action
+            android:id="@+id/action_chooseGetCityFragment_to_searchCityFragment"
+            app:destination="@id/searchCityFragment" />
+        <action
+            android:id="@+id/action_chooseGetCityFragment_to_weatherNewFragment"
+            app:destination="@id/weatherNewFragment" />
     </fragment>
 
 </navigation>

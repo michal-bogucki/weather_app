@@ -6,6 +6,7 @@ import com.weatherapplication.feature.searchcity.domain.model.SearchCity
 import kotlinx.coroutines.flow.Flow
 
 interface WeatherCityRepository {
+    suspend fun saveChooseCitySearch(searchCity: SearchCity): Long
     suspend fun getCity(city: String): SearchCity
     fun getWeatherToday(city: SearchCity): Flow<Resource<WeatherData>>
 

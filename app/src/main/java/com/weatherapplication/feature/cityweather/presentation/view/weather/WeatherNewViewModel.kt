@@ -8,7 +8,6 @@ import com.weatherapplication.feature.cityweather.domain.usecase.GetTodayWeather
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherContract
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +17,7 @@ class WeatherNewViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     getTodayWeatherUseCase: GetTodayWeatherUseCase,
 ) : ViewModel() {
-    private val cityId: String = savedStateHandle["cityId"]!!
+    private val cityId: String? = savedStateHandle["cityId"]
     private val errorMessage = MutableStateFlow("")
 
     val state: StateFlow<WeatherContract> = combine(getTodayWeatherUseCase.flow, errorMessage) { resources, error ->
@@ -41,8 +40,7 @@ class WeatherNewViewModel @Inject constructor(
     )
 
     init {
-
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             getTodayWeatherUseCase(GetTodayWeatherUseCase.Params(cityId))
         }
     }

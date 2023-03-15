@@ -2,7 +2,6 @@ package com.weatherapplication.core.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.navigation.NavArgument
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.weatherapplication.R
@@ -31,6 +30,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
             when (destination.id) {
                 R.id.searchCityFragment -> {
+                    binding.bottomNavigationView.gone()
+                    binding.divider.gone()
+                }
+                R.id.chooseGetCityFragment -> {
                     binding.bottomNavigationView.gone()
                     binding.divider.gone()
                 }
