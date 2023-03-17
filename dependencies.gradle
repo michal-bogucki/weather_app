@@ -73,7 +73,7 @@ ext {
 
     ]
 
-    def composeVersion = "2022.10.00"
+    def composeVersion = "2023.01.00"
     composeDependencies = [
             bom     : "androidx.compose:compose-bom:" + composeVersion,
             material: "androidx.compose.material:material",

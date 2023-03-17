@@ -14,10 +14,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WeatherNewViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    getTodayWeatherUseCase: GetTodayWeatherUseCase,
+    val savedStateHandle: SavedStateHandle,
+    val getTodayWeatherUseCase: GetTodayWeatherUseCase,
 ) : ViewModel() {
-    private val cityId: String? = savedStateHandle["cityId"]
+    var cityId: String? = savedStateHandle["cityId"]
     private val errorMessage = MutableStateFlow("")
 
     val state: StateFlow<WeatherContract> = combine(getTodayWeatherUseCase.flow, errorMessage) { resources, error ->
@@ -40,8 +40,15 @@ class WeatherNewViewModel @Inject constructor(
     )
 
     init {
+        getData()
+    }
+
+    fun getData() {
         viewModelScope.launch {
+            cityId = savedStateHandle["cityId"]
             getTodayWeatherUseCase(GetTodayWeatherUseCase.Params(cityId))
+
+
         }
     }
 }

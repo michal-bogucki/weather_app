@@ -6,7 +6,7 @@ import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisp
 
 fun getUnitSymbol(type: String) =
     when (type) {
-        TEMPERATURE -> " °C"
+        TEMPERATURE -> "°C"
         WINDSPEED -> " m/s"
         HUMIDITY -> " %"
         PRECIPITATION -> " mm"

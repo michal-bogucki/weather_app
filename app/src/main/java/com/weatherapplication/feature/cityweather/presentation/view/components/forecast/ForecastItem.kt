@@ -17,14 +17,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.weatherapplication.R
-import com.weatherapplication.core.background
+import com.weatherapplication.core.backgroundGray
+import com.weatherapplication.core.base.ValueState
 import com.weatherapplication.core.base.getValue
 import com.weatherapplication.core.element
 import com.weatherapplication.core.textColor
@@ -32,11 +32,36 @@ import com.weatherapplication.feature.cityweather.presentation.TEMPERATURE
 import com.weatherapplication.feature.cityweather.presentation.getListWidget
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
 import com.weatherapplication.feature.cityweather.presentation.view.components.SmallItemWeatherContent
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 
 @Preview
 @Composable
 fun ForecastItemPreview() {
+    ForecastItemContent(
+        WeatherDisplayable(
+            "Kielce",
+            LocalDate.now(),
+            LocalDateTime.now(),
+            "PL",
+            ValueState.initValueState(""),
+            ValueState.initValueState(3.3),
+            ValueState.initValueState(3.3),
+            ValueState.initValueState(3.3),
+            ValueState.initValueState(""),
+            LocalTime.now(),
+            LocalTime.now(),
+            ValueState.initValueState(3.5),
+            ValueState.initValueState(3),
+            ValueState.initValueState(3.5),
+            ValueState.initValueState(3.5),
+            ValueState.initValueState(3.5),
+            ValueState.initValueState(3.5),
+            listOf(),
+        )
+    )
 }
 
 @Composable
@@ -54,9 +79,10 @@ fun ForecastItemContent(weatherDisplayable: WeatherDisplayable) {
     ) {
         Column(
             Modifier
-                .background(background)
+                .background(backgroundGray)
                 .padding(4.dp),
         ) {
+            Spacer(modifier = Modifier.height(8.dp))
             Row(
                 Modifier
                     .fillMaxWidth(),
@@ -78,23 +104,27 @@ fun ForecastItemContent(weatherDisplayable: WeatherDisplayable) {
                     fontSize = 12.sp,
                     color = textColor,
 
-                )
+                    )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = weatherDisplayable.date.toString(),
                     fontSize = 12.sp,
                     color = textColor,
 
-                )
+                    )
             }
-            Row {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 LazyVerticalGrid(
                     modifier = Modifier
-                        .weight(4f)
+                        .weight(5f)
                         .height(92.dp),
                     columns = GridCells.Fixed(3),
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    itemsIndexed(getListWidget(weatherDisplayable).subList(0,3)) { index, item ->
+                    itemsIndexed(getListWidget(weatherDisplayable).subList(0, 3)) { index, item ->
                         Row(Modifier.height(IntrinsicSize.Min)) {
                             Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
                                 SmallItemWeatherContent(title = item.second, icon = item.third, text = item.first)
@@ -126,7 +156,7 @@ fun ForecastItemContent(weatherDisplayable: WeatherDisplayable) {
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        val icon = weatherDisplayable.listHourTemperature.map {
+                        val icon = weatherDisplayable.listHourTemperature.mapNotNull {
                             getValue(it.weatherIcon)
                         }.groupingBy { it }.eachCount().maxBy { it.value }
                         AsyncImage(
@@ -142,7 +172,7 @@ fun ForecastItemContent(weatherDisplayable: WeatherDisplayable) {
                         val valueMaxTemperature = getValue(weatherDisplayable.maxTemperature, TEMPERATURE)
                         val valueMinTemperature = getValue(weatherDisplayable.minTemperature, TEMPERATURE)
                         Text(
-                            text = "min $valueMinTemperature\nmax $valueMaxTemperature",
+                            text = "$valueMinTemperature/$valueMaxTemperature",
                             fontSize = 12.sp,
                             color = textColor,
 

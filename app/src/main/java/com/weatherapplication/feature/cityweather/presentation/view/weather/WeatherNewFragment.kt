@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.weatherapplication.feature.cityweather.presentation.view.components.weather.WeatherView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,8 +19,10 @@ class WeatherNewFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
+                val args: WeatherNewFragmentArgs by navArgs()
+                val id = args.cityId
                 val viewModel: WeatherNewViewModel by viewModels()
-                WeatherView(viewModel = viewModel)
+                WeatherView(viewModel = viewModel, findNavController())
             }
         }
     }

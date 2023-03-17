@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
@@ -50,7 +51,12 @@ fun SearchView(viewModel: SearchCityViewModel, navController: NavController) {
     val value by viewModel.state.collectAsState()
     SearchViewContent(value = value, click = { searchCityDisplayable ->
         viewModel.saveUserChoose(searchCityDisplayable)
-        navController.navigate(SearchCityFragmentDirections.actionSearchCityFragmentToWeatherFragment(searchCityDisplayable.id))
+        navController.navigate(SearchCityFragmentDirections.actionSearchCityFragmentToWeatherFragment(searchCityDisplayable.id),
+            NavOptions.Builder()
+                .setPopUpTo(R.id.searchCityFragment, true)
+                .setLaunchSingleTop(true)
+                .build(),
+            )
     }, search = viewModel::search, delete = viewModel::deleteUserChoose)
 }
 

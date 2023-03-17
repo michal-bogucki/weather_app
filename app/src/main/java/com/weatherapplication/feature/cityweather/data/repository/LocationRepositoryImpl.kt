@@ -30,16 +30,6 @@ class LocationRepositoryImpl @Inject constructor(@ApplicationContext val context
         return@withContext null
     }
 
-//    suspend fun getSearchCity(): SearchCity? {
-//        val currentLocation = getCurrentLocation()
-//        val geoCoder = Geocoder(context, Locale.getDefault())
-//        val addresses = geoCoder.getFromLocation(
-//            currentLocation.latitude,
-//            currentLocation.longitude,
-//            1
-//        )
-//    }
-
     suspend fun isGpsEnabled(): Boolean {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }

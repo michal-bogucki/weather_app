@@ -34,7 +34,8 @@ fun SmallItemWeatherPreview() {
                         Divider(
                             color = Color(0xFF8C8C9C),
                             modifier = Modifier
-                                .fillMaxWidth().padding(start = 8.dp, end = 8.dp)
+                                .fillMaxWidth()
+                                .padding(start = 8.dp, end = 8.dp)
                                 .height(1.dp),
                         )
                     }
@@ -44,7 +45,8 @@ fun SmallItemWeatherPreview() {
                         Divider(
                             color = Color(0xFF8C8C9C),
                             modifier = Modifier
-                                .fillMaxHeight().padding(top = 8.dp, bottom = 8.dp)
+                                .fillMaxHeight()
+                                .padding(top = 8.dp, bottom = 8.dp)
                                 .width(1.dp),
                         )
                     }
@@ -61,31 +63,70 @@ fun SmallItemWeatherItemPreview() {
 }
 
 @Composable
-fun SmallItemWeatherView() {
-}
-
-@Composable
 fun SmallItemWeatherContent(title: String, icon: Any, text: String) {
     Column(
         modifier = Modifier
-            .fillMaxWidth().padding(8.dp).height(70.dp)
+            .fillMaxWidth()
+            .padding(8.dp)
             .clickable {
             },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        AsyncImage(
-            modifier = Modifier.size(36.dp),
-            model = icon,
-            contentDescription = null,
-        )
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AsyncImage(
+                modifier = Modifier.size(24.dp),
+                model = icon,
+                contentDescription = null,
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = text,
+                fontSize = 12.sp,
+                color = textColor,
+            )
+        }
+
         Spacer(modifier = Modifier.height(2.dp))
+        Text(
+            modifier = Modifier.height(16.dp),
+            text = title,
+            fontSize = 10.sp,
+            color = textColor.copy(alpha = 0.6f),
+
+            )
+
+
+    }
+}
+
+@Composable
+fun ItemHourTemperature(title: String, icon: Any, text: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .height(70.dp)
+            .clickable {
+            },
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         Text(
             modifier = Modifier.height(16.dp),
             text = title,
             fontSize = 12.sp,
             color = textColor,
 
+            )
+        Spacer(modifier = Modifier.height(2.dp))
+        AsyncImage(
+            modifier = Modifier.size(36.dp),
+            model = icon,
+            contentDescription = null,
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(
@@ -94,6 +135,6 @@ fun SmallItemWeatherContent(title: String, icon: Any, text: String) {
             fontSize = 12.sp,
             color = textColor,
 
-        )
+            )
     }
 }

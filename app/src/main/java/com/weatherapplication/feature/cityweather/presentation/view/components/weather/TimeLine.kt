@@ -30,16 +30,17 @@ fun PreviewPorgressBar() {
         percentage = 0.5f,
         fillColor = element,
         backgroundColor = Color(android.graphics.Color.parseColor("#90A4AE")),
-        strokeWidth = 10.dp,
+        strokeWidth = 2.dp,
         sunrise = "07:30",
         sunset = "18:45",
     )
 }
 
+@OptIn(ExperimentalTextApi::class)
 @Composable
 fun ComposeCircularProgressBar(
     modifier: Modifier = Modifier,
-    percentage: Float,
+    percentage: Float = 0.5f,
     fillColor: Color,
     backgroundColor: Color,
     strokeWidth: Dp,
@@ -49,8 +50,10 @@ fun ComposeCircularProgressBar(
     val textMeasurer = rememberTextMeasurer()
     Canvas(
         modifier = modifier
-            .width(250.dp).height(120.dp)
-            .padding(10.dp).padding(top = 20.dp),
+            .width(250.dp)
+            .height(120.dp)
+            .padding(10.dp)
+            .padding(top = 20.dp),
     ) {
         drawArc(
             color = backgroundColor,
@@ -70,27 +73,31 @@ fun ComposeCircularProgressBar(
             size = Size(size.width, size.width),
         )
 
+
         var angleInDegrees = percentage * 120f + 120.0
         var radius = (size.width / 2)
         var x = -(radius * kotlin.math.sin(Math.toRadians(angleInDegrees))).toFloat() + (size.width / 2)
         var y = (radius * kotlin.math.cos(Math.toRadians(angleInDegrees))).toFloat() + (size.width / 2)
-
-        drawCircle(
-            color = Color.White,
-            radius = 10f,
-            center = Offset(x, y),
-        )
-
         var textLayoutResult: TextLayoutResult = textMeasurer.measure(
-            text = AnnotatedString(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME).substring(0,5)),
+            text = AnnotatedString(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME).substring(0, 5)),
             style = TextStyle(fontSize = 12.sp, color = textColor),
         )
         var textSize = textLayoutResult.size
+        if (percentage < 1f) {
+            drawCircle(
+                color = Color.White,
+                radius = 10f,
+                center = Offset(x, y),
+            )
 
-        drawText(
-            textLayoutResult,
-            topLeft = Offset(x - textSize.width / 2, y - 70),
-        )
+
+
+            drawText(
+                textLayoutResult,
+                topLeft = Offset(x - textSize.width / 2, y - 70),
+            )
+        }
+
 
         angleInDegrees = 120.0
 
@@ -122,7 +129,7 @@ fun ComposeCircularProgressBar(
         )
 
         drawLine(
-            strokeWidth = 16f,
+            strokeWidth = 6f,
             start = center1.copy(center1.x - 50, center1.y + 6),
             end = center2.copy(center2.x + 50, center2.y + 6),
             color = Color.White,

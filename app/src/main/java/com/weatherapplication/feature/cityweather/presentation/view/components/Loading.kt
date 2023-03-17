@@ -1,5 +1,6 @@
 package com.weatherapplication.feature.cityweather.presentation.view.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,10 +19,12 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.weatherapplication.R
+import com.weatherapplication.core.background
 
 @Composable
 fun ViewLoading() {
     Column(
+        modifier = Modifier.background(background),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

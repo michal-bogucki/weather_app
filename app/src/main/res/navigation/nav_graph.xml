@@ -3,15 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
     app:startDestination="@id/chooseGetCityFragment">
-
-
     <fragment
         android:id="@+id/searchCityFragment"
         android:name="com.weatherapplication.feature.searchcity.presentation.SearchCityFragment"
         android:label="SearchCityFragment">
         <action
             android:id="@+id/action_searchCityFragment_to_weatherFragment"
-            app:destination="@id/weatherNewFragment" />
+            app:destination="@id/weatherNewFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/airQualityFragment"
@@ -19,7 +18,8 @@
         android:label="AirQualityFragment">
         <argument
             android:name="cityId"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/forecastFragment"
@@ -27,16 +27,27 @@
         android:label="ForecastFragment">
         <argument
             android:name="cityId"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/weatherNewFragment"
         android:name="com.weatherapplication.feature.cityweather.presentation.view.weather.WeatherNewFragment"
-        android:label="WeatherNewFragment" >
+        android:label="WeatherNewFragment">
         <argument
             android:name="cityId"
             app:argType="string"
-            app:nullable="true"/>
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_weatherNewFragment_to_airQualityFragment"
+            app:destination="@id/airQualityFragment" />
+        <action
+            android:id="@+id/action_weatherNewFragment_to_forecastFragment"
+            app:destination="@id/forecastFragment" />
+        <action
+            android:id="@+id/action_weatherNewFragment_to_searchCityFragment"
+            app:destination="@id/searchCityFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/chooseGetCityFragment"
@@ -44,10 +55,12 @@
         android:label="ChooseGetCityFragment" >
         <action
             android:id="@+id/action_chooseGetCityFragment_to_searchCityFragment"
-            app:destination="@id/searchCityFragment" />
+            app:destination="@id/searchCityFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_chooseGetCityFragment_to_weatherNewFragment"
-            app:destination="@id/weatherNewFragment" />
+            app:destination="@id/weatherNewFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

@@ -1,5 +1,6 @@
 package com.weatherapplication.core.base
 
+import com.weatherapplication.feature.cityweather.presentation.TEMPERATURE
 import com.weatherapplication.feature.cityweather.presentation.getUnitSymbol
 
 sealed class ValueState<out T> {
@@ -17,6 +18,10 @@ sealed class ValueState<out T> {
 fun getValue(value: ValueState<Any>, unit: String = ""): String {
     return when (value) {
         ValueState.Empty -> "-"
-        is ValueState.Value -> value.value.toString()
+        is ValueState.Value -> if (unit == TEMPERATURE) {
+            (value.value as Double).toInt().toString()
+        } else {
+            value.value.toString()
+        }
     } + getUnitSymbol(unit)
 }

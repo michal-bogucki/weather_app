@@ -21,8 +21,6 @@ class ForecastFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 val viewModel: ForecastViewModel by viewModels()
-                val cityId = (activity as MainActivity).cityId
-                viewModel.getCity(cityId)
                 ForecastView(viewModel = viewModel, navController = findNavController())
             }
         }

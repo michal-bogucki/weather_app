@@ -19,10 +19,9 @@ inline fun <DB, REMOTE, T> networkLocalBoundResource(
     isNetwork().collect {
         when (it) {
             ConnectionState.Available -> {
-                emit(Resource.loading())
                 val data = fetchFromLocal().firstOrNull()
-                val shouldFetchFromRemote1 = shouldFetchFromRemote(data)
-                if (shouldFetchFromRemote1) {
+                if (shouldFetchFromRemote(data)) {
+                    emit(Resource.loading())
                     if (data != null && shouldFetchFromLocale(data)) {
                         emit(Resource.success(changeToDomain(data)))
                     }

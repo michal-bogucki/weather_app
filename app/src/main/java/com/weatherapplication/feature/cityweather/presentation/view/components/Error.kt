@@ -1,9 +1,7 @@
 package com.weatherapplication.feature.cityweather.presentation.view.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,12 +16,15 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.weatherapplication.R
+import com.weatherapplication.core.background
+import com.weatherapplication.feature.choosesearchlocationorgetfromgps.LocationOptionButton
 
 @Composable
-fun ViewError(error: String) {
+fun ViewError(error: String, refreshData: () -> Unit = {}) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.background(background)
     ) {
         Spacer(modifier = Modifier.height(32.dp))
         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.error))
@@ -38,7 +39,14 @@ fun ViewError(error: String) {
                 color = Color.White,
                 fontSize = 16.sp,
 
-            ),
+                ),
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        LocationOptionButton(
+            label = "Refresh data",
+            onClick = { refreshData() },
+            modifier = Modifier.padding(start = 168.dp),
+        )
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }

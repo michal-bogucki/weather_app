@@ -16,9 +16,6 @@ android {
         targetSdkVersion ProjectConfig.targetSdkVersion
         buildConfigField "String", "API_KEY", localProperties['apiKey']
     }
-    lintOptions {
-        abortOnError false
-    }
     buildTypes {
         release {
             minifyEnabled false
@@ -46,6 +43,10 @@ android {
             useJUnitPlatform()
         }
     }
+    lint {
+        abortOnError false
+    }
+
 }
 
 dependencies {
@@ -94,7 +95,7 @@ dependencies {
 
 
     coreLibraryDesugaring jdkLib
-    implementation "androidx.fragment:fragment-ktx:1.5.4"
+    implementation "androidx.fragment:fragment-ktx:1.5.5"
     def composeBom = platform('androidx.compose:compose-bom:2022.10.00')
     implementation composeBom
     implementation 'androidx.compose.material:material'
@@ -103,7 +104,7 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     implementation 'androidx.compose.material:material-icons-core'
     implementation 'androidx.activity:activity-compose:1.6.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation "com.airbnb.android:lottie-compose:6.0.0"

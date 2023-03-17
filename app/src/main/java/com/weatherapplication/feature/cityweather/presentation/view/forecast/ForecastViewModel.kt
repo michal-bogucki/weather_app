@@ -19,7 +19,7 @@ class ForecastViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     val getNextDayWeatherUseCase: GetNextDayWeatherUseCase,
 ) : ViewModel() {
-
+    val cityId: String? = savedStateHandle["cityId"]
     val state: StateFlow<ForecastContract> = weatherUiState(getNextDayWeatherUseCase.flow).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -44,11 +44,10 @@ class ForecastViewModel @Inject constructor(
             }
         }
 
-    fun getCity(cityId: String?) {
-        if (cityId != null) {
-            viewModelScope.launch(Dispatchers.IO) {
-                getNextDayWeatherUseCase(GetNextDayWeatherUseCase.Params(cityId))
-            }
+    init {
+        viewModelScope.launch {
+            getNextDayWeatherUseCase(GetNextDayWeatherUseCase.Params(cityId))
         }
+
     }
 }

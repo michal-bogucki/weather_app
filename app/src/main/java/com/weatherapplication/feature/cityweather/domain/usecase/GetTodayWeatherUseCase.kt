@@ -38,13 +38,13 @@ class GetTodayWeatherUseCase @Inject constructor(
                         val cityName: String = addresses[0].locality
                         val country: String = addresses[0].countryName
 
-                       weatherCityRepository.saveChooseCitySearch(SearchCity(cityName, country, it.latitude, it.longitude, false))
+                        weatherCityRepository.saveChooseCitySearch(SearchCity(cityName, country, it.latitude, it.longitude, false))
                         val city = weatherCityRepository.getCity(cityName)
                         emitAll(weatherCityRepository.getWeatherToday(city))
                     }
                 }
 
-                emit(Resource.error(""))
+                emit(Resource.error("Not GPS"))
             }
         } else {
             flow {
