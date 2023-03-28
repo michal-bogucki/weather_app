@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WeatherNewViewModel @Inject constructor(
-    val savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
     val getTodayWeatherUseCase: GetTodayWeatherUseCase,
 ) : ViewModel() {
     var cityId: String? = savedStateHandle["cityId"]

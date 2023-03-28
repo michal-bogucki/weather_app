@@ -32,7 +32,7 @@ import com.weatherapplication.core.textColor
 
 @Preview
 @Composable
-fun showLocationScreen() {
+fun ShowLocationScreen() {
     LocationScreenComponent({}, {})
 }
 
@@ -136,8 +136,7 @@ fun LocationOptionButton(
             backgroundColor = element,
         ),
     ) {
-        Row(
-        ) {
+        Row {
             Text(
                 text = label,
                 color = background,

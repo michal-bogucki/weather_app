@@ -40,7 +40,7 @@ fun PreviewPorgressBar() {
 @Composable
 fun ComposeCircularProgressBar(
     modifier: Modifier = Modifier,
-    percentage: Float = 0.5f,
+    percentage: Float = 1f,
     fillColor: Color,
     backgroundColor: Color,
     strokeWidth: Dp,

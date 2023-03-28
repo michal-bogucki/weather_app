@@ -1,5 +1,7 @@
 package com.weatherapplication.feature.cityweather.presentation.view.components.weather
 
+import android.Manifest
+import android.app.TimePickerDialog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,7 +34,11 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.weatherapplication.R
+import com.weatherapplication.core.alarm.ExactAlarms
 import com.weatherapplication.core.background
 import com.weatherapplication.core.base.ValueState
 import com.weatherapplication.core.base.getValue
@@ -55,6 +62,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit.MINUTES
+import java.util.*
 
 @Preview
 @Composable
@@ -82,11 +90,12 @@ fun WeatherPreview() {
                 listOf(),
             ),
         ),
-    )
+
+        )
 }
 
 @Composable
-fun WeatherView(viewModel: WeatherNewViewModel, navController: NavController) {
+fun WeatherView(viewModel: WeatherNewViewModel, navController: NavController, exactAlarms: ExactAlarms) {
     val value by viewModel.state.collectAsState()
     WeatherViewContent(
         value = value,
@@ -101,7 +110,8 @@ fun WeatherView(viewModel: WeatherNewViewModel, navController: NavController) {
         },
         { navController.navigate(WeatherNewFragmentDirections.actionWeatherNewFragmentToForecastFragment(viewModel.cityId)) },
         { navController.navigate(WeatherNewFragmentDirections.actionWeatherNewFragmentToAirQualityFragment(viewModel.cityId)) },
-        viewModel::getData
+        viewModel::getData,
+        exactAlarms::scheduleExactAlarm
     )
 }
 
@@ -112,11 +122,12 @@ fun WeatherViewContent(
     openForecastFragment: () -> Unit = {},
     openAirQualityFragment: () -> Unit = {},
     refreshData: () -> Unit = {},
+    addAlarm: (Int, Int) -> Unit = { hour: Int, minute: Int -> {} },
 ) {
     when (value) {
         is WeatherContract.Success -> {
             Timber.d("majkel Weather Success")
-            ViewWeather(value.weatherDisplayable, openSearchCity, openForecastFragment, openAirQualityFragment)
+            ViewWeather(value.weatherDisplayable, openSearchCity, openForecastFragment, openAirQualityFragment, addAlarm)
         }
         is WeatherContract.Error -> {
             Timber.d("majkel Weather Error")
@@ -130,23 +141,56 @@ fun WeatherViewContent(
     }
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 private fun ViewWeather(
     weatherDisplayable: WeatherDisplayable,
     openSearchCity: () -> Unit,
     openForecastFragment: () -> Unit,
-    openAirQualityFragment: () -> Unit
+    openAirQualityFragment: () -> Unit,
+    addAlarm: (Int, Int) -> Unit
 ) {
     Column(Modifier.background(background)) {
+        val locationPermissionsState = rememberPermissionState(
+            Manifest.permission.POST_NOTIFICATIONS,
+        )
         Row(
             Modifier
                 .fillMaxWidth()
                 .height(86.dp),
+
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Spacer(modifier = Modifier.width(48.dp))
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.city2))
             val progress by animateLottieCompositionAsState(composition)
+            val context = LocalContext.current
+            val calendar = Calendar.getInstance()
+            val hour = calendar[Calendar.HOUR_OF_DAY]
+            val minute = calendar[Calendar.MINUTE]
+            val timePicker = TimePickerDialog(
+                context,
+                { _, selectedHour: Int, selectedMinute: Int ->
+                    addAlarm(selectedHour, selectedMinute)
+                }, hour, minute, false
+            )
+            Column(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clickable {
+                        if (locationPermissionsState.status.isGranted) {
+                            timePicker.show()
+                        } else {
+                            locationPermissionsState.launchPermissionRequest()
+                        }
+                    },
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.baseline_add_alarm_24),
+                    contentDescription = null,
+                )
+            }
             LottieAnimation(
                 modifier = Modifier
                     .height(86.dp)
@@ -183,14 +227,14 @@ private fun ViewWeather(
                     .size(24.dp),
                 colorFilter = ColorFilter.tint(element),
 
-            )
+                )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = weatherDisplayable.cityName,
                 fontSize = 24.sp,
                 color = textColor,
 
-            )
+                )
         }
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -202,7 +246,7 @@ private fun ViewWeather(
                 fontSize = 12.sp,
                 color = textColor,
 
-            )
+                )
         }
         Spacer(modifier = Modifier.height(16.dp))
         Row(
@@ -258,7 +302,6 @@ private fun ViewWeather(
             val c = max((a / (b.toDouble())).toFloat(), 1f)
             ComposeCircularProgressBar(
                 fillColor = element,
-                percentage = c,
                 backgroundColor = Color(android.graphics.Color.parseColor("#90A4AE")),
                 strokeWidth = 2.dp,
                 sunrise = sunrise,
