@@ -118,4 +118,5 @@ dependencies {
     testImplementation 'app.cash.turbine:turbine:0.12.1'
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
     implementation "com.google.accompanist:accompanist-permissions:0.29.2-rc"
+    implementation 'androidx.hilt:hilt-work:1.0.0'
 }
