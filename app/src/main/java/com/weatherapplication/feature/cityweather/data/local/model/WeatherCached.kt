@@ -17,19 +17,19 @@ data class WeatherCached(
     val countryName: String,
     val lat: Double,
     val lon: Double,
-    val weatherIcon: String,
-    val temperature: Double,
-    val minTemperature: Double,
-    val maxTemperature: Double,
-    val conditionWeatherName: String,
-    val sunrise: String,
-    val sunset: String,
-    val windSpeed: Double,
-    val humidity: Int,
-    val precipitation: Double,
-    val uvIndex: Double,
-    val feelLike: Double,
-    val visibility: Double,
+    val weatherIcon: String?,
+    val temperature: Double?,
+    val minTemperature: Double?,
+    val maxTemperature: Double?,
+    val conditionWeatherName: String?,
+    val sunrise: String?,
+    val sunset: String?,
+    val windSpeed: Double?,
+    val humidity: Int?,
+    val precipitation: Double?,
+    val uvIndex: Double?,
+    val feelLike: Double?,
+    val visibility: Double?,
     val listHourTemperature: List<HourTemperatureCached>,
 ) {
     constructor(weather: WeatherData) : this(
@@ -52,11 +52,12 @@ data class WeatherCached(
         weather.uvIndex,
         weather.feelLike,
         weather.visibility,
-        weather.listHourTemperature.map { HourTemperatureCached(it) }
+        weather.listHourTemperature.map {
+            HourTemperatureCached(it)
+        },
     )
 
     fun toWeatherData() = WeatherData(
-        cityName.toCharArray().sumOf { it.code },
         cityName,
         date,
         lastUpdate,
@@ -76,21 +77,25 @@ data class WeatherCached(
         uvIndex,
         feelLike,
         visibility,
-        listHourTemperature.map { it.toHourTemperature() }
+        listHourTemperature.map { it.toHourTemperature() },
 
     )
 }
 
 data class HourTemperatureCached(
-    val hour: String,
-    val temperature: Double,
-    val weatherIcon: String,
+    val hour: String?,
+    val temperature: Double?,
+    val weatherIcon: String?,
 ) {
     constructor(hourTemperature: HourTemperature) : this(
-        hourTemperature.hour, hourTemperature.temperature, hourTemperature.weatherIcon,
+        hourTemperature.hour,
+        hourTemperature.temperature,
+        hourTemperature.weatherIcon,
     )
 
     fun toHourTemperature() = HourTemperature(
-        hour, temperature, weatherIcon, hour.toCharArray().sumOf { it.code },
+        hour,
+        temperature,
+        weatherIcon,
     )
 }

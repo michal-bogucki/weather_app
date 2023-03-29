@@ -3,14 +3,18 @@ package com.weatherapplication.feature.cityweather.data.local.dao
 import androidx.room.*
 import com.weatherapplication.feature.cityweather.data.local.model.WeatherCached
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 @Dao
 interface WeatherDao {
     @Update
-    suspend fun updateWeather(weather: WeatherCached)
+    fun updateWeather(weather: WeatherCached)
 
-    @Query("SELECT * FROM WeatherCached WHERE cityName = :cityName")
-    fun getWeatherById(cityName: String): Flow<List<WeatherCached>>
+    @Query("SELECT * FROM WeatherCached WHERE cityName = :cityName AND date = :now")
+    fun getWeatherById(cityName: String, now: LocalDate): Flow<WeatherCached>
+
+    @Query("SELECT * FROM WeatherCached WHERE cityName = :cityName AND  date> :dateList")
+    fun getWeatherNextDay(cityName: String, dateList: LocalDate): Flow<List<WeatherCached>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveWeather(vararg weatherCached: WeatherCached)

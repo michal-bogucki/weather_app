@@ -3,18 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/koparka/StudioProjects/weather_app_/app/src/main/res/layout/fragment_main.xml" value="0.5" />
-        <entry key="..\:/Users/koparka/StudioProjects/weather_app_/app/src/main/res/layout/fragment_search.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/michal/AndroidStudioProjects/WeatherApplication/app/src/main/res/layout/fragment_main.xml" value="0.30092592592592593" />
         <entry key="..\:/Users/michal/AndroidStudioProjects/WeatherApplication/app/src/main/res/layout/fragment_weather_day.xml" value="0.30092592592592593" />
         <entry key="..\:/Users/michal/AndroidStudioProjects/WeatherApplication/app/src/main/res/layout/item_search.xml" value="0.30092592592592593" />
-        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.36684782608695654" />
-        <entry key="app/src/main/res/layout/item_day.xml" value="0.24682971014492755" />
-        <entry key="app/src/main/res/layout/weather_details.xml" value="0.24682971014492755" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

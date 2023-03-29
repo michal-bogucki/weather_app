@@ -1,9 +1,13 @@
 package com.weatherapplication.core.di.module
 
-import com.weatherapplication.feature.cityweather.data.api.WeatherApiService
+import android.content.Context
+import com.weatherapplication.core.network.NetworkStateProvider
+import com.weatherapplication.core.network.NetworkStateProviderImpl
+import com.weatherapplication.feature.cityweather.data.remote.WeatherApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,4 +23,8 @@ class ApiModule {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(WeatherApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideNetworkProvider(@ApplicationContext context: Context): NetworkStateProvider = NetworkStateProviderImpl(context)
 }
