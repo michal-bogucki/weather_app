@@ -14,6 +14,6 @@ Project using Clean Architecture + MVVM + Kotlin
 * Lottie
 
 # Screen
-![My Image](art/screen1.jpg) &ensp; &ensp; ![My Image](art/screen3.jpg) &ensp; &ensp; ![My Image](art/screen2.jpg) &ensp; &ensp; ![My Image](art/screen3.jpg) &ensp; &ensp; ![My Image](art/screen4.jpg) &ensp; &ensp; ![My Image](art/screen5.jpg)
+![My Image](art/screen1.png) &ensp; &ensp; ![My Image](art/screen3.png) &ensp; &ensp; ![My Image](art/screen2.png) &ensp; &ensp; ![My Image](art/screen3.png) &ensp; &ensp; ![My Image](art/screen4.png) &ensp; &ensp; ![My Image](art/screen5.png)
 
 
