@@ -18,8 +18,6 @@ class ExactAlarmsImpl @Inject constructor(@ApplicationContext val context: Conte
     private val scope = CoroutineScope(Dispatchers.IO + Job())
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-
-
     override fun rescheduleAlarm() {
         scope.launch {
             if (canScheduleExactAlarms()) {
