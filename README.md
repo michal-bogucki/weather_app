@@ -11,8 +11,9 @@ Project using Clean Architecture + MVVM + Kotlin
 * Retrofit 
 * Room
 * Timber
+* Lottie
 
 # Screen
-![My Image](art/screen1.jpg) &ensp; &ensp; ![My Image](art/screen3.jpg) &ensp; &ensp; ![My Image](art/screen2.jpg)
+![My Image](art/screen1.jpg) &ensp; &ensp; ![My Image](art/screen3.jpg) &ensp; &ensp; ![My Image](art/screen2.jpg) &ensp; &ensp; ![My Image](art/screen3.jpg) &ensp; &ensp; ![My Image](art/screen4.jpg) &ensp; &ensp; ![My Image](art/screen5.jpg)
 
 
