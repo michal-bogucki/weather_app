@@ -23,8 +23,6 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.time.LocalDateTime
 
-const val EXACT_ALARM_INTENT_REQUEST_CODE_1 = 1999
-const val EXACT_ALARM_INTENT_1245 = 1245
 const val EXACT_ALARM_INTENT_REQUEST_CODE_2 = 1998
 const val EXACT_ALARM_INTENT_1246 = 1246
 const val NOTIFICATION_CHANNEL_ID = "Weather Notifications"

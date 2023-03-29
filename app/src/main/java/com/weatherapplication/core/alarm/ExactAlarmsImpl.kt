@@ -55,10 +55,10 @@ class ExactAlarmsImpl @Inject constructor(@ApplicationContext val context: Conte
 
     private fun createExactAlarmIntent(hourOfDay: Int = -1, minute: Int = -1, flag: Int): PendingIntent {
         val intent = Intent(context, AlarmReceiver::class.java)
-        intent.action = "REMEMBER_WEATHER"
+        intent.action = alarmIntentAction
         if (hourOfDay != -1 && minute != -1) {
-            intent.putExtra("hourOfDay", hourOfDay)
-            intent.putExtra("minute", minute)
+            intent.putExtra(alarmHour, hourOfDay)
+            intent.putExtra(alarmMinute, minute)
         }
         return PendingIntent.getBroadcast(
             context,

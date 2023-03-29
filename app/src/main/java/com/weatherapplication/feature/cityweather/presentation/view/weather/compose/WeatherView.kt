@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -126,15 +127,12 @@ fun WeatherViewContent(
 ) {
     when (value) {
         is WeatherContract.Success -> {
-            Timber.d("majkel Weather Success")
             ViewWeather(value.weatherDisplayable, openSearchCity, openForecastFragment, openAirQualityFragment, addAlarm)
         }
         is WeatherContract.Error -> {
-            Timber.d("majkel Weather Error")
             ViewError(error = value.error, refreshData)
         }
         WeatherContract.Loading -> {
-            Timber.d("majkel Weather Loading")
             ViewLoading()
         }
 
@@ -366,13 +364,13 @@ private fun ViewWeather(
         }
         Spacer(modifier = Modifier.height(16.dp))
         LocationOptionButton(
-            label = "Next Days",
+            label = stringResource(R.string.next_day),
             onClick = { openForecastFragment() },
             modifier = Modifier.padding(start = 168.dp),
         )
         Spacer(modifier = Modifier.height(16.dp))
         LocationOptionButton(
-            label = "Air Quality",
+            label = stringResource(R.string.air_quality),
             onClick = { openAirQualityFragment() },
             modifier = Modifier.padding(start = 168.dp),
         )

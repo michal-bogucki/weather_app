@@ -37,7 +37,6 @@ class NetworkStateProviderImpl(private val context: Context) : NetworkStateProvi
         }
 
         awaitClose {
-            Timber.d("majkel nn awaitClose")
             cleanLastState()
             connectivityManager?.unregisterNetworkCallback(callback)
         }

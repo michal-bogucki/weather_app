@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -84,13 +85,13 @@ fun LocationScreenComponent(openSearchFragment: () -> Unit, openWeatherFragment:
         }
         Spacer(modifier = Modifier.height(32.dp))
         Text(
-            text = "Choose a location",
+            text = stringResource(R.string.choose_location),
             fontSize = 18.sp,
             color = textColor,
         )
         Spacer(modifier = Modifier.weight(1f))
         LocationOptionButton(
-            label = "Get from GPS",
+            label = stringResource(R.string.get_gps),
             onClick = {
                 if (locationPermissionsState.allPermissionsGranted) {
                     openWeatherFragment()
@@ -103,7 +104,7 @@ fun LocationScreenComponent(openSearchFragment: () -> Unit, openWeatherFragment:
         )
         Spacer(modifier = Modifier.height(16.dp))
         LocationOptionButton(
-            label = "Search for a location",
+            label = stringResource(R.string.search_location),
             onClick = { openSearchFragment() },
             modifier = Modifier.padding(start = 48.dp),
         )

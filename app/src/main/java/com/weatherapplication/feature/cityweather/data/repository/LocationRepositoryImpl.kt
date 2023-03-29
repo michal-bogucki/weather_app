@@ -18,7 +18,6 @@ import javax.inject.Inject
 class LocationRepositoryImpl @Inject constructor(@ApplicationContext val context: Context) : LocationRepository {
     override val fusedLocationClient: FusedLocationProviderClient
         get() = LocationServices.getFusedLocationProviderClient(context)
-    private val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
     @SuppressLint("MissingPermission")
     override suspend fun getCurrentLocation(): Location? = withContext(Dispatchers.IO) {
@@ -28,9 +27,5 @@ class LocationRepositoryImpl @Inject constructor(@ApplicationContext val context
             ex.printStackTrace()
         }
         return@withContext null
-    }
-
-    suspend fun isGpsEnabled(): Boolean {
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 }

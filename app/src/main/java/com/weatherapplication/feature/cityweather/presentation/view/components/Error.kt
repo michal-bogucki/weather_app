@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,7 +44,7 @@ fun ViewError(error: String, refreshData: () -> Unit = {}) {
         )
         Spacer(modifier = Modifier.height(16.dp))
         LocationOptionButton(
-            label = "Refresh data",
+            label = stringResource(R.string.refresh_data),
             onClick = { refreshData() },
             modifier = Modifier.padding(start = 168.dp),
         )

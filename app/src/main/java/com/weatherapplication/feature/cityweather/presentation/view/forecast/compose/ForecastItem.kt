@@ -64,13 +64,9 @@ fun ForecastItemPreview() {
     )
 }
 
-@Composable
-fun ForecastItem() {
-}
 
 @Composable
 fun ForecastItemContent(weatherDisplayable: WeatherDisplayable) {
-    // pokazać kolejnośc border padding
     Card(
         elevation = 20.dp,
         shape = RoundedCornerShape(8.dp),
