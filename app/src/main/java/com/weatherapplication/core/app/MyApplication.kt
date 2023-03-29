@@ -36,25 +36,7 @@ class MyApplication : Application(), Configuration.Provider {
         })
 
         WorkManager.initialize(this, workManagerConfiguration)
-
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresBatteryNotLow(false)
-            .build()
-
-        val work = PeriodicWorkRequestBuilder<DownloadWeatherWorker>(20, TimeUnit.MINUTES)
-            .setConstraints(constraints)
-            .build()
-
-        WorkManager.getInstance(this)
-            .enqueueUniquePeriodicWork(DownloadWeatherWorker::class.java.name, ExistingPeriodicWorkPolicy.KEEP, work)
-
-        cancelJob()
     }
 
-    fun cancelJob() {
-        val workInfosForUniqueWork = WorkManager.getInstance(this).getWorkInfosForUniqueWork(DownloadWeatherWorker::class.java.name).get()
-        Timber.d("majkel $workInfosForUniqueWork")
-        //WorkManager.getInstance(this).cancelAllWork()
-    }
+
 }

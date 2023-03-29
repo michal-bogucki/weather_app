@@ -32,23 +32,6 @@ class ExactAlarmsImpl @Inject constructor(@ApplicationContext val context: Conte
         }
     }
 
-    private fun getRememberTime(rememberTimeString: String?): Pair<Int, Int> {
-        return try {
-            if (rememberTimeString?.isNotEmpty() == true) {
-                val split = rememberTimeString.split(":")
-                if (split.size == 2) {
-                    Pair(split[0].toInt(), split[1].toInt())
-                } else {
-                    Pair(20, 0)
-                }
-            } else {
-                Pair(20, 0)
-            }
-        } catch (e: Exception) {
-            Pair(20, 0)
-        }
-    }
-
     override fun scheduleExactAlarm(hour: Int, minute: Int) {
         setExactAlarmSetExactAndAllowWhileIdle(convertToAlarmTimeMillis(hour, minute), hour, minute)
     }
@@ -74,7 +57,7 @@ class ExactAlarmsImpl @Inject constructor(@ApplicationContext val context: Conte
 
     private fun createExactAlarmIntent(hourOfDay: Int = -1, minute: Int = -1, flag: Int): PendingIntent {
         val intent = Intent(context, AlarmReceiver::class.java)
-        intent.action = "REMEMBER_DIARY"
+        intent.action = "REMEMBER_WEATHER"
         if (hourOfDay != -1 && minute != -1) {
             intent.putExtra("hourOfDay", hourOfDay)
             intent.putExtra("minute", minute)

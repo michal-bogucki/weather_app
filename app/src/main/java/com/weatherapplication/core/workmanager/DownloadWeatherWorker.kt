@@ -10,10 +10,8 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.analytics.ktx.logEvent
-import com.google.firebase.ktx.Firebase
+
+
 import com.weatherapplication.R
 import com.weatherapplication.core.activity.MainActivity
 import com.weatherapplication.core.base.Resource
@@ -36,52 +34,19 @@ const val NOTIFICATION_CHANNEL_GROUP = "Reminder"
 class DownloadWeatherWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted private val workerParameters: WorkerParameters,
-    private val weatherCityRepository: WeatherCityRepository,
 ) : CoroutineWorker(context, workerParameters) {
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-    override suspend fun doWork(): Result {
-        firebaseAnalytics = Firebase.analytics
-        firebaseAnalytics.logEvent("work_manager") {
-            param("result", "start")
-            param("time", LocalDateTime.now().toString())
-        }
-        return try {
-//            withContext(Dispatchers.IO) {
-//                val lastCity = weatherCityRepository.getLastCity()
-//                lastCity?.let {
-//                    val weatherToday = weatherCityRepository.getWeatherToday(it)
-//                    weatherToday.collect { resource ->
-//                        when (resource) {
-//                            is Resource.Error -> {
-//                            }
-//                            is Resource.Loading -> {
-//                            }
-//                            is Resource.Success -> {
-//                                firebaseAnalytics.logEvent("work_manager") {
-//                                    param("result", "success")
-//                                    param("time", LocalDateTime.now().toString())
-//                                }
-//                                showNot(EXACT_ALARM_INTENT_REQUEST_CODE_1, EXACT_ALARM_INTENT_1245, "Success")
-//                            }
-//                        }
-//                    }
-//                }
-//            }
 
+    override suspend fun doWork(): Result {
+        return try {
             showNot(EXACT_ALARM_INTENT_REQUEST_CODE_2, EXACT_ALARM_INTENT_1246, "worker work")
             Result.success()
         } catch (e: Exception) {
-            firebaseAnalytics.logEvent("work_manager") {
-                param("result", "exception $e")
-                param("time", LocalDateTime.now().toString())
-            }
             Result.failure()
         }
     }
 
     private fun showNot(EXACT_ALARM_INTENT_REQUEST_CODE: Int, EXACT_ALARM_INTENT: Int, s: String) {
-        Timber.i("majkel worker showNot")
         val intentStart = Intent(context, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             context,
