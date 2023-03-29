@@ -2,12 +2,21 @@
 
 Project using Clean Architecture + MVVM + Kotlin
 
+# Use
+
+* BroadcastReceiver
+* AlarmManager
+* ConnectivityManager
+* CoroutineWorker
+
 # Libraries Used
 
 * Glide
 * Navigation Component
+* Compose
 * Dagger Hilt
 * Coroutines
+* Flow
 * Retrofit 
 * Room
 * Timber
