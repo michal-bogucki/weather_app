@@ -8,29 +8,29 @@ import com.weatherapplication.feature.searchcity.domain.usecase.UpdateChooseCity
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class SearchCityViewModel @Inject constructor(
     private val searchCityUseCase: SearchCityUseCase,
     private val updateChooseCityUseCase: UpdateChooseCityUseCase,
-    private val deleteChooseCityUseCase: DeleteChooseCityUseCase,
+    private val deleteChooseCityUseCase: DeleteChooseCityUseCase
 ) : ViewModel() {
     private val searchQuery = MutableStateFlow("")
     private val errorMessage = MutableStateFlow("")
     val state: StateFlow<SearchCityContract> = combine(
         searchCityUseCase.flow,
         searchQuery,
-        errorMessage,
+        errorMessage
     ) { searchList, searchQuery, errorMessage ->
         if (errorMessage.isEmpty()) {
             SearchCityContract.SearchCityState(
                 searchText = searchQuery,
                 actualSearchCityList = searchList.map { SearchCityDisplayable(it) },
-                isHistoryList = searchList.any { it.isHistory } || searchList.isEmpty(),
+                isHistoryList = searchList.any { it.isHistory } || searchList.isEmpty()
             )
         } else {
             SearchCityContract.Error(errorMessage)
@@ -38,7 +38,7 @@ class SearchCityViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = SearchCityContract.SearchCityState(),
+        initialValue = SearchCityContract.SearchCityState()
     )
 
     init {
@@ -61,13 +61,17 @@ class SearchCityViewModel @Inject constructor(
     fun saveUserChoose(searchCity: SearchCityDisplayable) {
         viewModelScope.launch {
             searchQuery.value = ""
-            updateChooseCityUseCase.executeSync(UpdateChooseCityUseCase.Params(searchCity.toSearchCity()))
+            updateChooseCityUseCase.executeSync(
+                UpdateChooseCityUseCase.Params(searchCity.toSearchCity())
+            )
         }
     }
 
     fun deleteUserChoose(searchCity: SearchCityDisplayable) {
         viewModelScope.launch {
-            deleteChooseCityUseCase.executeSync(DeleteChooseCityUseCase.Params(searchCity.toSearchCity()))
+            deleteChooseCityUseCase.executeSync(
+                DeleteChooseCityUseCase.Params(searchCity.toSearchCity())
+            )
         }
     }
 }

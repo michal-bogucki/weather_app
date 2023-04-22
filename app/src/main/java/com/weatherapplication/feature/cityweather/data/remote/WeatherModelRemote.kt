@@ -1,23 +1,23 @@
 package com.weatherapplication.feature.cityweather.data.remote
 
 import com.google.gson.annotations.SerializedName
-import com.weatherapplication.feature.cityweather.data.repository.createWeatherCached
+import com.weatherapplication.feature.cityweather.data.repository.createWeatherData
 import com.weatherapplication.feature.cityweather.domain.model.WeatherData
 import com.weatherapplication.feature.searchcity.domain.model.SearchCity
 
 class WeatherModelRemote(
     @SerializedName("current") val current: Current? = null,
-    @SerializedName("forecast") val forecast: Forecast? = null,
+    @SerializedName("forecast") val forecast: Forecast? = null
 ) {
     fun toWeatherData(city: SearchCity): List<WeatherData> { // todo: trzeba to przemyśleć jeszcze raz!!!
         val list: MutableList<WeatherData> = mutableListOf()
-        val todayWeather = createWeatherCached(city, this)
+        val todayWeather = createWeatherData(city, this)
         list.add(todayWeather)
         val forecast_ = this.forecast?.forecastday
         if (forecast_ != null) {
             for ((index, weatherNext) in forecast_.withIndex()) {
                 if (index != 0) {
-                    val weather = createWeatherCached(city, forecast, index, weatherNext)
+                    val weather = createWeatherData(city, forecast, index, weatherNext)
                     list.add(weather)
                 }
             }
@@ -47,11 +47,11 @@ data class Current(
     @SerializedName("vis_miles") val visMiles: Double?,
     @SerializedName("uv") val uv: Double?,
     @SerializedName("gust_mph") val gustMph: Double?,
-    @SerializedName("gust_kph") val gustKph: Double?,
+    @SerializedName("gust_kph") val gustKph: Double?
 )
 
 data class Forecast(
-    @SerializedName("forecastday") val forecastday: List<ForecastDay>,
+    @SerializedName("forecastday") val forecastday: List<ForecastDay>
 )
 
 data class ForecastDay(
@@ -59,13 +59,13 @@ data class ForecastDay(
     @SerializedName("date_epoch") val date_epoch: Int?,
     @SerializedName("day") val day: Day?,
     @SerializedName("hour") val hour: List<Hour>?,
-    @SerializedName("astro") val astro: Astro?,
+    @SerializedName("astro") val astro: Astro?
 )
 
 data class Condition(
     @SerializedName("text") val text: String?,
     @SerializedName("icon") val icon: String?,
-    @SerializedName("code") val code: Int?,
+    @SerializedName("code") val code: Int?
 )
 
 data class Day(
@@ -83,17 +83,17 @@ data class Day(
     @SerializedName("avgvis_miles") val avgvisMiles: Double?,
     @SerializedName("avghumidity") val avghumidity: Int?,
     @SerializedName("condition") val condition: Condition?,
-    @SerializedName("uv") val uv: Double?,
+    @SerializedName("uv") val uv: Double?
 )
 
 data class Hour(
     @SerializedName("time") val time: String?,
     @SerializedName("temp_c") var temp_c: Double?,
-    @SerializedName("condition") val condition: Condition?,
+    @SerializedName("condition") val condition: Condition?
 )
 
 data class Astro(
     @SerializedName("sunrise") val sunrise: String?,
-    @SerializedName("sunset") val sunset: String?,
+    @SerializedName("sunset") val sunset: String?
 
 )

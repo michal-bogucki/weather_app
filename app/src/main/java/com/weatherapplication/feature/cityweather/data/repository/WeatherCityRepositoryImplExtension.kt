@@ -10,15 +10,17 @@ import com.weatherapplication.feature.searchcity.domain.model.SearchCity
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-fun createWeatherCached(
+fun createWeatherData(
     city: SearchCity,
     forecast: Forecast?,
     index: Int,
-    weatherNext: ForecastDay,
+    weatherNext: ForecastDay
 ): WeatherData {
     val weather = WeatherData(
         cityName = city.cityName,
-        date = LocalDate.parse(forecast?.forecastday?.get(index)?.date ?: LocalDate.now().toString()),
+        date = LocalDate.parse(
+            forecast?.forecastday?.get(index)?.date ?: LocalDate.now().toString()
+        ),
         lastUpdate = LocalDateTime.now(),
         countryName = city.countryName,
         lat = city.lat,
@@ -40,16 +42,16 @@ fun createWeatherCached(
             HourTemperature(
                 getHour(hour),
                 hour.temp_c ?: Double.MAX_VALUE,
-                hour.condition?.icon,
+                hour.condition?.icon
             )
-        } ?: listOf(),
+        } ?: listOf()
     )
     return weather
 }
 
-fun createWeatherCached(
+fun createWeatherData(
     city: SearchCity,
-    weatherRemote: WeatherModelRemote,
+    weatherRemote: WeatherModelRemote
 ): WeatherData {
     val todayWeather = WeatherData(
         cityName = city.cityName,
@@ -75,9 +77,9 @@ fun createWeatherCached(
             HourTemperature(
                 getHour(hour),
                 hour.temp_c ?: Double.MAX_VALUE,
-                hour.condition?.icon,
+                hour.condition?.icon
             )
-        } ?: listOf(),
+        } ?: listOf()
     )
     return todayWeather
 }
@@ -88,9 +90,11 @@ fun getHour(hour: Hour): String {
         hour.isNullOrEmpty() -> {
             ""
         }
+
         hour.size < 2 -> {
             ""
         }
+
         else -> {
             hour[1]
         }

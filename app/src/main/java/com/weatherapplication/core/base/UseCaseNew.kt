@@ -1,15 +1,15 @@
 package com.weatherapplication.core.base
 
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withTimeout
-import java.util.concurrent.TimeUnit
 
 abstract class UseCase<in P> {
     operator fun invoke(
         params: P,
-        timeoutMs: Long = defaultTimeoutMs,
+        timeoutMs: Long = defaultTimeoutMs
     ): Flow<InvokeStatus> = flow {
         try {
             withTimeout(timeoutMs) {
@@ -56,7 +56,7 @@ abstract class SubjectUseCase<P : Any, T> {
     private val paramState = MutableSharedFlow<P>(
         replay = 1,
         extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
     val flow: Flow<T> = paramState

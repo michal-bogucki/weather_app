@@ -1,19 +1,15 @@
 package com.weatherapplication.core.alarm
 
-import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.os.Build
-import androidx.core.app.NotificationCompat
-import androidx.work.*
-import com.weatherapplication.core.activity.MainActivity
+import androidx.work.Constraints
+import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.weatherapplication.core.workmanager.DownloadWeatherWorker
 import dagger.hilt.android.AndroidEntryPoint
-
-import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -26,7 +22,6 @@ class AlarmReceiver : BroadcastReceiver() {
             val hourOfDay: Int = intent.getIntExtra(alarmHour, -1)
             val minute: Int = intent.getIntExtra(alarmMinute, -1)
             exactAlarms.scheduleExactAlarm(hourOfDay, minute)
-
         }
         startWorkManager(context)
     }
@@ -44,6 +39,4 @@ class AlarmReceiver : BroadcastReceiver() {
         WorkManager.getInstance(context)
             .enqueueUniqueWork(DownloadWeatherWorker::class.java.name, ExistingWorkPolicy.KEEP, work)
     }
-
-
 }

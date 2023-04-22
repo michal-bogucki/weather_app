@@ -3,13 +3,10 @@ package com.weatherapplication.core.app
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.*
-import com.weatherapplication.core.workmanager.DownloadWeatherWorker
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-
 
 @HiltAndroidApp
 @ExperimentalCoroutinesApi
@@ -37,6 +34,4 @@ class MyApplication : Application(), Configuration.Provider {
 
         WorkManager.initialize(this, workManagerConfiguration)
     }
-
-
 }

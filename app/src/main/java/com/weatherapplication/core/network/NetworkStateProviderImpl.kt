@@ -8,16 +8,17 @@ import android.net.NetworkRequest
 import androidx.core.content.ContextCompat.getSystemService
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
-import timber.log.Timber
 
 class NetworkStateProviderImpl(private val context: Context) : NetworkStateProvider {
 
-    private val connectivityManager by lazy { getSystemService(context, ConnectivityManager::class.java) }
+    private val connectivityManager by lazy {
+        getSystemService(context, ConnectivityManager::class.java)
+    }
     private var lastState: ConnectionState? = null
 
     override val isNetworkAvailableFlow = callbackFlow {
 
-        val callback = NetworkCallback { connectionState ->
+        val callback = networkCallback { connectionState ->
             if (lastState != connectionState) {
                 lastState = connectionState
                 trySend(connectionState)
@@ -42,7 +43,7 @@ class NetworkStateProviderImpl(private val context: Context) : NetworkStateProvi
         }
     }
 
-    private fun NetworkCallback(callback: (ConnectionState) -> Unit): ConnectivityManager.NetworkCallback {
+    private fun networkCallback(callback: (ConnectionState) -> Unit): ConnectivityManager.NetworkCallback {
         return object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 callback(ConnectionState.Available)
@@ -55,9 +56,11 @@ class NetworkStateProviderImpl(private val context: Context) : NetworkStateProvi
     }
 
     private fun getCurrentConnectivityState(
-        connectivityManager: ConnectivityManager?,
+        connectivityManager: ConnectivityManager?
     ): ConnectionState {
-        val capabilities = (connectivityManager?.getNetworkCapabilities(connectivityManager.activeNetwork)) ?: return ConnectionState.Unavailable
+        val capabilities = (connectivityManager?.getNetworkCapabilities(
+            connectivityManager.activeNetwork
+        )) ?: return ConnectionState.Unavailable
         return when {
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> ConnectionState.Available
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> ConnectionState.Available

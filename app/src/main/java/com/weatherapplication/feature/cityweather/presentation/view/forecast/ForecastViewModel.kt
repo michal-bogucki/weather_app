@@ -9,21 +9,20 @@ import com.weatherapplication.feature.cityweather.domain.usecase.GetNextDayWeath
 import com.weatherapplication.feature.cityweather.presentation.model.ForecastContract
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ForecastViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    val getNextDayWeatherUseCase: GetNextDayWeatherUseCase,
+    val getNextDayWeatherUseCase: GetNextDayWeatherUseCase
 ) : ViewModel() {
     val cityId: String? = savedStateHandle["cityId"]
     val state: StateFlow<ForecastContract> = weatherUiState(getNextDayWeatherUseCase.flow).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = ForecastContract.Loading,
+        initialValue = ForecastContract.Loading
     )
 
     private fun weatherUiState(getNextDayWeatherUseCase: Flow<Resource<List<WeatherData>>>) =
@@ -32,9 +31,11 @@ class ForecastViewModel @Inject constructor(
                 is Resource.Error -> {
                     ForecastContract.Error(resources.throwable)
                 }
+
                 is Resource.Loading -> {
                     ForecastContract.Loading
                 }
+
                 is Resource.Success -> {
                     val weatherList = resources.data.map {
                         WeatherDisplayable(it)
@@ -48,6 +49,5 @@ class ForecastViewModel @Inject constructor(
         viewModelScope.launch {
             getNextDayWeatherUseCase(GetNextDayWeatherUseCase.Params(cityId))
         }
-
     }
 }

@@ -5,5 +5,5 @@ data class SearchCity(
     val countryName: String,
     val lat: Double,
     val lon: Double,
-    val isHistory: Boolean,
+    val isHistory: Boolean
 )

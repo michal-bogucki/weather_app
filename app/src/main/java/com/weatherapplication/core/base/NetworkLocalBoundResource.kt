@@ -14,7 +14,7 @@ inline fun <DB, REMOTE, T> networkLocalBoundResource(
     crossinline fetchFromRemote: suspend () -> Response<REMOTE>,
     crossinline saveFetchResult: suspend (REMOTE) -> Unit,
     crossinline changeToDomain: suspend (DB) -> (T),
-    crossinline isNetwork: suspend () -> Flow<ConnectionState>,
+    crossinline isNetwork: suspend () -> Flow<ConnectionState>
 ) = flow<Resource<T>> {
     isNetwork().collect {
         when (it) {
@@ -30,7 +30,11 @@ inline fun <DB, REMOTE, T> networkLocalBoundResource(
                         fetchResult.body()?.let {
                             saveFetchResult(it)
                         }
-                        emitAll(fetchFromLocal().map { dbData -> Resource.success(changeToDomain(dbData)) })
+                        emitAll(
+                            fetchFromLocal().map { dbData -> Resource.success(
+                                changeToDomain(dbData)
+                            ) }
+                        )
                     } else {
                         val msg = fetchResult.errorBody()?.stringSuspending()
                         val errorMsg = if (msg.isNullOrEmpty()) {
@@ -41,9 +45,12 @@ inline fun <DB, REMOTE, T> networkLocalBoundResource(
                         emit(Resource.error(errorMsg))
                     }
                 } else {
-                    emitAll(fetchFromLocal().map { dbData -> Resource.success(changeToDomain(dbData)) })
+                    emitAll(
+                        fetchFromLocal().map { dbData -> Resource.success(changeToDomain(dbData)) }
+                    )
                 }
             }
+
             ConnectionState.Unavailable -> {
                 emit(Resource.error("network error"))
             }

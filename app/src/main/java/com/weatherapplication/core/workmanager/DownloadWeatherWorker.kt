@@ -10,18 +10,10 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-
-
 import com.weatherapplication.R
 import com.weatherapplication.core.activity.MainActivity
-import com.weatherapplication.core.base.Resource
-import com.weatherapplication.feature.cityweather.domain.repository.WeatherCityRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import timber.log.Timber
-import java.time.LocalDateTime
 
 const val EXACT_ALARM_INTENT_REQUEST_CODE_2 = 1998
 const val EXACT_ALARM_INTENT_1246 = 1246
@@ -31,29 +23,32 @@ const val NOTIFICATION_CHANNEL_GROUP = "Reminder"
 @HiltWorker
 class DownloadWeatherWorker @AssistedInject constructor(
     @Assisted private val context: Context,
-    @Assisted private val workerParameters: WorkerParameters,
+    @Assisted private val workerParameters: WorkerParameters
 ) : CoroutineWorker(context, workerParameters) {
-
 
     override suspend fun doWork(): Result {
         return try {
-            showNot(EXACT_ALARM_INTENT_REQUEST_CODE_2, EXACT_ALARM_INTENT_1246, "worker work")
+            showNotification(
+                EXACT_ALARM_INTENT_REQUEST_CODE_2,
+                EXACT_ALARM_INTENT_1246,
+                "worker work"
+            )
             Result.success()
         } catch (e: Exception) {
             Result.failure()
         }
     }
 
-    private fun showNot(EXACT_ALARM_INTENT_REQUEST_CODE: Int, EXACT_ALARM_INTENT: Int, s: String) {
+    private fun showNotification(requestCode: Int, alarmIntent: Int, title: String) {
         val intentStart = Intent(context, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             context,
-            EXACT_ALARM_INTENT_REQUEST_CODE,
+            requestCode,
             intentStart,
-            PendingIntent.FLAG_IMMUTABLE,
+            PendingIntent.FLAG_IMMUTABLE
         )
         val notificationBuilder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-            .setContentTitle(s)
+            .setContentTitle(title)
             .setContentText("majkel")
             .setSmallIcon(R.drawable.weather_icon)
             .setContentIntent(pendingIntent)
@@ -70,13 +65,13 @@ class DownloadWeatherWorker @AssistedInject constructor(
                 NotificationChannel(
                     NOTIFICATION_CHANNEL_ID,
                     NOTIFICATION_CHANNEL_GROUP,
-                    NotificationManager.IMPORTANCE_HIGH,
+                    NotificationManager.IMPORTANCE_HIGH
                 ).apply {
                     description = "notification channel"
-                },
+                }
             )
         }
 
-        notificationManager.notify(EXACT_ALARM_INTENT, notification)
+        notificationManager.notify(alarmIntent, notification)
     }
 }

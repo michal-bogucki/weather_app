@@ -6,6 +6,8 @@ import javax.inject.Inject
 
 class WeatherRemoteDataSource @Inject constructor(
     private val weatherApiService: WeatherApiService
-){
-    suspend fun getWeatherFromApi(city: SearchCity) = weatherApiService.getWeather(query = "${city.lat},${city.lon}")
+) {
+    suspend fun getWeatherFromApi(city: SearchCity) = weatherApiService.getWeather(
+        query = "${city.lat},${city.lon}"
+    )
 }

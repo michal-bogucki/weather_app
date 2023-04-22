@@ -30,72 +30,73 @@ data class WeatherCached(
     val uvIndex: Double?,
     val feelLike: Double?,
     val visibility: Double?,
-    val listHourTemperature: List<HourTemperatureCached>,
+    val listHourTemperature: List<HourTemperatureCached>
 ) {
-    constructor(weather: WeatherData) : this(
-        weather.cityName,
-        weather.date,
-        weather.lastUpdate,
-        weather.countryName,
-        weather.lat,
-        weather.lon,
-        weather.weatherIcon,
-        weather.temperature,
-        weather.minTemperature,
-        weather.maxTemperature,
-        weather.conditionWeatherName,
-        weather.sunrise,
-        weather.sunset,
-        weather.windSpeed,
-        weather.humidity,
-        weather.precipitation,
-        weather.uvIndex,
-        weather.feelLike,
-        weather.visibility,
-        weather.listHourTemperature.map {
-            HourTemperatureCached(it)
-        },
-    )
-
     fun toWeatherData() = WeatherData(
-        cityName,
-        date,
-        lastUpdate,
-        countryName,
-        lat,
-        lon,
-        weatherIcon,
-        temperature,
-        minTemperature,
-        maxTemperature,
-        conditionWeatherName,
-        sunrise,
-        sunset,
-        windSpeed,
-        humidity,
-        precipitation,
-        uvIndex,
-        feelLike,
-        visibility,
-        listHourTemperature.map { it.toHourTemperature() },
+        cityName = cityName,
+        date = date,
+        lastUpdate = lastUpdate,
+        countryName = countryName,
+        lat = lat,
+        lon = lon,
+        weatherIcon = weatherIcon,
+        temperature = temperature,
+        minTemperature = minTemperature,
+        maxTemperature = maxTemperature,
+        conditionWeatherName = conditionWeatherName,
+        sunrise = sunrise,
+        sunset = sunset,
+        windSpeed = windSpeed,
+        humidity = humidity,
+        precipitation = precipitation,
+        uvIndex = uvIndex,
+        feelLike = feelLike,
+        visibility = visibility,
+        listHourTemperature = listHourTemperature.map { it.toHourTemperature() }
+    )
+}
 
+fun createWeatherCached(weather: WeatherData): WeatherCached {
+    return WeatherCached(
+        cityName = weather.cityName,
+        date = weather.date,
+        lastUpdate = weather.lastUpdate,
+        countryName = weather.countryName,
+        lat = weather.lat,
+        lon = weather.lon,
+        weatherIcon = weather.weatherIcon,
+        temperature = weather.temperature,
+        minTemperature = weather.minTemperature,
+        maxTemperature = weather.maxTemperature,
+        conditionWeatherName = weather.conditionWeatherName,
+        sunrise = weather.sunrise,
+        sunset = weather.sunset,
+        windSpeed = weather.windSpeed,
+        humidity = weather.humidity,
+        precipitation = weather.precipitation,
+        uvIndex = weather.uvIndex,
+        feelLike = weather.feelLike,
+        visibility = weather.visibility,
+        listHourTemperature = weather.listHourTemperature.map {
+            HourTemperatureCached(it)
+        }
     )
 }
 
 data class HourTemperatureCached(
     val hour: String?,
     val temperature: Double?,
-    val weatherIcon: String?,
+    val weatherIcon: String?
 ) {
     constructor(hourTemperature: HourTemperature) : this(
-        hourTemperature.hour,
-        hourTemperature.temperature,
-        hourTemperature.weatherIcon,
+        hour = hourTemperature.hour,
+        temperature = hourTemperature.temperature,
+        weatherIcon = hourTemperature.weatherIcon
     )
 
     fun toHourTemperature() = HourTemperature(
-        hour,
-        temperature,
-        weatherIcon,
+        hour = hour,
+        temperature = temperature,
+        weatherIcon = weatherIcon
     )
 }

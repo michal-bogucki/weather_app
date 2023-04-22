@@ -1,4 +1,4 @@
-package com.weatherapplication.feature.cityweather.presentation.view.components.forecast
+package com.weatherapplication.feature.cityweather.presentation.view.forecast.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.weatherapplication.core.background
 import com.weatherapplication.core.base.ValueState
 import com.weatherapplication.core.textColor
@@ -25,6 +24,51 @@ import com.weatherapplication.feature.cityweather.presentation.view.forecast.For
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+
+@Composable
+fun ForecastView(viewModel: ForecastViewModel) {
+    val value by viewModel.state.collectAsState()
+    ForecastViewContent(value = value)
+}
+
+@Composable
+fun ForecastViewContent(value: ForecastContract) {
+    when (value) {
+        is ForecastContract.Error -> {
+            ViewError(error = value.error)
+        }
+
+        ForecastContract.Loading -> {
+            ViewLoading()
+        }
+
+        is ForecastContract.Success -> {
+            val weatherDisplayable = value.weatherDisplayable
+            Column(
+                modifier = Modifier
+                    .background(background)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Spacer(modifier = Modifier.height(32.dp))
+                Text(
+                    text = "Next day",
+                    fontSize = 18.sp,
+                    color = textColor
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+                LazyColumn {
+                    items(weatherDisplayable) {
+                        ForecastItemContent(it)
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
+                Spacer(modifier = Modifier.weight(1f))
+            }
+        }
+    }
+}
 
 @Preview
 @Composable
@@ -50,54 +94,10 @@ fun ForecastPreview() {
                     ValueState.initValueState(3.5),
                     ValueState.initValueState(3.5),
                     ValueState.initValueState(3.5),
-                    listOf(),
-                ),
-            ),
+                    listOf()
+                )
+            )
         )
 
     )
-
-}
-
-@Composable
-fun ForecastView(viewModel: ForecastViewModel, navController: NavController) {
-    val value by viewModel.state.collectAsState()
-    ForecastViewContent(value = value)
-}
-
-@Composable
-fun ForecastViewContent(value: ForecastContract) {
-    when (value) {
-        is ForecastContract.Error -> {
-            ViewError(error = value.error)
-        }
-        ForecastContract.Loading -> {
-            ViewLoading()
-        }
-        is ForecastContract.Success -> {
-            val weatherDisplayable = value.weatherDisplayable
-            Column(
-                modifier = Modifier
-                    .background(background)
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                Spacer(modifier = Modifier.height(32.dp))
-                Text(
-                    text = "Next day",
-                    fontSize = 18.sp,
-                    color = textColor,
-                )
-                Spacer(modifier = Modifier.height(32.dp))
-                LazyColumn {
-                    items(weatherDisplayable) {
-                        ForecastItemContent(it)
-                        Spacer(modifier = Modifier.weight(1f))
-                    }
-                }
-                Spacer(modifier = Modifier.weight(1f))
-            }
-        }
-    }
 }

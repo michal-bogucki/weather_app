@@ -8,14 +8,14 @@ import com.weatherapplication.feature.cityweather.domain.usecase.GetTodayWeather
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherContract
 import com.weatherapplication.feature.cityweather.presentation.model.WeatherDisplayable
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class WeatherNewViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    val getTodayWeatherUseCase: GetTodayWeatherUseCase,
+    val getTodayWeatherUseCase: GetTodayWeatherUseCase
 ) : ViewModel() {
     var cityId: String? = savedStateHandle["cityId"]
     private val errorMessage = MutableStateFlow("")
@@ -25,9 +25,11 @@ class WeatherNewViewModel @Inject constructor(
             is Resource.Error -> {
                 WeatherContract.Error(resources.throwable)
             }
+
             is Resource.Loading -> {
                 WeatherContract.Loading
             }
+
             is Resource.Success -> {
                 val weather = WeatherDisplayable(resources.data)
                 WeatherContract.Success(weather)
@@ -36,7 +38,7 @@ class WeatherNewViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = WeatherContract.Loading,
+        initialValue = WeatherContract.Loading
     )
 
     init {
@@ -47,8 +49,6 @@ class WeatherNewViewModel @Inject constructor(
         viewModelScope.launch {
             cityId = savedStateHandle["cityId"]
             getTodayWeatherUseCase(GetTodayWeatherUseCase.Params(cityId))
-
-
         }
     }
 }

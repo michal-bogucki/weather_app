@@ -5,12 +5,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.provider.Settings
-import androidx.core.app.NotificationManagerCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject
+import kotlinx.coroutines.*
 
 const val EXACT_ALARM_INTENT_REQUEST_CODE = 1999
 
@@ -48,9 +46,17 @@ class ExactAlarmsImpl @Inject constructor(@ApplicationContext val context: Conte
         }
     }
 
-    private fun setExactAlarmSetExactAndAllowWhileIdle(triggerAtMillis: Long, hour: Int, minute: Int) {
+    private fun setExactAlarmSetExactAndAllowWhileIdle(
+        triggerAtMillis: Long,
+        hour: Int,
+        minute: Int
+    ) {
         val pendingIntent = createExactAlarmIntent(hour, minute, PendingIntent.FLAG_IMMUTABLE)
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent)
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            triggerAtMillis,
+            pendingIntent
+        )
     }
 
     private fun createExactAlarmIntent(hourOfDay: Int = -1, minute: Int = -1, flag: Int): PendingIntent {
@@ -64,7 +70,7 @@ class ExactAlarmsImpl @Inject constructor(@ApplicationContext val context: Conte
             context,
             EXACT_ALARM_INTENT_REQUEST_CODE,
             intent,
-            flag,
+            flag
         )
     }
 

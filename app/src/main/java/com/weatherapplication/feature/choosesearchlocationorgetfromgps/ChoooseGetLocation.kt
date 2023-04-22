@@ -31,12 +31,6 @@ import com.weatherapplication.core.background
 import com.weatherapplication.core.element
 import com.weatherapplication.core.textColor
 
-@Preview
-@Composable
-fun ShowLocationScreen() {
-    LocationScreenComponent({}, {})
-}
-
 @Composable
 fun LocationScreen(navController: NavController) {
     LocationScreenComponent(
@@ -46,48 +40,54 @@ fun LocationScreen(navController: NavController) {
                 NavOptions.Builder()
                     .setPopUpTo(R.id.chooseGetCityFragment, true)
                     .setLaunchSingleTop(true)
-                    .build(),
+                    .build()
             )
         },
         openWeatherFragment = {
             navController.navigate(
-                ChooseGetCityFragmentDirections.actionChooseGetCityFragmentToWeatherNewFragment(null),
+                ChooseGetCityFragmentDirections.actionChooseGetCityFragmentToWeatherNewFragment(
+                    null
+                ),
                 NavOptions.Builder()
                     .setPopUpTo(R.id.chooseGetCityFragment, true)
                     .setLaunchSingleTop(true)
-                    .build(),
+                    .build()
             )
-        },
+        }
     )
 }
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun LocationScreenComponent(openSearchFragment: () -> Unit, openWeatherFragment: () -> Unit) {
+    val locationPermissionsState = rememberMultiplePermissionsState(
+        listOf(
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    )
+    val counterState = remember { mutableStateOf(0) }
+    if (locationPermissionsState.allPermissionsGranted) {
+        if (counterState.value == 1) {
+            openWeatherFragment()
+        }
+    }
+
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.beautiful_city))
+    val progress by animateLottieCompositionAsState(composition)
+
     Column(
         modifier = Modifier
             .background(background)
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
-        val locationPermissionsState = rememberMultiplePermissionsState(
-            listOf(
-                android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-            ),
-        )
-        val counterState = remember { mutableStateOf(0) }
-        if (locationPermissionsState.allPermissionsGranted) {
-            if (counterState.value == 1) {
-                openWeatherFragment()
-            }
-        }
         Spacer(modifier = Modifier.height(32.dp))
         Text(
             text = stringResource(R.string.choose_location),
             fontSize = 18.sp,
-            color = textColor,
+            color = textColor
         )
         Spacer(modifier = Modifier.weight(1f))
         LocationOptionButton(
@@ -100,22 +100,21 @@ fun LocationScreenComponent(openSearchFragment: () -> Unit, openWeatherFragment:
                     locationPermissionsState.launchMultiplePermissionRequest()
                 }
             },
-            modifier = Modifier.padding(start = 48.dp),
+            modifier = Modifier.padding(start = 48.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         LocationOptionButton(
             label = stringResource(R.string.search_location),
             onClick = { openSearchFragment() },
-            modifier = Modifier.padding(start = 48.dp),
+            modifier = Modifier.padding(start = 48.dp)
         )
         Spacer(modifier = Modifier.weight(1f))
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.beautiful_city))
-        val progress by animateLottieCompositionAsState(composition)
+
         LottieAnimation(
             modifier = Modifier
                 .weight(6f),
             composition = composition,
-            progress = { progress },
+            progress = { progress }
         )
         Spacer(modifier = Modifier.weight(1f))
     }
@@ -134,13 +133,13 @@ fun LocationOptionButton(
         onClick = onClick,
         shape = RoundedCornerShape(bottomStart = 8.dp, topStart = 8.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = element,
-        ),
+            backgroundColor = element
+        )
     ) {
         Row {
             Text(
                 text = label,
-                color = background,
+                color = background
             )
             Spacer(modifier = Modifier.weight(1f))
             Image(
@@ -152,4 +151,10 @@ fun LocationOptionButton(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun ShowLocationScreen() {
+    LocationScreenComponent({}, {})
 }

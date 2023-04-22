@@ -7,10 +7,12 @@ plugins {
 }
 apply from: '../dependencies.gradle'
 android {
-    compileSdkVersion ProjectConfig.compileSdkVersion
+
     def localPropertiesFile = rootProject.file("local.properties")
     def localProperties = new Properties()
     localProperties.load(new FileInputStream(localPropertiesFile))
+
+    compileSdkVersion ProjectConfig.compileSdkVersion
     defaultConfig {
         minSdkVersion ProjectConfig.minSdkVersion
         targetSdkVersion ProjectConfig.targetSdkVersion

@@ -41,23 +41,20 @@ import com.weatherapplication.feature.searchcity.presentation.SearchCityViewMode
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityContract
 import com.weatherapplication.feature.searchcity.presentation.model.SearchCityDisplayable
 
-@Preview
-@Composable
-fun ScreenPreview() {
-    SearchViewContent(SearchCityContract.SearchCityState(), {}, {}, {})
-}
-
 @Composable
 fun SearchView(viewModel: SearchCityViewModel, navController: NavController) {
     val value by viewModel.state.collectAsState()
     SearchViewContent(value = value, click = { searchCityDisplayable ->
         viewModel.saveUserChoose(searchCityDisplayable)
-        navController.navigate(SearchCityFragmentDirections.actionSearchCityFragmentToWeatherFragment(searchCityDisplayable.id),
+        navController.navigate(
+            SearchCityFragmentDirections.actionSearchCityFragmentToWeatherFragment(
+                searchCityDisplayable.id
+            ),
             NavOptions.Builder()
                 .setPopUpTo(R.id.searchCityFragment, true)
                 .setLaunchSingleTop(true)
-                .build(),
-            )
+                .build()
+        )
     }, search = viewModel::search, delete = viewModel::deleteUserChoose)
 }
 
@@ -66,38 +63,42 @@ fun SearchViewContent(
     value: SearchCityContract,
     click: (SearchCityDisplayable) -> Unit,
     search: (String) -> Unit,
-    delete: (SearchCityDisplayable) -> Unit,
+    delete: (SearchCityDisplayable) -> Unit
 ) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.search_file))
+    val progress by animateLottieCompositionAsState(composition)
+
     when (value) {
         is SearchCityContract.Error -> {
             ViewError(error = value.error)
         }
+
         SearchCityContract.Loading -> {
             ViewLoading()
         }
+
         is SearchCityContract.SearchCityState -> {
             Column(Modifier.background(background)) {
                 Text(
                     text = stringResource(id = R.string.search_city),
                     style = typography.h6,
-                    color = Color.White,
+                    color = White,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(top = 24.dp, bottom = 24.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
                 )
                 SearchLabel(value.searchText, search)
                 CityList(value.actualSearchCityList, click, delete)
                 if (value.isHistoryList) {
                     Spacer(modifier = Modifier.height(32.dp))
-                    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.search_file))
-                    val progress by animateLottieCompositionAsState(composition)
+
                     LottieAnimation(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(120.dp),
                         composition = composition,
-                        progress = { progress },
+                        progress = { progress }
                     )
                 }
             }
@@ -122,15 +123,19 @@ fun SearchLabel(text: String, onSearchQueryChanged: (query: String) -> Unit) {
         colors = TextFieldDefaults.textFieldColors(
             textColor = White,
             backgroundColor = element.copy(alpha = 0.5f),
-            focusedIndicatorColor = Color.Transparent,
-        ),
+            focusedIndicatorColor = Color.Transparent
+        )
     )
 }
 
 @Composable
-fun CityList(botList: List<SearchCityDisplayable>, onClick: (SearchCityDisplayable) -> Unit, delete: (SearchCityDisplayable) -> Unit) {
+fun CityList(
+    botList: List<SearchCityDisplayable>,
+    onClick: (SearchCityDisplayable) -> Unit,
+    delete: (SearchCityDisplayable) -> Unit
+) {
     LazyColumn(
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
         items(botList) { item: SearchCityDisplayable ->
             CityItem(item = item, onClick = onClick, delete = delete)
@@ -140,10 +145,14 @@ fun CityList(botList: List<SearchCityDisplayable>, onClick: (SearchCityDisplayab
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CityItem(item: SearchCityDisplayable, onClick: (SearchCityDisplayable) -> Unit, delete: (SearchCityDisplayable) -> Unit) {
+fun CityItem(
+    item: SearchCityDisplayable,
+    onClick: (SearchCityDisplayable) -> Unit,
+    delete: (SearchCityDisplayable) -> Unit
+) {
     val myFont = FontFamily(
         Font(R.font.rubik_medium, FontWeight.Medium),
-        Font(R.font.rubik_regular, FontWeight.Normal),
+        Font(R.font.rubik_regular, FontWeight.Normal)
     )
 
     Row(
@@ -152,30 +161,32 @@ fun CityItem(item: SearchCityDisplayable, onClick: (SearchCityDisplayable) -> Un
             .padding(top = 16.dp)
             .combinedClickable(
                 onClick = { onClick(item) },
-                onLongClick = { delete(item) },
-            ),
+                onLongClick = { delete(item) }
+            )
 
     ) {
-        IconItemList(icon = if (item.isHistory) R.drawable.ic_round_history_24 else R.drawable.ic_round_location_on_24)
+        IconItemList(
+            icon = if (item.isHistory) R.drawable.ic_round_history_24 else R.drawable.ic_round_location_on_24
+        )
         Column(
             modifier = Modifier
                 .align(CenterVertically)
-                .weight(1f),
+                .weight(1f)
 
         ) {
             Text(
                 text = item.cityName,
                 style = typography.subtitle2,
-                color = Color.White,
+                color = White,
                 fontFamily = myFont,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Medium
             )
             Text(
                 text = item.countryName,
                 style = typography.subtitle2,
                 color = Color.Gray,
                 fontFamily = myFont,
-                fontWeight = FontWeight.Normal,
+                fontWeight = FontWeight.Normal
             )
         }
 
@@ -191,6 +202,12 @@ fun IconItemList(modifier: Modifier = Modifier, icon: Int) {
         modifier = modifier
             .size(40.dp)
             .padding(8.dp)
-            .clip(MaterialTheme.shapes.small),
+            .clip(MaterialTheme.shapes.small)
     )
+}
+
+@Preview
+@Composable
+fun ScreenPreview() {
+    SearchViewContent(SearchCityContract.SearchCityState(), {}, {}, {})
 }

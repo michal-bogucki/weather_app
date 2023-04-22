@@ -8,20 +8,22 @@ import com.weatherapplication.feature.cityweather.data.remote.WeatherModelRemote
 import com.weatherapplication.feature.cityweather.domain.model.WeatherData
 import com.weatherapplication.feature.cityweather.domain.repository.WeatherCityRepository
 import com.weatherapplication.feature.searchcity.domain.model.SearchCity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlin.math.abs
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 
 class WeatherCityRepositoryImpl @Inject constructor(
     private val weatherLocalDataSource: WeatherLocalDataSource,
     private val weatherRemoteDataSource: WeatherRemoteDataSource,
-    private val networkStateProvider: NetworkStateProvider,
+    private val networkStateProvider: NetworkStateProvider
 ) : WeatherCityRepository {
-    override suspend fun saveChooseCitySearch(searchCity: SearchCity) = weatherLocalDataSource.saveChooseCitySearch(searchCity)
+    override suspend fun saveChooseCitySearch(searchCity: SearchCity) = weatherLocalDataSource.saveChooseCitySearch(
+        searchCity
+    )
     override suspend fun getCity(city: String) = weatherLocalDataSource.getCity(city)
 
     override fun getWeatherToday(city: SearchCity): Flow<Resource<WeatherData>> {
@@ -46,7 +48,7 @@ class WeatherCityRepositoryImpl @Inject constructor(
             },
             isNetwork = {
                 networkStateProvider.isNetworkAvailableFlow
-            },
+            }
 
         )
         return networkBoundFlow.flowOn(Dispatchers.IO)
@@ -74,7 +76,7 @@ class WeatherCityRepositoryImpl @Inject constructor(
             },
             isNetwork = {
                 networkStateProvider.isNetworkAvailableFlow
-            },
+            }
         )
         return networkBoundFlow.flowOn(Dispatchers.IO)
     }
@@ -91,9 +93,14 @@ class WeatherCityRepositoryImpl @Inject constructor(
         return false
     }
 
-    private suspend fun getWeatherFromApi(city: SearchCity) = weatherRemoteDataSource.getWeatherFromApi(city)
+    private suspend fun getWeatherFromApi(city: SearchCity) = weatherRemoteDataSource.getWeatherFromApi(
+        city
+    )
 
-    private fun getWeatherFromLocal(city: SearchCity, now: LocalDate) = weatherLocalDataSource.getWeatherFromLocal(city, now)
+    private fun getWeatherFromLocal(city: SearchCity, now: LocalDate) = weatherLocalDataSource.getWeatherFromLocal(
+        city,
+        now
+    )
     private fun getWeatherFromLocalNextDays(city: SearchCity, dateList: LocalDate) =
         weatherLocalDataSource.getWeatherFromLocalNextDays(city, dateList)
 

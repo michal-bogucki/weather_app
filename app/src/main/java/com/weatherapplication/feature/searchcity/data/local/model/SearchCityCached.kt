@@ -10,7 +10,7 @@ data class SearchCityCached(
     val cityName: String,
     val countryName: String,
     val lat: Double,
-    val lon: Double,
+    val lon: Double
 ) {
     constructor(searchCity: SearchCity) : this(
         searchCity.cityName,

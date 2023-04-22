@@ -3,10 +3,10 @@ package com.weatherapplication.feature.searchcity.domain.usecase
 import com.weatherapplication.core.base.SubjectUseCase
 import com.weatherapplication.feature.searchcity.domain.model.SearchCity
 import com.weatherapplication.feature.searchcity.domain.repository.SearchCityRepository
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
 
 class SearchCityUseCase @Inject constructor(private val repository: SearchCityRepository) :
     SubjectUseCase<SearchCityUseCase.Params, List<SearchCity>>() {

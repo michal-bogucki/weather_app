@@ -11,7 +11,7 @@ interface WeatherApiService {
     suspend fun getWeather(
         @Query("key") key: String = BuildConfig.API_KEY,
         @Query("q") query: String,
-        @Query("days") days: Int = 5,
+        @Query("days") days: Int = 5
     ): Response<WeatherModelRemote>
 
     companion object {

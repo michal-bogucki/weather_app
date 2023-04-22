@@ -26,7 +26,7 @@ data class WeatherDisplayable(
     val uvIndex: ValueState<Double>,
     val feelLike: ValueState<Double>,
     val visibility: ValueState<Double>,
-    val listHourTemperature: List<HourTemperatureDisplayable>,
+    val listHourTemperature: List<HourTemperatureDisplayable>
 ) {
     constructor(weather: WeatherData) : this(
         weather.cityName,
@@ -46,18 +46,18 @@ data class WeatherDisplayable(
         ValueState.initValueState(weather.uvIndex),
         ValueState.initValueState(weather.feelLike),
         ValueState.initValueState(weather.visibility),
-        weather.listHourTemperature.map { HourTemperatureDisplayable(it) },
+        weather.listHourTemperature.map { HourTemperatureDisplayable(it) }
     )
 }
 
 data class HourTemperatureDisplayable(
     val hour: ValueState<String>,
     val temperature: ValueState<Double>,
-    val weatherIcon: ValueState<String>,
+    val weatherIcon: ValueState<String>
 ) {
     constructor(hour: HourTemperature) : this(
         ValueState.initValueState(hour.hour),
         ValueState.initValueState(hour.temperature),
-        ValueState.initValueState(hour.weatherIcon),
+        ValueState.initValueState(hour.weatherIcon)
     )
 }

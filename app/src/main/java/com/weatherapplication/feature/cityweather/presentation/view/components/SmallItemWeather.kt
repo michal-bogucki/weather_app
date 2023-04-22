@@ -17,51 +17,6 @@ import coil.compose.AsyncImage
 import com.weatherapplication.R
 import com.weatherapplication.core.textColor
 
-class SmallItemWeather
-
-@Preview
-@Composable
-fun SmallItemWeatherPreview() {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
-
-    ) {
-        items(6) { index ->
-            Row(Modifier.height(IntrinsicSize.Min)) {
-                Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                    SmallItemWeatherContent(title = "Sun", icon = R.drawable.sunny_24, text = "All 12")
-                    if (index in (0..2)) {
-                        Divider(
-                            color = Color(0xFF8C8C9C),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 8.dp, end = 8.dp)
-                                .height(1.dp),
-                        )
-                    }
-                }
-                if ((index + 1) % 3 != 0) {
-                    Column() {
-                        Divider(
-                            color = Color(0xFF8C8C9C),
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .padding(top = 8.dp, bottom = 8.dp)
-                                .width(1.dp),
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun SmallItemWeatherItemPreview() {
-    SmallItemWeatherContent(title = "Sun", icon = R.drawable.sunny_24, text = "All 12")
-}
-
 @Composable
 fun SmallItemWeatherContent(title: String, icon: Any, text: String) {
     Column(
@@ -71,22 +26,22 @@ fun SmallItemWeatherContent(title: String, icon: Any, text: String) {
             .clickable {
             },
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
                 modifier = Modifier.size(24.dp),
                 model = icon,
-                contentDescription = null,
+                contentDescription = null
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = text,
                 fontSize = 12.sp,
-                color = textColor,
+                color = textColor
             )
         }
 
@@ -95,11 +50,9 @@ fun SmallItemWeatherContent(title: String, icon: Any, text: String) {
             modifier = Modifier.height(16.dp),
             text = title,
             fontSize = 10.sp,
-            color = textColor.copy(alpha = 0.6f),
+            color = textColor.copy(alpha = 0.6f)
 
-            )
-
-
+        )
     }
 }
 
@@ -113,28 +66,75 @@ fun ItemHourTemperature(title: String, icon: Any, text: String) {
             .clickable {
             },
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             modifier = Modifier.height(16.dp),
             text = title,
             fontSize = 12.sp,
-            color = textColor,
+            color = textColor
 
-            )
+        )
         Spacer(modifier = Modifier.height(2.dp))
         AsyncImage(
             modifier = Modifier.size(36.dp),
             model = icon,
-            contentDescription = null,
+            contentDescription = null
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(
             modifier = Modifier.height(14.dp),
             text = text,
             fontSize = 12.sp,
-            color = textColor,
+            color = textColor
 
-            )
+        )
     }
+}
+
+@Preview
+@Composable
+fun SmallItemWeatherPreview() {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(3)
+
+    ) {
+        items(6) { index ->
+            Row(Modifier.height(IntrinsicSize.Min)) {
+                Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
+                    SmallItemWeatherContent(
+                        title = "Sun",
+                        icon = R.drawable.sunny_24,
+                        text = "All 12"
+                    )
+                    if (index in (0..2)) {
+                        Divider(
+                            color = Color(0xFF8C8C9C),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 8.dp, end = 8.dp)
+                                .height(1.dp)
+                        )
+                    }
+                }
+                if ((index + 1) % 3 != 0) {
+                    Column() {
+                        Divider(
+                            color = Color(0xFF8C8C9C),
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .padding(top = 8.dp, bottom = 8.dp)
+                                .width(1.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun SmallItemWeatherItemPreview() {
+    SmallItemWeatherContent(title = "Sun", icon = R.drawable.sunny_24, text = "All 12")
 }

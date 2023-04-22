@@ -27,23 +27,25 @@ fun ViewLoading() {
     Column(
         modifier = Modifier.background(background),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(32.dp))
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.weather_lading))
+        val composition by rememberLottieComposition(
+            LottieCompositionSpec.RawRes(R.raw.weather_lading)
+        )
         val progress by animateLottieCompositionAsState(composition)
         LottieAnimation(
             composition = composition,
-            progress = { progress },
+            progress = { progress }
         )
         Spacer(modifier = Modifier.height(32.dp))
         Text(
             text = stringResource(R.string.please_wait),
             style = TextStyle(
                 color = Color.White,
-                fontSize = 16.sp,
+                fontSize = 16.sp
 
-            ),
+            )
         )
     }
 }

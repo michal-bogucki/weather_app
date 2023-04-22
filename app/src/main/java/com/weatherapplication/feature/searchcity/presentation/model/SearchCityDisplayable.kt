@@ -8,7 +8,7 @@ data class SearchCityDisplayable(
     val countryName: String,
     val lat: Double,
     val lon: Double,
-    val isHistory: Boolean,
+    val isHistory: Boolean
 ) {
     constructor(searchCity: SearchCity) : this(
         searchCity.cityName,
@@ -16,7 +16,7 @@ data class SearchCityDisplayable(
         searchCity.countryName,
         searchCity.lat,
         searchCity.lon,
-        searchCity.isHistory,
+        searchCity.isHistory
     )
 
     fun toSearchCity() = SearchCity(cityName, countryName, lat, lon, true)

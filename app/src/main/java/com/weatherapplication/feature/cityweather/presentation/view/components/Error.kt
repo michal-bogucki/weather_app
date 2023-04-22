@@ -32,21 +32,21 @@ fun ViewError(error: String, refreshData: () -> Unit = {}) {
         val progress by animateLottieCompositionAsState(composition)
         LottieAnimation(
             composition = composition,
-            progress = { progress },
+            progress = { progress }
         )
         Text(
             text = "Error \n $error",
             style = TextStyle(
                 color = Color.White,
-                fontSize = 16.sp,
+                fontSize = 16.sp
 
-                ),
+            )
         )
         Spacer(modifier = Modifier.height(16.dp))
         LocationOptionButton(
             label = stringResource(R.string.refresh_data),
             onClick = { refreshData() },
-            modifier = Modifier.padding(start = 168.dp),
+            modifier = Modifier.padding(start = 168.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
     }
